@@ -23,7 +23,7 @@ export const opcionComprobanteDePago = (telefono, mensaje, opcion, menuFinal, ot
 
   if(tipoMensaje !== 'chat'){
     setTimeout(() => {
-      const url = 'http://localhost:5001/comprobanteDePago';
+      const url = 'http://localhost:5034/comprobanteDePago';
       const data = {
         customer_id: otros, 
         date : getCurrentDatePlus7Days().ispDate

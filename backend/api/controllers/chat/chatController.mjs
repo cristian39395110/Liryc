@@ -263,7 +263,7 @@ export const chatMensajes = (req, res) => {
 import axios from "axios";
 export const getCliente = (req, res) => {
   
-  const url = 'http://172.19.3.85:5001/getCliente';
+  const url = 'http://172.19.3.85:5034/getCliente';
     const data = {
         documento: req.body.documento |  null,
     };
@@ -276,7 +276,7 @@ export const getCliente = (req, res) => {
 
 export const verConexion = (req, res) => {
   
-  const url = 'http://172.19.3.85:5001/verConexion';
+  const url = 'http://172.19.3.85:5034/verConexion';
     const data = {
         documento: req.body.documento |  null,
     };
@@ -289,7 +289,7 @@ export const verConexion = (req, res) => {
 
 export const getFactura6 = (req, res) => {
   
-  const url = 'http://172.19.3.85:5001/getFactura6';
+  const url = 'http://172.19.3.85:5034/getFactura6';
     const data = {
         documento: req.body.documento |  null,
     };
@@ -302,7 +302,7 @@ export const getFactura6 = (req, res) => {
 
 export const refrecarContactos = (req, res) => {
   
-  const url = 'http://172.19.3.85:5001/refrecarContactos';
+  const url = 'http://172.19.3.85:5034/refrecarContactos';
     const data = {
         documento: req.body.documento |  null,
     };
@@ -315,7 +315,7 @@ export const refrecarContactos = (req, res) => {
 
 export const verTicket = (req, res) => {
   
-  const url = 'http://172.19.3.85:5001/verTicket';
+  const url = 'http://172.19.3.85:5034/verTicket';
     const data = {
         documento: req.body.documento |  null,
     };
@@ -328,7 +328,7 @@ export const verTicket = (req, res) => {
 
 export const getCategoriaTickets = (req, res) => {
   
-  const url = 'http://172.19.3.85:5001/getCategoriaTickets';
+  const url = 'http://172.19.3.85:5034/getCategoriaTickets';
     // console.log(data, "antes de enviar")
     axios.get(url)
     .then(response => {
@@ -338,7 +338,7 @@ export const getCategoriaTickets = (req, res) => {
 
 export const estadoTickets = (req, res) => {
   
-  const url = 'http://172.19.3.85:5001/estadoTickets';
+  const url = 'http://172.19.3.85:5034/estadoTickets';
     // console.log(data, "antes de enviar")
     axios.get(url)
     .then(response => {
@@ -348,7 +348,7 @@ export const estadoTickets = (req, res) => {
 
 export const areasTickets = (req, res) => {
   
-  const url = 'http://172.19.3.85:5001/areasTickets';
+  const url = 'http://172.19.3.85:5034/areasTickets';
     // console.log(data, "antes de enviar")
     axios.get(url)
     .then(response => {
@@ -358,7 +358,7 @@ export const areasTickets = (req, res) => {
 
 export const insertTicket = (req, res) => {
   
-  const url = 'http://172.19.3.85:5001/insertTicket';
+  const url = 'http://172.19.3.85:5034/insertTicket';
     const data = {
         documento: req.body.documento |  null,
     };
@@ -371,7 +371,7 @@ export const insertTicket = (req, res) => {
 
 export const updateTicket = (req, res) => {
   
-  const url = 'http://172.19.3.85:5001/updateTicket';
+  const url = 'http://172.19.3.85:5034/updateTicket';
     const data = {
         documento: req.body.documento |  null,
     };

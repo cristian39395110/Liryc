@@ -15,13 +15,13 @@ const rangoUsuario = $cookies.get('rango');
 $scope.rangoActual = rangoUsuario;
 $scope.spinnerTicket = true;
 // $scope.categorias = ['Facturacion', 'Cobranza', 'Servicio tecnico', 'Ventas', 'Solicitar turno', 'Cancelar turno', 'Reprogramar turno'];
-$http.get('http://172.19.3.85:5001/getCategoriaTickets').then((response) => {
+$http.get('http://172.19.3.85:5034/getCategoriaTickets').then((response) => {
    
     response.data.forEach(element => {
         $scope.categorias.push(element)     
     });
 });
-$http.get('http://172.19.3.85:5001/estadoTickets').then((response) => {
+$http.get('http://172.19.3.85:5034/estadoTickets').then((response) => {
     response.data.forEach(element => {
         $scope.getEstados.push(element)
     });
@@ -132,7 +132,7 @@ const getAreas = () => {
     //         // Imprime la respuesta en la consola para fines de depuración
     //         // console.log($scope.getAreas);
     //     });
-        $http.get('http://172.19.3.85:5001/areasTickets')
+        $http.get('http://172.19.3.85:5034/areasTickets')
         .then((response) => {
          
             response.data.forEach(element => {
@@ -143,7 +143,7 @@ const getAreas = () => {
 }
 
 const getOperadores = () => {
-    // $http.get('http://172.19.3.85:5001/getOperadores')
+    // $http.get('http://172.19.3.85:5034/getOperadores')
     //   .then((response) => {
     //     $scope.getOperadores = response.data.filter(value => {
     //       return value.nombre !== 'medusa'; // Filtrar los elementos que no sean 'medusa'
@@ -168,7 +168,7 @@ const getTickets = () => {
     //     console.log($scope.getTickets);
     //   });
     
-      $http.post('http://172.19.3.85:5001/verTicket',{documento: $cookies.get('dniTicket')})
+      $http.post('http://172.19.3.85:5034/verTicket',{documento: $cookies.get('dniTicket')})
       .then((response) => {
         $scope.getTickets = response.data;
         
@@ -187,7 +187,7 @@ Por favor revise el dni del contacto o si tiene tickets creados.`,
         }
         
       });
-      $http.post('http://172.19.3.85:5001/verConexion',{documento: $cookies.get('dniTicket')})
+      $http.post('http://172.19.3.85:5034/verConexion',{documento: $cookies.get('dniTicket')})
       .then((response) => {
         $scope.getConexion = response.data.map((item) => {
             return {idConexion: item.id, nombre: item.plan.name}
@@ -204,7 +204,7 @@ const getTicketsBuscar = async (dni) => {
     //     console.log($scope.getTickets);
     //   });
     $scope.getTickets = [];
-      await $http.post('http://172.19.3.85:5001/verTicket',{documento: dni})
+      await $http.post('http://172.19.3.85:5034/verTicket',{documento: dni})
       .then((response) => {
          $scope.getTickets = response.data;
         // console.log($scope.getTickets);
@@ -220,7 +220,7 @@ Por favor revise el dni del contacto o si tiene tickets creados.`,
             $scope.spinnerTicket = false;
         }
       });
-      $http.post('http://172.19.3.85:5001/verConexion',{documento: dni})
+      $http.post('http://172.19.3.85:5034/verConexion',{documento: dni})
       .then((response) => {
         $scope.getConexion = response.data.map((item) => {
             return {idConexion: item.id, nombre: item.plan.name}
@@ -378,7 +378,7 @@ $scope.insertTicket = (area, categoria, estado, asignar, idConexion, descripcion
             //             assigned_user_id: Number($scope.getOperadores.find(item => asignar === item.nombre).telefono),
             //            }
             //         )
-                $http.post('http://172.19.3.85:5001/'+route,
+                $http.post('http://172.19.3.85:5034/'+route,
                     {
                         'ticket_area_id': $scope.getAreas.find(item => area === item.name).id,
                         'ticket_category_id': $scope.categorias.find(item => categoria === item.name).id,

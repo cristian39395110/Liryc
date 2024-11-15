@@ -12,7 +12,7 @@ import {menuVolver} from "../arbolCliente/respuestasNuevaNet.mjs"
 export const buscarUltimaFacturaIspCube = (telefono, mensaje, opcion, menuFinal, otros, datos) => {
   
   setTimeout(() => {
-    const url = 'http://localhost:5001/getFactura';
+    const url = 'http://localhost:5034/getFactura';
     
     const data = {
         documento: Number(datos),

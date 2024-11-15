@@ -19,6 +19,7 @@ import { opcionComprobanteDePago } from './opcionComprobanteDePago.mjs'
 
 
 
+
 /**
  * Función para recorrer el árbol de respuestas y gestionar las interacciones con el cliente de WhatsApp.
  * @param {string} telefono - El número de teléfono del cliente.
@@ -160,6 +161,15 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
       }
         
 //-----------------------------------------------------------------------------------------------------------
+
+//------------------------------NUEVO lYRIC--------------------------------------------
+// if(menuActual === 'raiz'){  // vuelve al menu despues mostrar factura
+//   nodoActual = arbolRespuestas;
+//   menuActual='raiz'
+//   numeroActual = '1';
+//   mensaje = "1";
+// }
+//------------------------------------------------------------------------------------------------
       if(menuActual === 'opcionComprobante'){
         if (mensajeCompleto.type !== 'chat'){
             //si posee imagen o archivo, informar que se registro comprobante

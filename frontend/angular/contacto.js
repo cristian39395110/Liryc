@@ -44,7 +44,7 @@ bot.controller(
       }
     }
       $scope.refrecarContactos = function(){
-        $http.get('http://172.19.3.85:5001/refrescarContactos')
+        $http.get('http://172.19.3.85:5034/refrescarContactos')
         .then(function(response){
           console.log(response);
           $timeout(function(){

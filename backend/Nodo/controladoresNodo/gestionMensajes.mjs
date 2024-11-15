@@ -18,6 +18,7 @@ export async function gestionMensajes(mensaje, texto, telefon, client) {
   const telefono = telefon.trim(); // Evitar espacios accidentales.
   const msj = texto.toLowerCase().trim();
  
+  
   try {
      // Verifica y cachea el contacto si no está en el Map.
      let contact = contactoCache.get(telefono);
