@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Medusa - Tickets</title>
+    <link rel="stylesheet" href="style/js-snackbar.css">
+    <link rel="shortcut icon" href="./style/medusa/pilar.png" />
+   <!-- CSS only -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+   <!-- Bootstrap core CSS -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="./style/tickets.css">
+    <link rel="stylesheet" href="./style/estadisticas.css">
+    <link rel="stylesheet" href="./style/difundir.css">
+    <script src="./angular/angular.js"></script>
+</head>
+<body ng-app="wspbot" ng-controller="ticketController" ng-init="iniciarApp()">
+
+    <div class="container-fluid">
+        <div class="row">
+          <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky sidebarCustom">
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <div class="nav-link menuNav" ng-class="sidebotClass" ng-click="navMenu('chat')">
+                    <i class="bi bi-chat"></i>
+                Volver al chat
+                  </div>
+                </li>
+                <li class="nav-item">
+                    <div class="nav-link menuNav" ng-class="sidebotClass" ng-click="navMenu('crear')">
+                        <i class="bi bi-calendar-plus"></i>
+                      Nuevo Ticket
+                    </div>
+                </li>
+                <li class="nav-item">
+                  <div class="nav-link menuNav" ng-class="areasClass" ng-click="navMenu('mis')">
+                    <i class="bi bi-calendar-week"></i>
+                    Mis tickets
+                  </div>
+                </li>
+                <br>
+                <li>
+                   Filtros: 
+                </li>
+                <li class="nav-item">
+                  <div class="nav-link menuNav" ng-class="tiempoRealClass" ng-click="navMenu('abierto')">
+                    <i class="bi bi-calendar2-x"></i>
+                    Tickets abiertos
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <div class="nav-link menuNav" ng-class="tiempoRealClass" ng-click="navMenu('enProceso')">
+                    <i class="bi bi-calendar-minus"></i>
+                    Tickets en proceso
+                  </div>
+                </li>
+                <li class="nav-item">
+                    <div class="nav-link menuNav" ng-class="tiempoRealClass" ng-click="navMenu('cerrado')">
+                        <i class="bi bi-calendar2-check"></i>
+                      Tickets cerrados
+                    </div>
+                </li>
+              </ul>
+          </nav>
+    
+          <main role="" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 ">
+              <h1 class="h2">TICKETS {{tituloTickets}}</h1>
+              <!-- <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group mr-2">
+                  <button class="btn btn-sm btn-outline-secondary">Exportar Excel</button>
+                  <button class="btn btn-sm btn-outline-secondary">Exportar Pdf</button>
+                </div>
+                <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                  <span data-feather="calendar"></span>
+                  Más
+                </button>
+              </div> -->
+            </div>
+            <hr class="my-2">
+            <!---------------------------- MIS TICKETS  ------------------------------------------>
+            <div ng-show="mostrarMisTickets" class="table-responsive">
+              <form class="card w-25 p-1 mb-3">
+                <div class="input-group">
+                  <input 
+                    type="text"
+                    class="form-control"
+                    placeholder="Buscar mis tickets asignados"
+                    ng-model="inpBuscarTicketAsignados"
+                  >
+                  <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                </div>
+              </form>
+              <h5 class="mb-2">Tickets asignados a <b class="colorMedusa">{{nombreUsuarioCookie}}</b></h5>
+                <table class="table table-hover table-dark">
+                  <thead>
+                    <tr style="color: #db8f2c">
+                      <th scope="col">#</th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Descripción</th>
+                      <th scope="col">Usuario</th>
+                      <th scope="col">Asignado</th>
+                      <th class="text-center" scope="col">Estado</th>
+                      <th scope="col">Fecha</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="trMistickets" ng-repeat="t in getTicketsAsignadosPorOperador | filter: inpBuscarTicketAsignados" ng-click="seleccionarTicket(t, 'misTickets')">
+                      <th scope="row">{{$index+1}}</th>
+                      <td>{{t.nombre}}</td>
+                      <td>{{t.descripcionTicket}}</td>
+                      <td>{{t.usuario}}</td>
+                      <td>{{t.asignado}}</td>
+                      <td class="text-center text-black" ng-class="{
+                        'ticket-abierto': t.estado === 'abierto',
+                        'ticket-en-proceso': t.estado === 'en proceso',
+                        'ticket-cerrado': t.estado === 'cerrado'
+                        }">{{t.estado}}</td>
+                      <td>{{t.fechaCreacion}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <hr class="my-4">
+                <form class="card w-25 p-1 mb-3">
+                  <div class="input-group">
+                    <input 
+                      type="text"
+                      class="form-control"
+                      placeholder="Buscar mis tickets creados"
+                      ng-model="inpBuscarTicketCreados"
+                    >
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                  </div>
+                </form>
+                <h5 class="mb-2">Tickets creados por <b class="colorMedusa">{{nombreUsuarioCookie}}</b></h5>
+                  <table class="table table-hover table-dark">
+                    <thead>
+                      <tr style="color: #db8f2c">
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Asignado</th>
+                        <th class="text-center" scope="col">Estado</th>
+                        <th scope="col">Fecha</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="trMistickets" ng-repeat="t in getTicketsPorOperador | filter: inpBuscarTicketCreados" ng-click="seleccionarTicket(t, 'misTickets')">
+                        <th scope="row">{{$index+1}}</th>
+                        <td>{{t.nombre}}</td>
+                        <td>{{t.descripcionTicket}}</td>
+                        <td>{{t.usuario}}</td>
+                        <td>{{t.asignado}}</td>
+                        <td class="text-center text-black" ng-class="{
+                          'ticket-abierto': t.estado === 'abierto',
+                          'ticket-en-proceso': t.estado === 'en proceso',
+                          'ticket-cerrado': t.estado === 'cerrado'
+                          }">{{t.estado}}</td>
+                        <td>{{t.fechaCreacion}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              <!-------------------------------- FIN MIS TICKETS  ------------------------------------------>
+
+              <!--------------------------------  MIS TICKETS ABIERTOS  ------------------------------------------>
+              <div ng-show="mostrarTicketAbierto" class="table-responsive">
+                <form class="card w-25 p-1 mb-3">
+                  <div class="input-group">
+                    <input 
+                      type="text"
+                      class="form-control"
+                      placeholder="Buscar ticket abierto"
+                      ng-model="inpBuscarTicketAbierto"
+                    >
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                  </div>
+                </form>
+                <h5 class="mb-2">Tickets abiertos de <b class="colorMedusa">{{nombreUsuarioCookie}}</b></h5>
+                  <table class="table table-hover table-dark">
+                    <thead>
+                      <tr style="color: #db8f2c">
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Asignado</th>
+                        <th class="text-center" scope="col">Estado</th>
+                        <th scope="col">Fecha</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="trMistickets" ng-repeat="t in getTicketsAsignadosPorOperadorAbiertos | filter : inpBuscarTicketAbierto" ng-click="seleccionarTicket(t, 'misTickets')">
+                        <th scope="row">{{$index+1}}</th>
+                        <td>{{t.nombre}}</td>
+                        <td>{{t.descripcionTicket}}</td>
+                        <td>{{t.usuario}}</td>
+                        <td>{{t.asignado}}</td>
+                        <td class="text-center text-black" ng-class="{
+                          'ticket-abierto': t.estado === 'abierto',
+                          'ticket-en-proceso': t.estado === 'en proceso',
+                          'ticket-cerrado': t.estado === 'cerrado'
+                          }">{{t.estado}}</td>
+                        <td>{{t.fechaCreacion}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              <!-------------------------------- FIN MIS TICKETS ABIERTOS ------------------------------------------>
+
+                <!--------------------------------  MIS TICKETS EN PROCESO  ------------------------------------------>
+              <div ng-show="mostrarTicketProceso" class="table-responsive">
+                <form class="card w-25 p-1 mb-3">
+                  <div class="input-group">
+                    <input 
+                      type="text"
+                      class="form-control"
+                      placeholder="Buscar ticket en proceso"
+                      ng-model="inpBuscarTicketProceso"
+                    >
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                  </div>
+                </form>
+                <h5 class="mb-2">Tickets abiertos de <b class="colorMedusa">{{nombreUsuarioCookie}}</b></h5>
+                  <table class="table table-hover table-dark">
+                    <thead>
+                      <tr style="color: #db8f2c">
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Asignado</th>
+                        <th class="text-center" scope="col">Estado</th>
+                        <th scope="col">Fecha</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="trMistickets" ng-repeat="t in getTicketsAsignadosPorOperadorProceso | filter : inpBuscarTicketProceso" ng-click="seleccionarTicket(t, 'misTickets')">
+                        <th scope="row">{{$index+1}}</th>
+                        <td>{{t.nombre}}</td>
+                        <td>{{t.descripcionTicket}}</td>
+                        <td>{{t.usuario}}</td>
+                        <td>{{t.asignado}}</td>
+                        <td class="text-center text-black" ng-class="{
+                          'ticket-abierto': t.estado === 'abierto',
+                          'ticket-en-proceso': t.estado === 'en proceso',
+                          'ticket-cerrado': t.estado === 'cerrado'
+                          }">{{t.estado}}</td>
+                        <td>{{t.fechaCreacion}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              <!-------------------------------- FIN MIS TICKETS EN PROCESO ------------------------------------------>
+
+               <!--------------------------------  MIS TICKETS CERRADOS  ------------------------------------------>
+               <div ng-show="mostrarTicketcerrado" class="table-responsive">
+                <form class="card w-25 p-1 mb-3">
+                  <div class="input-group">
+                    <input 
+                      type="text"
+                      class="form-control"
+                      placeholder="Buscar ticket cerrado"
+                      ng-model="inpBuscarTicketCerrado"
+                    >
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                  </div>
+                </form>
+                <h5 class="mb-2">Tickets cerrados de <b class="colorMedusa">{{nombreUsuarioCookie}}</b></h5>
+                
+                  <table class="table table-hover table-dark">
+                    <thead>
+                      <tr style="color: #db8f2c">
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Asignado</th>
+                        <th class="text-center" scope="col">Estado</th>
+                        <th scope="col">Fecha</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="trMistickets" ng-repeat="t in getTicketsAsignadosPorOperadorCerrados | filter: inpBuscarTicketCerrado" ng-click="seleccionarTicket(t, 'misTickets') ">
+                        <th scope="row">{{$index+1}}</th>
+                        <td>{{t.nombre}}</td>
+                        <td>{{t.descripcionTicket}}</td>
+                        <td>{{t.usuario}}</td>
+                        <td>{{t.asignado}}</td>
+                        <td class="text-center text-black" ng-class="{
+                          'ticket-abierto': t.estado === 'abierto',
+                          'ticket-en-proceso': t.estado === 'en proceso',
+                          'ticket-cerrado': t.estado === 'cerrado'
+                          }">{{t.estado}}</td>
+                        <td>{{t.fechaCreacion}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              <!-------------------------------- FIN MIS TICKETS CERRADOS ------------------------------------------>
+
+
+              <!-------------------------------- FORM CREAR TICKET  ------------------------------------------>
+              <main ng-show="mostrarCrearTicket">
+                <!-- <div class="py-5 text-center">
+                  
+                </div> -->
+            
+                <div class="row g-5">
+                  <div class="col-md-5 col-lg-4 order-md-last">
+
+                    <form class="card p-2">
+                      <div class="input-group">
+                        <input 
+                          type="text"
+                          class="form-control"
+                          placeholder="Buscar contacto"
+                          data-bs-toggle="modal" 
+                          data-bs-target="#exampleModal"
+                        >
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                      </div>
+                    </form>
+
+                    <h4 class="mb-3 mt-3 grilla">
+                      <!-- <div ng-style="fotoPerfilCard" style="height: 100px;" class="imgPerfilCard mb-3"></div> -->
+                      <img
+                      class="imgPerfilCard mb-3"
+                      ng-src="{{fotoPerfilCard}}"
+                      height="100"
+                      onerror="angular.element(this).scope().imagenNoCargada(this)"
+                    />
+                      <span class="nombrePerfil">{{contactoTarjeta[0].nombre}}</span>
+                      <div class="btn-toolbar mb-2 mt-3 botonesPerfil">
+                        <div class="btn-group">
+                          <button class="btn btn-sm btn-outline-secondary" ng-click="nuevoTicket()"><i class="bi bi-plus-lg">Nuevo</i></button>
+                          <button class="btn btn-sm btn-outline-secondary" ng-click="deleteTicket()"><i class="bi bi-x-lg">Borrar</i></button>
+                          <button class="btn btn-md btn-outline-secondary active">{{ticketsAsignados.items.length}}</button>
+                        </div>
+                      </div>
+                      <!-- <span class="badge bg-primary rounded-pill">{{ticketsAsignados.length}}</span> -->
+                    </h4>
+                    <!-- <ul class="list-group mb-3">
+                      <li 
+                        ng-click="seleccionarTicket(ticket)"
+                        class="list-group-item d-flex justify-content-between lh-sm"
+                        ng-repeat="ticket in ticketsAsignados"
+                        ng-class="{
+                          'ticket-abierto': ticket.estado === 'abierto',
+                          'ticket-en-proceso': ticket.estado === 'en proceso',
+                          'ticket-cerrado': ticket.estado === 'cerrado'
+                          }"
+                      >
+                        <div>
+                          <h6 class="my-0">{{ticket.categoria}}</h6>
+                          <small class="text-body-secondary">{{ticket.estado}}</small>
+                        </div>
+                        <div>
+                          <h6 class="my-0">{{ticket.estado === 'cerrado' ? ticket.fechaCierre : ticket.fechaProceso}}</h6>
+                        </div>
+                      </li>
+                    </ul> -->
+                    <div class="accordion" id="accordionPanelsStayOpenExample">
+                      <div 
+                        class="accordion-item"
+                        ng-click="seleccionarTicket(ticket)"
+                        class="list-group-item d-flex justify-content-between lh-sm"
+                        ng-repeat="ticket in ticketsAsignados"
+                      >
+                        <h2 class="accordion-header">
+                          <button ng-class="{
+                            'ticket-abierto': ticket.estado === 'abierto',
+                            'ticket-en-proceso': ticket.estado === 'en proceso',
+                            'ticket-cerrado': ticket.estado === 'cerrado'
+                            }" class="accordionButton" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStay-collapse{{ticket.idTicket}}" aria-expanded="true" aria-controls="panelsStay-collapse{{ticket.idTicket}}">
+                            <h6 class="my-0">{{ticket.area}}</h6> 
+                            <div class="text-body-secondary">{{ticket.estado}}</div>
+                          </button>
+                        </h2>
+                        <div id="panelsStay-collapse{{ticket.idTicket}}" class="accordion-collapse collapse">
+                          <div class="accordion-body">
+                            <ul class="list-group mb-3 listaAcordeon">
+                              <strong class="">Datos del Ticket:</strong>
+                              <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                  <h6 class="my-0">Fecha de creacion: <b>{{ticket.fechaCreacion}}</b> </h6>
+                                </div>
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                  <h6 class="my-0">Ultima modificacion: <b>{{ticket.estado === 'cerrado' ? ticket.fechaCierre : ticket.fechaProceso}}</b></h6>
+                                </div>
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                  <h6 class="my-0">Creado por: <b>{{ticket.usuario}}</b></h6>
+                                </div>
+                              </li>
+                              <strong class="mt-2">Datos del Contacto:</strong>
+                              <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                  <h6 class="my-0">Teléfono: <b>{{ticket.telefono}}</b></h6>
+                                </div>
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                  <h6 class="my-0">Dirección: <b>{{ticket.direccion}}</b></h6>
+                                </div>
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                  <h6 class="my-0">Comentario: <b>{{ticket.descripcion}}</b></h6>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="col-md-7 col-lg-8 position-relative mt-5">
+                    <h4 class="mb-3">Información del Ticket</h4>
+                    <form class="needs-validation sticky-top" novalidate>
+                      <div class="row g-3 ">
+
+                        <div class="col-md-6">
+                          <label for="country" class="form-label">Área</label>
+                          <select ng-disabled="desactivarGuardar" ng-model="area" class="form-select" id="country" required>
+                            <option ng-repeat="ar in getAreas">{{ar.area}}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            Please select a valid country.
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <label for="state" class="form-label">Asignar a</label>
+                          <select ng-disabled="desactivarGuardar" ng-model="asignar" class="form-select" id="state" required>
+                            <option ng-repeat="op in getOperadores">{{op}}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            Please provide a valid state.
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <label for="country" class="form-label">Categoría</label>
+                          <select ng-disabled="desactivarGuardar" ng-model="categoria" class="form-select" id="country" required>
+                            <option ng-repeat="ca in categorias">{{ca}}</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            Please select a valid country.
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <label for="state" class="form-label">Estado</label>
+                          <select ng-disabled="desactivarGuardar" ng-model="estado" class="form-select" id="state" required>
+                            <option>abierto</option>
+                            <option>en proceso</option>
+                            <option>cerrado</option>
+                          </select>
+                          <div class="invalid-feedback">
+                            Please provide a valid state.
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <label for="state" class="form-label">Descripción</label>
+                          <textarea ng-disabled="desactivarGuardar" class="form-control" cols="30" rows="10" ng-model="descripcionTicket" placeholder="Escribe aquí una descripción"></textarea>
+                        </div>
+            
+                      <button ng-class="btnGuardarTicket" class="w-100 btn mb-2" type="submit" ng-click="insertTicket(contactoTarjeta[0].idContacto, area, asignar, categoria, estado, descripcionTicket)" ng-disabled="desactivarGuardar">{{mensajeBtnGuardar}}</button>
+                    </form>
+                  </div>
+                </div>
+              </main>
+              <!-- <form ng-show="mostrarCrearTicket" class="w-50 mt-5 d-flex justify-content-evenly">
+                <div class="form-group">
+                  <label for="asunto">Asunto</label>
+                  <input type="text" class="form-control" id="asunto" placeholder="Ingrese el asunto del ticket">
+                </div>
+                <div class="form-group">
+                  <label for="descripcion">Descripción</label>
+                  <textarea class="form-control" id="descripcion" rows="3" placeholder="Ingrese la descripción del problema"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="prioridad">Prioridad</label>
+                  <select class="form-control" id="prioridad">
+                    <option>Seleccione la prioridad</option>
+                    <option>Baja</option>
+                    <option>Media</option>
+                    <option>Alta</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Crear ticket</button>
+              </form> -->
+               <!-------------------------------- FIN FORM CREAR TICKET  ------------------------------------------>
+    
+            
+    
+          </main>
+        </div>
+      </div>
+      
+      
+      <!-- MODAL BUSCAR CONTACTO -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content bg-dark">
+            <div class="modal-header">
+              <div class="input-group ">
+                <input 
+                  type="text"
+                  class="form-control"
+                  placeholder="Buscar contacto"
+                  ng-model="buscandoContacto" 
+                  ng-change="buscarContacto(buscandoContacto, $event)"
+                >              
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+              </div>
+              <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+            </div>
+            <div class="modal-body">
+              <div class="list-group">
+                <button data-bs-dismiss="modal" ng-repeat="c in objContactos" type="button" ng-click="mostrarContacto(c.idContacto)" class="list-group-item list-group-item-action" aria-current="true">
+                  <img
+                  ng-src="{{c.urlPerfil}}"
+                  
+                  width="40"
+                  height="40"
+                  onerror="angular.element(this).scope().imagenNoCargada(this)"
+                />
+                  {{c.nombre}}
+                </button>
+
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    <script src="./angular/alerta.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-cookies.js"></script>
+    <script src="./angular/bot.js"></script>
+    <script src="./angular/tickets.js"></script>
+
+</script>
+ 
+</body>
+</html>

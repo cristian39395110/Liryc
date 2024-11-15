@@ -1,0 +1,127 @@
+body {
+  color: #d3d3d3;
+  padding: 0;
+  margin: 0;
+  background-color: #24292e;
+  font-family: "Roboto", sans-serif;
+}
+
+textarea, input[type=text], select {
+  background-color: #b9b8cf !important;
+}
+
+textarea::-moz-placeholder {
+  color: #000000 !important;
+}
+
+textarea::placeholder {
+  color: #000000 !important;
+}
+
+input::-moz-placeholder {
+  color: #000000 !important;
+}
+
+input::placeholder {
+  color: #000000 !important;
+}
+
+select::option {
+  color: #000000 !important;
+}
+
+.sidebar {
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.1) !important;
+  background-color: #394149 !important;
+}
+
+.sidebar .nav-link {
+  color: #d3d3d3 !important;
+}
+
+nav {
+  background-color: #292727 !important;
+}
+
+table td {
+  vertical-align: inherit !important;
+}
+
+.form-control:focus {
+  border-color: rgba(223, 223, 223, 0.6980392157) !important;
+  box-shadow: none;
+}
+
+.barraHerramientas {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-gap: 5%;
+  margin: 20px 0 20px 0;
+}
+.barraHerramientas .fechas {
+  grid-column: 1;
+  display: grid;
+  grid-template-colums: auto auto;
+  justify-content: center;
+  grid-column-gap: 2%;
+}
+.barraHerramientas .fechas .fechaDesde {
+  grid-column: 1;
+}
+.barraHerramientas .fechas .fechaHasta {
+  grid-column: 2;
+}
+.barraHerramientas .graficos {
+  grid-column-gap: 12%;
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+}
+.barraHerramientas .graficos .pastel {
+  grid-column: 1;
+}
+.barraHerramientas .graficos .barras {
+  grid-column: 2;
+}
+
+.gridGraficos {
+  text-align: center;
+  grid-column-gap: 3%;
+  grid-row-gap: 2%;
+  display: grid;
+  grid-template-columns: 19rem auto;
+  font-size: 15px !important;
+  align-items: center;
+}
+
+.gridGraficos > div {
+  width: 100%;
+  border: 1px solid #464646;
+  border-radius: 25px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.mensajePorHoraEnviadosPie, .recibidosHoraPie {
+  height: 20rem;
+}
+
+.graficosBar {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  justify-content: center;
+  text-align: center;
+  grid-row-gap: 2%;
+}
+
+.graficosBar > div {
+  width: 100%;
+  height: 100%;
+  width: 100%;
+  border: 1px solid #464646;
+  border-radius: 25px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.plotly .trace.pie path {
+  border-radius: 25px;
+}/*# sourceMappingURL=estadisticas.css.map */

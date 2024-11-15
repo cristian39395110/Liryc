@@ -1,0 +1,42 @@
+/* .spinner {
+    width: 11.2px;
+    height: 11.2px;
+    animation: spinner-z355kx 1s infinite linear;
+    border-radius: 11.2px;
+    box-shadow: 28px 0px 0 0 #f9a130, 17.4px 21.8px 0 0 #f9a130, -6.2px 27.2px 0 0 #f9a130, -25.2px 12px 0 0 #f9a130, -25.2px -12px 0 0 #f9a130, -6.2px -27.2px 0 0 #f9a130, 17.4px -21.8px 0 0 #f9a130;
+    margin: 15% auto;
+ } */
+ 
+ /* @keyframes spinner-z355kx {
+    to {
+       transform: rotate(360deg);
+    }
+ }  */
+
+
+/* HTML: <div class="spinner"></div> */
+.spinner {
+   width: 50px;
+   aspect-ratio: 1;
+   border-radius: 50%;
+   border: 8px solid #0000;
+   border-right-color: #ffa50097;
+   position: relative;
+   animation: l24 1s infinite linear;
+ }
+ .spinner:before,
+ .spinner:after {
+   content: "";
+   position: absolute;
+   inset: -8px;
+   border-radius: 50%;
+   border: inherit;
+   animation: inherit;
+   animation-duration: 2s;
+ }
+ .spinner:after {
+   animation-duration: 4s;
+ }
+ @keyframes l24 {
+   100% {transform: rotate(1turn)}
+ }

@@ -1,0 +1,10 @@
+# Ignora la carpeta node_modules
+node_modules
+.wwebjs_auth
+.wwebjs_cache
+audio
+documentos
+imagen
+publi
+subir
+video

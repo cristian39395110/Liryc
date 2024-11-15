@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sidelink - Inicio</title>
+    
+    <link rel="stylesheet" href="style/js-snackbar.css">
+    <link rel="shortcut icon" href="./style/medusa.ico" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style/index.css">
+    <link rel="stylesheet" href="style/spinner.css">
+    <script src="./angular/angular.js"></script>
+</head>
+<body ng-app="wspbot" ng-controller="wspController">
+
+ <div class="contenedor" ng-style="styleFondoGradient">
+    <div ng-show="registroMensaje" class="navBarIzquierda">
+        <div class="iconoEmpresaIzquierda letter-by-letter" ng-click="mostrarMenu()">SIDELINK</div>
+        <!-- <input type="color" ng-model="colorPicker" ng-change="cambiarColor(colorPicker)" name="colorPicker"> 
+        <input ng-model="colorPicker" ng-change="cambiarColor(colorPicker)" type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">-->
+
+          <div ng-show="capaDelasSombrasOperador" class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" ng-model="chatModoDios" ng-click="cambiarModoDios()" role="switch" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">
+              <span class="material-symbols-outlined">
+                search
+              </span>
+            </label>
+          </div>
+    </div>
+
+    <!-------------------------------- NOMBRE DE LA CONVERSACION: ARRIBA AL MEDIO ------------------------------------>
+    <div class="navBarDerecha" ng-show="mostrarMenuCard">
+        <!-- <div class="btnBack" ng-show="btnVolver" ng-click="mostrarRegistroMensaje()"></div> -->
+        <!-- <div class="iconoEmpresaDerecha" ng-style="fotoPerfil">&nbsp;</div> -->
+        <img ng-if="urlPerfil" style="border-radius: 40px; width: 50px; height: 50px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" class="iconoEmpresaDerecha"  ng-src="{{urlPerfil}}" onerror="angular.element(this).scope().imagenNoCargada(this)" data-toggle="modal" data-target="#exampleZoomImagen" ng-click="hacerZoom(urlPerfil)"/>
+        <img
+        ng-if="!urlPerfil"
+        ng-src="./style/perfilVacio.png"
+        style="border-radius: 40px; width: 50px; height: 50px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"
+        class="iconoEmpresaDerecha"
+      />
+        <div class="nombreEmpresa">{{nombreCliente}}</div>
+    </div>
+    <!-------------------------------- FIN NOMBRE DE LA CONVERSACION: ARRIBA AL MEDIO ------------------------------------>
+
+    <!-------------------------------- MENU DE BOTONES: ARRIBA AL MEDIO ------------------------------------>
+    <div class="navBarDerechaBtn" ng-show="mostrarMenuBotones">
+      <div class="fade-in btnDifusion" ng-click="irADifusion()">
+        <span class="material-symbols-outlined">outgoing_mail</span>
+        Notificación
+      </div>
+      <div ng-show="capaDelasSombrasOperador" class="fade-in btnEncuestas" ng-click="irAEstadisticas()">
+        <span class="material-symbols-outlined">insights</span>
+        Estadísticas
+      </div>
+      <div class="fade-in btnTickets" ng-click="irATickets()">
+        <span class="material-symbols-outlined">receipt_long</span>
+        Tickets
+      </div>
+      <div class="fade-in btnTickets" ng-click="irAContactos()">
+        <span class="material-symbols-outlined">import_contacts</span>
+        Contactos
+      </div>
+      <!-- <div class="btnTickets" ng-click="irAEmail()">
+        <span class="material-symbols-outlined">alternate_email</span>
+        Email
+      </div> -->
+      <div class="fade-in btnContactos" ng-click="cerrarSesion()">
+        <span class="material-symbols-outlined">pip_exit</span>
+        Salir
+      </div>
+    </div>
+    
+  <!-------------------------------- FIN MENU DE BOTONOES: ARRIBA AL MEDIO ------------------------------------>
+    
+  <!-------------------------------- REGISTRO DE MENSAJES: IZQUIERDA AL MEDIO ------------------------------------>
+    <div ng-show="registroMensaje" class="registro">
+      <!-- <input class="form-check-input" type="checkbox" ng-model="filtroClientesActivos" role="switch"> -->
+       <div ng-if="rangoActual === 'admin'">
+          <input ng-class="{'active': rangoSeleccionado === ''}" style="--bs-btn-font-size: .75rem; --bs-btn-border-color: transparent; --bs-btn-hover-bg: transparent; --bs-btn-hover-color: #f8f9fa" type="button" class="btn btn-outline-light btn-sm" value="todos" ng-click="handleFiltroAdmin('')">
+          <input ng-class="{'active': rangoSeleccionado === 'admin'}" style="--bs-btn-font-size: .75rem; --bs-btn-border-color: transparent; --bs-btn-hover-bg: transparent; --bs-btn-hover-color: #f8f9fa" type="button" class="btn btn-outline-light btn-sm" value="admin" ng-click="handleFiltroAdmin('admin')">
+          <input ng-class="{'active': rangoSeleccionado === 'ventas'}" style="--bs-btn-font-size: .75rem; --bs-btn-border-color: transparent; --bs-btn-hover-bg: transparent; --bs-btn-hover-color: #f8f9fa" type="button" class="btn btn-outline-light btn-sm" value="ventas" ng-click="handleFiltroAdmin('ventas')">
+          <input ng-class="{'active': rangoSeleccionado === 'cobranza'}" style="--bs-btn-font-size: .75rem; --bs-btn-border-color: transparent; --bs-btn-hover-bg: transparent; --bs-btn-hover-color: #f8f9fa" type="button" class="btn btn-outline-light btn-sm" value="cobranza" ng-click="handleFiltroAdmin('cobranza')">
+          <input ng-class="{'active': rangoSeleccionado === 'tecnico'}" style="--bs-btn-font-size: .75rem; --bs-btn-border-color: transparent; --bs-btn-hover-bg: transparent; --bs-btn-hover-color: #f8f9fa" type="button" class="btn btn-outline-light btn-sm" value="tecnico" ng-click="handleFiltroAdmin('tecnico')">
+          <input ng-class="{'active': rangoSeleccionado === 'instalacion'}" style="--bs-btn-font-size: .75rem; --bs-btn-border-color: transparent; --bs-btn-hover-bg: transparent; --bs-btn-hover-color: #f8f9fa" type="button" class="btn btn-outline-light btn-sm" value="instalacion" ng-click="handleFiltroAdmin('instalacion')">
+          <input ng-class="{'active': rangoSeleccionado === 'empresas'}" style="--bs-btn-font-size: .75rem; --bs-btn-border-color: transparent; --bs-btn-hover-bg: transparent; --bs-btn-hover-color: #f8f9fa" type="button" class="btn btn-outline-light btn-sm" value="empresas" ng-click="handleFiltroAdmin('empresas')">
+       </div>
+      
+        <div class="buscador">
+          <div class="input-group">
+            <div class="cantidadDeChatsRegistro">{{mensajes.length}}</div>
+            <input class="buscadorRegistro form-control" type="text" name="" id="" ng-model="buscadorRegistro" placeholder="Busca un chat">
+            <span ng-show="!chatModoDios" data-toggle="modal" data-target="#exampleModal" class="btnNuevoChat material-symbols-outlined">maps_ugc</span>
+          </div>
+        </div>
+        <div class="cajaRegistro" ng-repeat="m in mensajes | filter: filtroClientesActivos | filter: buscadorRegistro track by m.mensajes[0].idMensaje" >
+            <img ng-if="m.infoCliente.avatar" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" class="imgPerfil" ng-src="{{m.infoCliente.avatar}}" onerror="angular.element(this).scope().imagenNoCargada(this)" data-toggle="modal" data-target="#exampleZoomImagen" ng-click="hacerZoom(m.infoCliente.avatar)"/>
+            <img
+            ng-if="!m.infoCliente.avatar"
+            ng-src="./style/perfilVacio.png"
+            style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
+            class="imgPerfil"
+          />
+            <div class="texto" ng-click="filtrarMensajes(m.infoCliente.telefono, 'click')">
+               <div ng-style="m.infoCliente.nuevoMensaje" class="nombre">{{m.infoCliente.nombre}}</div>
+                <div ng-style="m.infoCliente.nuevoMensaje" class="mensaje">{{m.mensajes[0].mensaje}}</div>
+                <div ng-style="m.infoCliente.nuevoMensaje" class="fecha">{{m.infoCliente.fecha}}</div> 
+                <div ng-if="m.infoCliente.rango" ng-style="m.infoCliente.nuevoMensaje" class="fecha">{{m.infoCliente.rango}}</div> 
+                <div ng-if="!m.infoCliente.rango" ng-style="m.infoCliente.nuevoMensaje" class="fecha">{{m.mensajes[0].rangoMensaje}}</div> 
+            </div>
+            <div class="dropdown dropRegistro">
+                <div class="btnDrop" type="button" data-toggle="modal" data-target="#exampleModalDerivar" ng-click="seleccionarRegistro(m.infoCliente)">
+                  
+                </div>
+                <!-- <div class="dropdown-menu dropdown-menuCerrarChat" aria-labelledby="dropdownMenuButton">
+                    <div class="dropdown-item" ng-click="cerrarChat(m.telefono)">👋 Cerrar Chat</div>
+                    <div ng-repeat="u in objEmpleados" class="dropdown-item" ng-click="cambiarRangoCliente(u.rango, m)">Derivar a <b>{{u.nombre}} - {{u.rango}}</b></div>
+                </div> -->
+              </div>
+            <!-- <hr> -->
+        </div>
+    </div>
+    <!-------------------------------- FIN REGISTRO DE MENSAJES: IZQUIERDA AL MEDIO ------------------------------------>
+
+    <!-------------------------------- MENSAJES DEL CHAT: CENTRO ------------------------------------>
+    <div ng-style="esChatStyle" ng-if="esChat" id="chatt"  ng-class="chatClass" webkitdirectory>       
+      <div id="esChat" class="msj" ng-repeat="m in chatCliente" ng-style="m.estilo">
+        <span ng-if="!m.mostrarLink" class="texto media">{{m.mensaje}}</span>
+        <span ng-if="m.mensaje.includes('https://www.google.com/maps')" class="texto media">
+          El cliente envía esta ubicación, haz click para verla
+          <a ng-href="{{m.mensaje}}" target="_blank">
+              <img ng-src="{{m.download}}" alt="Imagen recibida"
+                   style="border: 1px solid #000000; margin-left: 35%; margin-right: 35%; width: 30%;"  />
+          </a>
+          <!--FIJATE AHI SI ANDA--> 
+      </span>
+        <span ng-if="m.mostrarMediaVideo" class="texto media">{{m.mensaje}}</span>
+          <span  ng-if="m.mostrarDocumentoPdf" ><a style="text-decoration: none;" class="media" ng-href="{{m.download}}" download="{{m.nombreMedia}}">💾</a></span>
+          <span  ng-if="m.mostrarDocumentoCsv" ><a style="text-decoration: none;" class="media" ng-href="{{m.download}}" download="{{m.nombreMedia}}">💾</a></span>
+          <span  ng-if="m.mostrarDocumentoDoc" ><a style="text-decoration: none;" class="media" ng-href="{{m.download}}" download="{{m.nombreMedia}}">💾</a></span>
+          <span  ng-if="m.mostrarDocumentoXls" ><a style="text-decoration: none;" class="media" ng-href="{{m.download}}" download="{{m.nombreMedia}}">💾</a></span>
+          <span  ng-if="m.mostrarMediaImagen" ng-style="m.img" data-toggle="modal" data-target="#exampleZoomImagen" ng-click="hacerZoom(m.download)"><a style="text-decoration: none;" class="media" ng-href="{{m.download}}" download="{{m.nombreMedia}}">💾</a></span>
+          <span  ng-if="m.mostrarPng" ng-style="m.img" data-toggle="modal" data-target="#exampleZoomImagen" ng-click="hacerZoom(m.download)"><a style="text-decoration: none;" class="media" ng-href="{{m.download}}" download="{{m.nombreMedia}}">💾</a></span>
+          <video class="media" ng-if="m.mostrarMediaVideo" ng-src="{{m.media}}" width="300" height="300" controls></video>
+          <audio class="media" ng-if="m.mostrarMediaAudio" ng-src="{{m.media}}" controls></audio>
+          <span class="fecha">{{m.fecha}} {{m.rango}} - {{m.nombreUsuario}}</span>
+      </div>
+  </div>
+    <!-------------------------------- FIN MENSAJES DEL CHAT: CENTRO ------------------------------------>
+   
+      <div ng-show="spinner" class="spinner d-flex" style="top:50%; left:50%; position: absolute;"></div>
+   
+    
+    <!-------------------------------- VISTA PREVIA DEL ARCHIVO ------------------------------------>
+    <div  ng-show="esArchivo" class="modalArchivo" style="background-color: black;">
+        <div  ng-style="estiloArchivo">
+            <span>x</span>
+        </div>
+    </div>
+    <!-------------------------------- FIN VISTA PREVIA DEL ARCHIVO ------------------------------------>
+
+     <!-------------------------------- INPUT PARA ENVIAR MENSAJES ------------------------------------>
+    <div ng-show="mostrarEnviarMensaje" class="enviarMensaje fade-in">
+            <div  class="adjuntar">
+                <form enctype="multipart/form-data">
+                    <input ng-disabled="aletrnarChat" ng-model="fileUp" id="imgDer" type="file" onchange="angular.element(this).scope().SelectFile(event)">
+                </form>
+            </div>
+            
+            <textarea ng-disabled="aletrnarChat" id="inpMensaje" class="mensaje form-control" type="text" ng-model="mensaje" placeholder="Escribe un mensaje aquí"  ng-keypress="enviarMensaje($event)"></textarea>
+            
+            <!-- <div ng-disabled="aletrnarChat" class="btn-send" ng-click="enviarMensaje($event)"><i class="bi bi-send"></i></div> -->
+    </div>
+    <!-------------------------------- FIN INPUT PARA ENVIAR MENSAJES ------------------------------------>
+
+    <!-------------------------------- SALUDO Y RANGO DEL USUARIO ------------------------------------>
+    <div class="columnaDerechaArriba">
+      <div class="saludoUsuario">
+       <div>
+        <span class="material-symbols-outlined">
+          waving_hand
+          </span> Hola <b class="letter-by-letter">{{nombreUsuarioCookie}} </b>
+       </div>
+       <div>
+          Tu área es: <b class="letter-by-letter">{{rangoActual}}</b>
+       </div> 
+      </div>
+    </div>
+ <!-------------------------------- FIN SALUDO Y RANGO DEL USUARIO ------------------------------------>
+
+  <!-------------------------------- DATOS DEL CLIENTE: DERECHA AL MEDIO ------------------------------------>
+    <div class="datosDelCliente" ng-show="showDatosDelCliente">
+      <div class="card">
+        <!-- <div ng-style="fotoPerfilCard" style="height: 100px;" class="imgPerfilCard"></div> -->
+        <img data-toggle="modal" data-target="#exampleZoomImagen" ng-if="urlPerfil" class="imgPerfilCard" ng-style="fotoPerfilCard" ng-src="{{urlPerfil}}" onerror="angular.element(this).scope().imagenNoCargada(this)" ng-click="hacerZoom(urlPerfil)"/>
+        <img data-toggle="modal" data-target="#exampleZoomImagen" 
+              ng-if="!urlPerfil"
+              ng-src="./style/perfilVacio.png"
+              ng-style="fotoPerfilCard"
+              width="40"
+              height="40"
+
+            />
+        <div class="card-body">
+          <h5 class="card-title text-center">
+            <input class="form-control" type="text" placeholder="Nombre" ng-model="nombreClienteCard">
+          </h5>
+          <textarea class="descriptClient mb-2" rows="4" placeholder="Escribe un comentario" ng-model="descripcionCliente"></textarea>
+          <input  class="form-control mb-3" type="text" placeholder="📱 Telefono" ng-model="numeroCliente" disabled>
+          <!-- <input  class="form-control" type="text" placeholder="dirección" ng-model="direccionCliente"> -->
+          <input  class="form-control" type="text" placeholder="DNI" ng-model="dniCliente">
+          <button ng-show="!chatModoDios" type="button" class="btn btn-success w-100 mt-2" ng-click="editarContacto()">Guardar cambios</button>
+        </div>
+        
+        <div class="card-footer">
+          <!-- <input ng-show="mostraGuardarDatosCliente" type="button" class="form-control btn-out-success" value="Guardar" ng-click="guardarContacto()"> -->
+          
+          <input type="button" class="btn btn-primary mt-2 w-100" value="Ver tickets" ng-click="irATicketsContacto()">
+          <input type="button" class="btn btn-info mt-2 w-100" value="Más Datos" data-toggle="modal" data-target="#exampleModalMasDatos"  ng-click="buscarClienteIspCube()">
+        </div>
+      </div>
+    </div>
+ <!-------------------------------- FIN DATOS DEL CLIENTE: DERECHA AL MEDIO ------------------------------------>
+
+ </div>
+ <audio id="audio" class="">
+    <source src="./sonido/noti3.mp3" type="audio/mp3" autoplay>
+</audio>
+
+<!-- MODAL BUSCAR CONTACTO -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content modalDerivar">
+      <div class="modal-header">
+        <div class="input-group ">
+          <input 
+            type="text"
+            class="form-control"
+            placeholder="Buscar contacto"
+            ng-model="buscandoContacto" 
+            ng-change="buscarContacto(buscandoContacto, $event)"
+          >              
+          
+        </div>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="card-body" style="color: white;">
+        <!-- <h5>Contactos:</h5> -->
+        <div class="list-group">
+          <div data-dismiss="modal" data-target="#exampleModal" aria-label="Close" ng-repeat="c in objContactos" ng-click="seleccionarContacto(c)" class="list-group-item list-group-item-action itemsBuscados" aria-current="true">
+            <img
+            ng-if="c.urlPerfil"
+            ng-src="{{c.urlPerfil}}"
+            width="40"
+            height="40"
+            onerror="angular.element(this).scope().imagenNoCargada(this)"
+          />
+          <img
+            ng-if="!c.urlPerfil"
+            ng-src="./style/perfilVacio.png"
+
+            width="40"
+            height="40"
+
+          /> {{c.nombre}} -  {{c.telefono}}
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- FIN MODAL BUSCAR CONTACTO -->
+
+<!-- MODAL DERIVAR/CERRAR CHAT -->
+<div class="modal fade" id="exampleModalDerivar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content modalDerivar">
+      <div class="modal-header">
+        <h5 class="modal-title">Derivar o cerrar el chat</h5>
+        <br>
+        <!-- <h6 class="modal-title">{{clienteSeleccionadoCambiarRango.nombre}}</h6> -->
+        <img style="border-radius: 50px;" width="50" height="50" ng-src="{{clienteSeleccionadoCambiarRango.avatar}}" onerror="angular.element(this).scope().imagenNoCargada(this)"/>
+      </div>
+      <div class="modal-body">
+        <div class="list-group" >
+          <div data-dismiss="modal" data-target="#exampleModalDerivar" aria-label="Close" class="list-group-item list-group-item-action itemsBuscados" ng-click="cerrarChat()">👋 <b>Finalizar conversación</b></div>
+          <div data-dismiss="modal" data-target="#exampleModalDerivar" aria-label="Close" ng-repeat="u in objEmpleados" class="list-group-item list-group-item-action itemsBuscados" ng-click="cambiarRangoCliente(u.rango)">Derivar a <b>{{u.nombre}} - {{u.rango}}</b></div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- MODAL MAS DATOS -->
+<div class="modal fade" id="exampleModalMasDatos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content modalDerivar">
+      <div class="modal-header">
+        <!-- <h5 class="modal-title">MAS DATOS</h5>
+        <br> -->
+         <h5 class="modal-title">{{datosClienteDesdeIspCube.code}} - {{datosClienteDesdeIspCube.name}}</h5> 
+        <!-- <img style="border-radius: 50px;" width="50" height="50" ng-src="{{clienteSeleccionadoCambiarRango.avatar}}" onerror="angular.element(this).scope().imagenNoCargada(this)"/> -->
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+          <li href="#" class="list-group-item list-group-item-action list-group-item-info" >
+            <div class="d-flex w-100 justify-content-between">
+              <!-- <h5 class="mb-2">Datos del cliente</h5> -->
+              <!-- <small>desde ispcube</small> -->
+            </div>
+            <small>Domicilio fiscal:</small>
+            <b><p class="mb-1 d-inline">{{datosClienteDesdeIspCube.tax_residence}}</p></b>
+            <hr>
+            <small>Número documento: </small>
+            <b><p class="mb-1 d-inline">{{datosClienteDesdeIspCube.doc_number}}</p></b>
+            <hr>
+            <small>Email: </small>
+            <b><p class="mb-1 d-inline">{{datosClienteDesdeIspCube.email}}</p></b>
+            <hr>
+            <small>Envío factura automática: </small>
+            <b><p class="mb-1 d-inline" ng-if="datosClienteDesdeIspCube.auto_bill_sending === 1">activado</p></b>
+            <b><p class="mb-1 d-inline" ng-if="datosClienteDesdeIspCube.auto_bill_sending === 0">desactivado</p></b>
+            <hr>
+            <small>Envío recibo de pago automático: </small>
+            <b><p class="mb-1 d-inline" ng-if="datosClienteDesdeIspCube.auto_payment_recipe_sending === 1">activado</p></b>
+            <b><p class="mb-1 d-inline" ng-if="datosClienteDesdeIspCube.auto_payment_recipe_sending === 0">desactivado</p></b>
+          </li>
+          <li href="#" class="list-group-item list-group-item-action list-group-item-warning" >
+            <div class="d-flex w-100 justify-content-between">
+            </div>
+            <small>Deuda parcial:</small>
+            <b><p class="mb-1 d-inline">{{'$'+datosClienteDesdeIspCube.duedebt}}</p></b>
+            <hr>
+            <small>Deuda total:</small>
+            <b><p class="mb-1 d-inline">{{'$'+datosClienteDesdeIspCube.debt}}</p></b>
+            <hr>
+            <small>Estado de la Conexion: </small>
+            <b><p class="mb-1 d-inline">{{datosClienteDesdeIspCube.status === 'enabled' ? 'Conectado ✅' : datosClienteDesdeIspCube.status === 'blocked' ? 'Suspendido por falta de pago ⛔' : 'Sin conexion ❌'}}</p></b>
+            <hr>
+            <small>Alias siro: </small>
+            <b><p class="mb-1 d-inline">{{datosClienteDesdeIspCube.cbu}}</p></b>
+            <hr>
+            <!-- <small>Ultima Factura:</small>
+            <b><a ng-href="{{datosClienteDesdeIspCube.factura}}" target="_blank" style="text-decoration: none; color: black;" class="mb-1 d-inline">{{datosClienteDesdeIspCube.factura}}</a></b> -->
+            <div class="accordion" id="accordionExample">
+              <div class="card" style="background-color: #394149; font-size: 13px;">
+                <div 
+                      class="card-header" 
+                      id="headingOne"  
+                      style="padding: 0; text-align: center; border: 1px solid #db8f2c73;"
+                >
+                  <h5 class="mb-0">
+                    <button
+                      class="btn btn-link"
+                      style="color: white"
+                      type="button"
+                      data-toggle="collapse"
+                      data-target="#collapseOne"
+                      aria-expanded="false"
+                      aria-controls="collapseOne"
+                    >
+                      Ultimas Facturas
+                    </button>
+                  </h5>
+                </div>
+
+                <div
+                  id="collapseOne"
+                  class="collapse"
+                  aria-labelledby="headingOne"
+                  data-parent="#accordionExample"
+                >
+                  <table class="table table-hover table-dark">
+                    <thead>
+                      <tr style="color: #db8f2c">
+                        <!-- <th scope="col">#</th> -->
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Desc.</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Ver</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="trMistickets"
+                        ng-repeat="f in datosClienteDesdeIspCube.factura"
+                        style="cursor: pointer"
+                      >
+                        <!-- <th scope="row">{{$index+1}}</th> -->
+                        <td>{{f.date}}</td>
+                        <td>{{f.type}}</td>
+                        <td>{{f.comment}}</td>
+                        <td>${{f.total2}}</td>
+                        <td  scope="row"><a ng-href="{{f.url}}" target="_blank" rel="noopener noreferrer">Ver</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li href="#" class="list-group-item list-group-item-action list-group-item-danger" >
+            <div class="d-flex w-100 justify-content-between">
+            </div>
+            <div ng-repeat="c in datosClienteDesdeIspCube.connections">
+              <small>id Conexion:</small>
+              <b><p class="mb-1 d-inline" ></p>{{c.id}}</b>
+              <br>
+              <small>nombre:</small>
+              <b><p class="mb-1 d-inline">{{c.name}}</p></b>
+              <br>
+              <small ng-if="c.user">user pppoe:</small>
+              <b ng-if="c.user"><p  class="mb-1 d-inline" ></p>{{c.user}}</b>
+              <br ng-if="c.user">
+              <small ng-if="c.password">pass pppoe:</small>
+              <b ng-if="c.password"><p class="mb-1 d-inline" ></p>{{c.password}}</b>
+              <br ng-if="c.password">
+              <br>
+              <small>node:</small>
+              <b><p class="mb-1 d-inline"></p>{{c.node.comment}}</b>
+              <br>
+              <small>Ip:</small>
+              <b><p class="mb-1 d-inline"></p>{{c.node.ip}}</b>
+              <br>
+              <small>tipo:</small>
+              <b><p class="mb-1 d-inline"></p>{{c.node.type}}</b>
+              <br>
+              <hr>
+            </div>
+            
+            
+          </li>
+        </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- MODAL ZOOM IMAGEN -->
+<div class="modal fade" id="exampleZoomImagen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content modalDerivar">
+      <!-- <div class="modal-header">
+        <h5 class="modal-title">Derivar o cerrar el chat</h5>
+        <br>
+       <h6 class="modal-title">{{clienteSeleccionadoCambiarRango.nombre}}</h6> 
+       
+      </div> -->
+      <div class="modal-body">
+        <img width="100%" height="100%" ng-src="{{imagenZoom}}"/>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+<script src="./angular/alerta.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+ <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+ <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-cookies.js"></script>
+ <script src="./angular/bot.js"></script>
+ <script src="./angular/app.js"></script>
+
+</script>
+ 
+</body>
+</html>

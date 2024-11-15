@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medusa - Email</title>
+    <link rel="stylesheet" href="style/js-snackbar.css" />
+    <link rel="shortcut icon" href="./style/medusa/pilar.png" />
+
+    <!-- CSS only -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
+    <!-- Bootstrap core CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./style/estadisticas.css" />
+    <link rel="stylesheet" href="./style/difundir.css" />
+    <!-- Custom styles for this template -->
+    <link href="./style/dashboard.css" rel="stylesheet" />
+    <script src="./angular/ploty.js"></script>
+    <script src="./angular/angular.js"></script>
+    <style>
+      #excel {
+        display: none;
+      }
+
+      #file-label {
+        display: inline-block;
+        padding: 5px 5px;
+        background-color: #6e6e6e;
+        color: #cfc6c6;
+        cursor: pointer;
+        text-align: center;
+        width: 140px;
+      }
+    </style>
+    <!-- <script>
+  var fileInput = document.getElementById("excel");
+var fileLabel = document.getElementById("file-label");
+
+fileInput.addEventListener("change", function(event) {
+  var fileName = event.target.files[0].name;
+  fileLabel.textContent = fileName;
+});
+
+</script> -->
+  </head>
+  <body ng-app="wspbot" ng-controller="emailController" ng-init="iniciar()">
+    <div class="contenedor">
+      <div class="container-fluid">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <div
+                class="nav-link menuNav"
+                ng-class="sidebotClass"
+                ng-click="rutasDifusion('sidebot')"
+              >
+                <i class="bi bi-robot"></i>
+                Medusa
+              </div>
+            </li>
+            <li class="nav-item">
+              <div
+                class="nav-link menuNav"
+                ng-class="difusionClass"
+                ng-click="rutasDifusion('difusion')"
+              >
+                <i class="bi bi-plus-square-dotted"></i>
+                Programar Envios
+              </div>
+            </li>
+            <li class="nav-item">
+              <div
+                class="nav-link menuNav"
+                ng-class="difusionCrearClass"
+                ng-click="rutasDifusion('crearDifusion')"
+              >
+                <i class="bi bi-plus-square-dotted"></i>
+                Crear/Editar Plantillas
+              </div>
+            </li>
+            <li class="nav-item">
+              <div
+                class="nav-link menuNav"
+                ng-class="notifyCrearClass"
+                ng-click="rutasDifusion('misNotificaciones')"
+              >
+                <i class="bi bi-megaphone"></i>
+                Correos Enviados
+              </div>
+            </li>
+          </ul>
+        </nav>
+
+        <main role="" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h1 class="h2">EMAIL</h1>
+          </div>
+
+          <!-- DIFUNDIR -->
+          <div ng-show="showDifundir">
+            <div class="row">
+              <div class="col-md-4 p-2 fondoDeCajas">
+                <label for="fechaHora">Elegí la fecha y hora:</label>
+                <input
+                  ng-model="fechaYHoraNotificacion"
+                  class="form-control"
+                  type="datetime-local"
+                  id="fechaHora"
+                  name="fechaHora"
+                />
+              </div>
+              <div class="col-md-3"></div>
+              <div class="col-md-8 mt-3 p-2 fondoDeCajas">
+                <input
+                  type="text"
+                  class="form-control w-25 p-2 mb-2"
+                  ng-model="buscarContactoNoti"
+                  placeholder="Buscar Contacto"
+                />
+                <div class="accordion" id="accordionExample">
+                  <div class="card mb-2" style="background-color: #394149">
+                    <div class="card-header" id="headingOne">
+                      <h5 class="mb-0">
+                        <button
+                          class="btn btn-link"
+                          style="color: white"
+                          type="button"
+                          data-toggle="collapse"
+                          data-target="#collapseOne"
+                          aria-expanded="true"
+                          aria-controls="collapseOne"
+                        >
+                          Selecciona los contactos a los que desees notificar
+                        </button>
+                      </h5>
+                    </div>
+
+                    <div
+                      id="collapseOne"
+                      class="collapse over"
+                      aria-labelledby="headingOne"
+                      data-parent="#accordionExample"
+                    >
+                      <table class="table table-hover table-dark">
+                        <thead>
+                          <tr style="color: #db8f2c">
+                            <th scope="col">#</th>
+                            <th scope="col">Perfil</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Teléfono</th>
+                            <th scope="col">Dirección</th>
+                            <th scope="col">Comentario</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            class="trMistickets"
+                            ng-repeat="c in arContactos | filter: buscarContactoNoti"
+                            ng-click="cargarArrayContactos(c)"
+                            style="cursor: pointer"
+                          >
+                            <th scope="row">{{$index+1}}</th>
+                            <td scope="row">
+                              <img
+                                ng-if="c.urlPerfil"
+                                ng-src="{{c.urlPerfil}}"
+                                alt="Imagen de perfil"
+                                width="40"
+                                height="40"
+                              />
+                              <img
+                                ng-if="!c.urlPerfil"
+                                ng-src="./style/perfilVacio.png"
+                                alt="Imagen por defecto"
+                                width="40"
+                                height="40"
+                              />
+                            </td>
+                            <td scope="row">{{c.nombre}}</td>
+                            <td scope="row">{{c.telefono}}</td>
+                            <td scope="row">{{c.direccion}}</td>
+                            <td scope="row">{{c.descripcion}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="card" style="background-color: #394149">
+                  <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                      <button
+                        style="color: white"
+                        class="btn btn-link collapsed"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#collapseTwo"
+                        aria-expanded="false"
+                        aria-controls="collapseTwo"
+                      >
+                        Listado de contactos a notificar
+                      </button>
+                    </h5>
+                  </div>
+                  <div
+                    id="collapseTwo"
+                    class="collapse over"
+                    aria-labelledby="headingTwo"
+                    data-parent="#accordionExample"
+                  >
+                    <div class="card-body">
+                      <table class="table table-hover table-dark">
+                        <thead>
+                          <tr style="color: #db8f2c">
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Teléfono</th>
+                            <th scope="col">Dirección</th>
+                            <th scope="col">Comentario</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            style="cursor: pointer"
+                            class="trMistickets"
+                            ng-repeat="arr in arrConctactoNoty | filter: buscarContactoNoti"
+                            ng-click="quitarArrayContactos(arr)"
+                          >
+                            <th scope="row">{{$index+1}}</th>
+                            <td scope="row">
+                              <img
+                                ng-if="arr.urlPerfil"
+                                ng-src="{{arr.urlPerfil}}"
+                                alt="Imagen de perfil"
+                                width="40"
+                                height="40"
+                              />
+                              <img
+                                ng-if="!arr.urlPerfil"
+                                ng-src="./style/perfilVacio.png"
+                                alt="Imagen por defecto"
+                                width="40"
+                                height="40"
+                              />
+                            </td>
+                            <td scope="row">{{arr.nombre}}</td>
+                            <td scope="row">{{arr.telefono}}</td>
+                            <td scope="row">{{arr.direccion}}</td>
+                            <td scope="row">{{arr.descripcion}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 mt-4 mb-4 p-2 fondoDeCajas">
+                <div class="dropdown ml-1 mb-3 w-50">
+                  <button
+                    class="btn btn-sm btn-outline-secondary w-50"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    MIS MENSAJES DE DIFUSIÓN
+                  </button>
+                  <div
+                    class="dropdown-menu mr-5"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <div ng-repeat="t in arDifusion" class="dropdown-item">
+                      <div
+                        ng-click="seleccionarTemplate(t,t.nombre, t.mensaje)"
+                        style="cursor: pointer"
+                      >
+                        {{t.nombre}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <input
+                  disabled
+                  type="text"
+                  class="form-control col-md-12"
+                  ng-model="nombreTemplate"
+                  placeholder="Nombre"
+                />
+                <textarea
+                  disabled
+                  class="textoEncuesta form-control col-md-12 mt-2"
+                  ng-model="mensajeTemplate"
+                  placeholder="Mensaje"
+                  cols="30"
+                  rows="10"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <center>
+            <input
+              ng-show="btnIniciarDifusion"
+              class="mb-2 btn btn-success w-50 mt-2"
+              type="submit"
+              ng-click="guardarConfiguracionNotificacion(fechaYHoraNotificacion,arrConctactoNoty)"
+              value="Guardar configuracion"
+            />
+          </center>
+          <!-- DIFUNDIR -->
+
+          <!-- DIFUSION CREAR TEMPLATE  -->
+          <div ng-show="showTemplateDifusion" class="col-md-12">
+            <div
+              class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mr-5"
+            >
+              <h5 class="h5 ml-5">Crear Plantilla de correo</h5>
+              <div class="btn-toolbar mb-2 mb-md-0 mr-5">
+                <div class="btn-group mr-2">
+                  <button
+                    ng-click="difusion(mensajeDifusion, 'test')"
+                    class="btn btn-sm btn-outline-secondary mr-1"
+                  >
+                    Correo de prueba
+                  </button>
+                  <input
+                    type="text"
+                    class="form-control col-md-5"
+                    ng-model="telefonoTestDifusion"
+                    placeholder="email@proveedor.com"
+                  />
+                  <button
+                    ng-click="deleteDifusion()"
+                    class="ml-5 btn btn-sm btn-outline-secondary"
+                  >
+                    <i class="bi bi-trash3"></i> Eliminar
+                  </button>
+                </div>
+                <div class="dropdown mr-5">
+                  <button
+                    class="btn btn btn-outline-secondary"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Plantillas
+                  </button>
+                  <div
+                    class="dropdown-menu mr-5"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <div ng-repeat="t in arDifusion" class="dropdown-item">
+                      <div
+                        ng-click="seleccionarDifusion(t.id)"
+                        style="cursor: pointer"
+                      >
+                        {{t.nombre}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 w-75 float-right">
+              <input
+                type="text"
+                class="form-control col-md-12"
+                ng-model="nombreDifusion"
+                placeholder="Asunto"
+              />
+              <textarea
+                class="textoEncuesta form-control col-md-12 mt-2"
+                ng-model="mensajeDifusion"
+                placeholder="Escribe tu mensaje aquí"
+                cols="30"
+                rows="10"
+              ></textarea>
+            </div>
+            <br />
+            <center>
+              <input
+                ng-show="btnGuardarDifusion"
+                class="mb-2 btn btn-success w-50 mt-2 float-center"
+                type="submit"
+                ng-click="insertDifusion(mensajeDifusion, nombreDifusion)"
+                value="Guardar mensaje"
+              />
+              <input
+                ng-show="btnEditarDifusion"
+                class="mb-2 btn btn-warning w-50 mt-2 float-center"
+                type="submit"
+                ng-click="editarDifusion(nombreDifusion, mensajeDifusion)"
+                value="Editar mensaje"
+              />
+            </center>
+          </div>
+          <!-- DIFUSION CREAR TEMPLATE  -->
+
+          <!-- MIS NOTIFICACIONES  -->
+          <div ng-show="showMisNotificaciones">
+            <div
+              class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3"
+            >
+              <h5 class="h5 ml-5"></h5>
+              <input
+                type="text"
+                class="form-control w-25 p-2 mb-2"
+                ng-model="buscarContactoMisNoti"
+                placeholder="Buscar Contacto"
+              />
+              <div class="btn-toolbar mb-2 mb-md-0 mr-5">
+                <div class="btn-group mr-2">
+                  <div class="sm mr-1 p-1 msjEnviado rounded">Enviados</div>
+                  <div class="sm mr-1 p-1 msjNoEnviado rounded">
+                    No Enviados
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-md-12"
+              style="
+                width: 80%;
+                float: right;
+                height: 600px;
+                overflow-y: scroll;
+              "
+            >
+              <table class="table table-hover table-dark">
+                <thead>
+                  <tr style="color: #db8f2c">
+                    <th scope="col">#</th>
+                    <th scope="col">Perfil</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">Mensaje</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="trMistickets"
+                    ng-repeat="arr in arNotify | filter: buscarContactoMisNoti"
+                    ng-class="{
+                      'msjEnviado': arr.enviado === 1,
+                      'msjNoEnviado': arr.enviado === 0
+                      }"
+                  >
+                    <td scope="row">{{arr.idNotify}}</td>
+                    <td scope="row">
+                      <img
+                        ng-if="arr.urlPerfil"
+                        ng-src="{{arr.urlPerfil}}"
+                        alt="Imagen de perfil"
+                        width="60"
+                        height="60"
+                      />
+                      <img
+                        ng-if="!arr.urlPerfil"
+                        ng-src="./style/perfilVacio.png"
+                        alt="Imagen por defecto"
+                        width="60"
+                        height="60"
+                      />
+                    </td>
+                    <td scope="row">{{arr.nombre}}</td>
+                    <td scope="row">{{arr.telefono}}</td>
+                    <td scope="row">{{arr.mensaje}}</td>
+                    <td scope="row">
+                      {{arr.fecha | date:'dd/MM/yyyy - HH:mm:ss'}}
+                    </td>
+                    <td>
+                      <button
+                        ng-click="eliminarNotify(arr.idNotify)"
+                        class="btn btn-sm btn-danger"
+                      >
+                        <i class="bi bi-trash3"></i> Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- FIN MIS NOTIFICACIONES  -->
+        </main>
+      </div>
+    </div>
+
+    <script src="./angular/alerta.js"></script>
+    <script src="https://unpkg.com/read-excel-file@5.x/bundle/read-excel-file.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-cookies.js"></script>
+    <script src="./angular/bot.js"></script>
+    <script src="./angular/email.js"></script>
+  </body>
+</html>
