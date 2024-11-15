@@ -14,12 +14,12 @@ Soy la asistente virtual de Nuevanet, Para agilizar tu consulta:
 false,
 "",
 false,
-false,
+true,
 false,
 "",
 );
 
-const opcionEsCliente = new Nodo(
+export const opcionEsCliente = new Nodo(
 "opcionEsCliente",
 `*_Por favor ingrese su número de DNI O CUIT_*`,
 "1",

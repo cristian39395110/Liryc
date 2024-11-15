@@ -332,10 +332,10 @@ $scope.$on("$destroy", function () {
       $scope.datosClienteDesdeIspCube = "";
       const documento = $cookies.get('dniTicket');
     
-      $http.post(hostWeb + ':5001/getCliente', { documento })
+      $http.post(hostWeb + ':5034/getCliente', { documento })
         .then((response) => {
           $scope.datosClienteDesdeIspCube = response.data;
-          return $http.post(hostWeb + ':5001/verConexion', { documento });
+          return $http.post(hostWeb + ':5034/verConexion', { documento });
         })
         .then((response) => {
           $scope.datosClienteDesdeIspCube.connections = response.data.map((item) => {
@@ -347,7 +347,7 @@ $scope.$on("$destroy", function () {
               node: item.node
             };
           });
-          return $http.post(hostWeb + ':5001/getFactura6', { documento });
+          return $http.post(hostWeb + ':5034/getFactura6', { documento });
         })
         .then((response) => {
           $scope.datosClienteDesdeIspCube.factura = response.data;

@@ -8,7 +8,7 @@ const client = obtenerClienteDeWhatsapp(colors, false)
 export const mediosDePagoIspCube = (telefono, mensaje, opcion, menuFinal, otros, datos) => {
   
   setTimeout(() => {
-    const url = 'http://172.19.3.85:5001/getCliente';
+    const url = 'http://172.19.3.85:5034/getCliente';
     const data = {
         documento: mensaje | datos,
     };

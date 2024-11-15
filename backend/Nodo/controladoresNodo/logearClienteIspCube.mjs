@@ -10,7 +10,7 @@
 // export const logearClienteIspCube = (telefono, mensaje, opcion, menuFinal, otros, datos) => {
   
 //   setTimeout(() => {
-//     const url = 'http://172.19.3.85:5001/getCliente';
+//     const url = 'http://172.19.3.85:5034/getCliente';
 //     const regex = /^\d+$/;
 //     if(!regex.test(mensaje)){
 //       mensaje = mensaje.replace(/\D/g, '');
@@ -99,8 +99,8 @@ import con from "../../database/conexion.mjs";
 import axios from 'axios'
 const client = obtenerClienteDeWhatsapp(colors, false)
 
-export const logearClienteIspCube = async (telefono, mensaje, datos) => {
-  const url = 'http://localhost:5001/getCliente';
+export const logearClienteIspCube = async (telefono, mensaje, datos, intentos = 1) => {
+  const url = 'http://localhost:5034/getCliente';
   const regex = /^\d+$/;
 
   mensaje = !regex.test(mensaje) ? mensaje.replace(/\D/g, '') : mensaje;
@@ -112,11 +112,19 @@ export const logearClienteIspCube = async (telefono, mensaje, datos) => {
 
   try {
     const response = await axios.post(url, data);
-
+console.log("intentos "+intentos)
     if (response.data.message === 'Cliente no encontrado' || response.data.phone === '') {
-      return { success: false, error: 'Cliente no encontrado' };
+      // Si no encuentra el cliente y aún no hemos alcanzado el máximo de intentos
+      if (intentos < 3) {
+        console.log(`Intento ${intentos} fallido. Reintentando...`);
+        // Llamada recursiva incrementando el contador de intentos
+        return logearClienteIspCube(telefono, mensaje, datos, intentos + 1);
+      } else {
+        // Si alcanzamos el límite de intentos, retornar error
+        return { success: false, error: 'Cliente no encontrado después de 3 intentos' };
+      }
     } else {
-      // Retornar la data del cliente si lo encontro
+      // Retornar la data del cliente si lo encontró
       return { success: true, clientData: response.data };
     }
 
