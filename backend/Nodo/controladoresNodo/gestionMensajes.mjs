@@ -68,7 +68,6 @@ export async function gestionMensajes(mensaje, texto, telefon, client) {
     manejarError(error);
   }
 }
-
 // Función separada para manejar la lógica del chatbot.
 async function gestionarChatBot(telefono, msj, contact, mensaje) {
   const menuActual =  await buscarNodoActual(telefono);

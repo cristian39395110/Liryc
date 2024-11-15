@@ -101,7 +101,7 @@ import axios from 'axios'
 const client = obtenerClienteDeWhatsapp(colors, false)
 
 export const logearClienteIspCube = async (telefono, mensaje, datos, intentos = 1) => {
-  const url = 'http://localhost:5034/getCliente';
+  const url = 'http://localhost:5001/getCliente';
   const regex = /^\d+$/;
 
   mensaje = !regex.test(mensaje) ? mensaje.replace(/\D/g, '') : mensaje;
