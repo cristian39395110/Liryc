@@ -3,7 +3,7 @@ import { guardarContacto } from "../../controladores/guardarContacto.mjs";
 import { manejarError } from "./manejarError.mjs";
 import con from "../../database/conexion.mjs";
 import { buscarNodoActual } from "./buscarNodoActual.mjs";
-import { actualizarTextoArbolRespuestas } from "./actualizarTextoArbolRespuestasSidecom.mjs";
+import { actualizarTextoArbolRespuestas } from "./actualizarTextoArbolRespuestaLiryc.mjs";
 import { recorrerArbol } from "./recorrerArbolLiryc.mjs";
 import { respuestaNoEncontrada } from "../arbolCliente/respuestaNoEncontradaLiryc.mjs";
 import { arbolRespuestas } from "../arbolCliente/respuestasLiryc.mjs";

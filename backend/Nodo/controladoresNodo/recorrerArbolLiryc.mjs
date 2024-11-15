@@ -195,7 +195,7 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
                 guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, devolverOpcionSeleccionada(mensaje, menuActual), '', '', '');
               enviarRespuesta(telefono, siguienteNodo.getRespuesta());
           } else if (siguienteNodo.pideDatos) { // CAPTURA LOS DATOS DEL CLIENTE
-                if(siguienteNodo.getMenu() === 'opcionEsCliente'){ //flujo de sidecom para logear cliente con ispcube
+                if(siguienteNodo.getMenu() === 'raiz'){ //flujo de sidecom para logear cliente con ispcube
                   guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, 'confirmarDatosClienteIspCube', devolverOpcionSeleccionada(mensaje, menuActual), otros);
                 }
                 else if(siguienteNodo.getMenu() === 'consultaSinServicio'){ //flujo de sidecom para logear cliente con ispcube

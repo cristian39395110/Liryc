@@ -14,7 +14,7 @@ Soy la asistente virtual de Nuevanet, Para agilizar tu consulta:
 false,
 "",
 false,
-false,
+true,
 false,
 "",
 );
