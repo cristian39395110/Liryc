@@ -190,7 +190,6 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
     return {notificaOperador: false, datos: {}, menu: "administracion"};
   }
 
-
     
 //-----------------------------------------------------------------------------------------------------------
 
