@@ -9,7 +9,7 @@ import {guardarNodoActual} from "./guardarNodoActual.mjs"
 import {limpiarTelefonoMenuCliente} from "./limpiarTelefonoMenuCliente.mjs"
 import {respuestaNoEncontrada} from "../arbolCliente/respuestaNoEncontradaLiryc.mjs"
 import { devolverOpcionSeleccionada } from './devolverOpcionSeleccionadaSidecom.mjs'
-import { arbolRespuestas,tecnicoLogeado,tecnicoLogeadoOpcion2, noEncuentraDNI,encuentraDNIMensaje,menuVolver,opcionEsClienteLogeado, menuPrincipal } from '../arbolCliente/respuestasLiryc.mjs'
+import { arbolRespuestas,tecnicoLogeado,tecnicoLogeadoOpcion2, noEncuentraDNI,encuentraDNIMensaje,menuVolver,opcionEsClienteLogeado, menuPrincipal,principalMenu } from '../arbolCliente/respuestasLiryc.mjs'
 import { tecnicos,verificarSiEsTecnico } from '../controladoresNodo/tecnicosLiryc.mjs'
 import { buscarNodoActual } from './buscarNodoActual.mjs'
 import { logearClienteIspCube } from './logearClienteIspCube.mjs'
@@ -337,17 +337,17 @@ if(menuActual === 'tecnicoLogeadoPassWifi'){  // vuelve al menu despues mostrar 
             //guardar mensaje en base de datos
             //guardar nodo actual para luego enviar a menu principal o finalizar chat.
             enviarRespuesta(telefono,"Registramos tu comprobante de pago!");
-            client.sendMessage(telefono,menuVolver);
+            client.sendMessage(telefono,principalMenu);
         
             //comprobarTelefono(telefono, "cobranza");
 
         }else {
             enviarRespuesta(telefono,"No pudimos registrar tu comprobante ❌Intenta nuevamente enviando una imagen, foto o archivo valido");
-            client.sendMessage(telefono,menuVolver);
+            client.sendMessage(telefono,principalMenu);
             guardarNodoActual(telefono,'informarPago','',datos,opcion,instancia,menuFinal,otros);
       
     }
-    guardarNodoActual(telefono,'administracion','3',datos,opcion,'',menuFinal,otros);
+    guardarNodoActual(telefono,'segundaAdministracion','777',datos,opcion,'',menuFinal,otros);
     return {notificaOperador: false, datos: {}, menu: "administracion"};
   }
 
