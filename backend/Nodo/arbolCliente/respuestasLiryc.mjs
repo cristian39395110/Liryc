@@ -222,7 +222,7 @@ Para generar rapidamente el usuario y contraseña te voy a pedir la marca y mode
 
 En minutos se pondrán en contacto con vos!
 🙆‍♀️ ¡Gracias por elegirnos! *Te saluda tu asistente, SIDE 👩‍🦰*`,
-"4",
+"5",
 true,
 "tecnico",
 true,
@@ -671,7 +671,7 @@ asistenteVirtual.addOpcion(opcionReenvioFactura)
 asistenteVirtual.addOpcion(opcionMediosDePago)
 asistenteVirtual.addOpcion(opcionComprobante)
 asistenteVirtual.addOpcion(opcionPromesaDePago)
-
+asistenteVirtual.addOpcion(IntalarTVDigitalSensa)
 
 
 
