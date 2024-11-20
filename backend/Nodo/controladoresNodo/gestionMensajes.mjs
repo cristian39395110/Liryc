@@ -3,7 +3,7 @@ import { guardarContacto } from "../../controladores/guardarContacto.mjs";
 import { manejarError } from "./manejarError.mjs";
 import con from "../../database/conexion.mjs";
 import { buscarNodoActual } from "./buscarNodoActual.mjs";
-import { actualizarTextoArbolRespuestas } from "./actualizarTextoArbolRespuestasSidecom.mjs";
+import { actualizarTextoArbolRespuestas } from "./actualizarTextoArbolRespuestaLiryc.mjs";
 import { recorrerArbol } from "./recorrerArbolLiryc.mjs";
 import { respuestaNoEncontrada } from "../arbolCliente/respuestaNoEncontradaLiryc.mjs";
 import { arbolRespuestas } from "../arbolCliente/respuestasLiryc.mjs";
@@ -105,6 +105,10 @@ async function gestionarChatBot(telefono, msj, contact, mensaje) {
       }`;
     } else if(resp.datos === 'DNI NO ENCONTRADO') {
       mensaje.body = `DNI NO ENCONTRADO: el usuario intento ingresar el DNI: *${msj}*, pero no se encuentra en la base de datos de ISP Cube`;
+    }
+
+    else if(resp.menu === 'otrasConsultas') {
+      mensaje.body = `El cliente entro al menu de facturacion y al area de Otras Consultas `;
     }
     
     else if (resp.menu === 'ServicioDeriva') {

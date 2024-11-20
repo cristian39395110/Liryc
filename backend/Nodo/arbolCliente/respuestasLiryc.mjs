@@ -261,6 +261,17 @@ Por favor, elige una opción ingresando el número correspondiente:
 
 0️⃣ Volver al menú principall` 
 
+export const principalMenu = `👩‍🦰 ¿Te puedo ayudar en algo más?
+
+1️⃣ Reenvio de factura.
+2️⃣ Conocer medios de pago.
+3️⃣ Informar pago.
+4️⃣ Informar promesa de pago.
+5️⃣ Adherir a debito automático.
+6️⃣ Otras consultas
+
+0️⃣ Volver al menú principal` 
+
 export const menuPrincipal = `👩‍🦰 ¿En que puedo ayudarte?
 
 por favor elige una opción ingresando el número correspondiente:
@@ -269,7 +280,7 @@ por favor elige una opción ingresando el número correspondiente:
 3️⃣ ADMINISTRACION/FACTURACION`   
 
 
-const   administracion = new Nodo(
+const     administracion = new Nodo(
 'administracion',
 `
 👩‍💼 Bienvenido/a al departamento administrativo.
@@ -292,8 +303,57 @@ false,
 false,
 ''
 );
+const     segundaAdministracion = new Nodo(
+  'segundaAdministracion',
+  `
+  
+👩‍🦰 ¿En qué más te puedo ayudar?
 
+Por favor, elige una opción ingresando el número correspondiente:
+1️⃣ Reenvio de factura.
+2️⃣ Conocer medios de pago.
+3️⃣ Informar pago.
+4️⃣ Informar promesa de pago.
+5️⃣ Adherir a debito automático.
+6️⃣ Otras consultas
 
+0️⃣ Volver al menú principal
+  `,
+  '777',
+  false,
+  '',
+  false,
+  false,
+  false,
+  ''
+  );
+  
+  const otrasConsultas = new Nodo(
+    'otrasConsultas',
+    `📡 Derivé tu consulta a uno de nuestros representantes
+    En minutos se pondrán en contacto con vos!
+    🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente, de Nuevanet 👩‍🦰`,
+    "6",
+    true,
+    "tecnico",
+    true,
+    false,
+    false,
+    "",
+    );
+
+    const adherirDebito = new Nodo(
+      'adherirDebito',
+      `📡 Derivé tu consulta a uno de nuestros representantes
+      Para que gestione su pago a debito automatico`,
+      "5",
+      true,
+      "tecnico",
+      true,
+      false,
+      false,
+      "",
+      );
 const opcionReenvioFactura = new Nodo(
 'facturacion',
 `📡 *Derivé tu consulta a uno de nuestros representantes*
@@ -323,9 +383,8 @@ Por favor, elige una opción ingresando el número correspondiente:
 2️⃣ Conocer medios de pago.
 3️⃣ Informar pago.
 4️⃣ Informar promesa de pago.
-5️⃣ Otras consultas
-
-0️⃣ Volver al menú principal`,
+5️⃣ Adherir a debito automático.
+6️⃣ Otras consultas`,
 '2',
 false,
 '',
@@ -334,6 +393,8 @@ false,
 false,
 ''
 );
+
+
 
 const opcionComprobante = new Nodo(
 'opcionComprobante',
@@ -630,6 +691,18 @@ administracion.addOpcion(opcionComprobante);
 administracion.addOpcion(opcionReenvioFactura);
 administracion.addOpcion(opcionPromesaDePago);
 administracion.addOpcion(opcionConsultasAdministracion);
+administracion.addOpcion(segundaAdministracion);
+
+
+
+
+segundaAdministracion.addOpcion(opcionMediosDePago);
+segundaAdministracion.addOpcion(opcionComprobante);
+segundaAdministracion.addOpcion(opcionReenvioFactura);
+segundaAdministracion.addOpcion(opcionPromesaDePago);
+segundaAdministracion.addOpcion(adherirDebito);
+segundaAdministracion.addOpcion(otrasConsultas);
+
 
 // ventasLogeado.addOpcion(ventaSensa);
 // ventasLogeado.addOpcion(ventaInternet);
