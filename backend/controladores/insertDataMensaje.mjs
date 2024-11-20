@@ -151,10 +151,15 @@ export default async (mensaje, estado, rangoDefault, nnombreUsuario, rangoClient
       Password: ${habilitarPass[telefono]}`; 
 
        
-      }if(mensaje.body.includes("Error en el DNI ingresado")){
+      }else if(mensaje.body.includes("Error en el DNI ingresado")){
         estado = 3;
         nombreUsuario = "medusa";
       }
+      else if(mensaje.body.includes("otrasConsultas")){
+        estado = 3;
+        nombreUsuario = "medusa";
+      }
+     
       else if(mensaje.body.includes("DNI NO ENCONTRADO")){
         estado = 3;
         nombreUsuario = "medusa";

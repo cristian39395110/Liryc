@@ -42,7 +42,7 @@ const tecnico = {};
 export const recorrerArbol = async (telefono, nodoActual, mensaje, datos, menuActual, numeroActual, opcion, instancia, contact, menuFinal, otros, mensajeCompleto) => {
   // console.log(mensajeCompleto, " mensaje en recorrer arbol")
  var tipodeinternet=0;
-
+var verificarMenu=true;
   if (mensaje==="0" && menuActual!=="raiz" && menuActual!=="opcionEsCliente"){
 
    
@@ -286,6 +286,19 @@ if(menuActual === 'tecnicoLogeadoPlan'){  // vuelve al menu despues mostrar fact
   limpiarTelefonoMenuCliente(telefono);
   return {notificaOperador: true,datos: {nombreCliente, direccionCliente, telefonoCliente,telefono2Cliente,emailCliente,planCliente, tecnico}, menu: menuActual };;
 }
+if(menuActual === 'administracion' && mensaje==="1"){  // vuelve al menu despues mostrar factura
+  if (mensaje==="1"){
+  numeroActual="3";
+  mensaje="777"
+  }
+ if(mensaje==="2"){
+   verificarMenu=false;
+
+  }
+
+
+}
+
 
 if(menuActual === 'tecnicoLogeadoOpcion2'){  // vuelve al menu despues mostrar factura
    
@@ -404,12 +417,23 @@ if(menuActual === 'tecnicoLogeadoPassWifi'){  // vuelve al menu despues mostrar 
               enviarRespuesta(telefono, siguienteNodo.getRespuesta());
           } else if (!siguienteNodo.pideDatos && !siguienteNodo.pideOpcion) { // FLUJO NORMAL
             // console.log(menuActual, "menu actual", mensaje, "mensaje")
-             if(menuActual === 'administracion' && mensaje === '4'){ //medios de pago
+             if(siguienteNodo.getMenu() === 'opcionMediosDePago' && mensaje === '2'){ //medios de pago
+              enviarRespuesta(telefono, siguienteNodo.getRespuesta());
+              guardarNodoActual(telefono,"segundaAdministracion", "777", datos, opcion, '', "", otros);
+              return {notificaOperador: false, datos:{}, menu: siguienteNodo.menu};
+
+            }
+
+            if(menuActual === 'administracion' && mensaje === '4'){ //medios de pago
               mediosDePagoIspCube(telefono, mensaje, opcion, menuFinal, otros, datos)
             }
-            else if(menuActual === 'administracion' && mensaje === '1'){ //reenvio factura
-              buscarUltimaFacturaIspCube(telefono, mensaje, opcion, menuFinal, otros, datos)
+            else if(menuActual === 'administracion' && mensaje === '777' && verificarMenu){ //reenvio factura
+              buscarUltimaFacturaIspCube(telefono, mensaje, opcion, menuFinal, otros, datos,siguienteNodo.getMenu())
             }
+            else if(menuActual === 'segundaAdministracion' && mensaje === '1'){ //reenvio factura
+              buscarUltimaFacturaIspCube(telefono, mensaje, opcion, menuFinal, otros, datos,siguienteNodo.getMenu())
+            }
+        
         
             else{
               // FLUJO NORMAL
@@ -445,6 +469,10 @@ if(menuActual === 'tecnicoLogeadoPassWifi'){  // vuelve al menu despues mostrar 
                return {notificaOperador: true, datos:{}, menu:'tecnicoLogeadoDatosCargados'};
             
             }
+            if(siguienteNodo.getMenu() === 'otrasConsultas'){ //flujo de sidecom para logear cliente con ispcube
+              return {notificaOperador: true, datos:{}, menu:'otrasConsultas'};
+           
+           }
           }
           return {notificaOperador: false, datos:{}, menu: siguienteNodo.menu};
       } else {

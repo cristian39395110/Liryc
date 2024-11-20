@@ -7,9 +7,9 @@ const client = obtenerClienteDeWhatsapp(colors, false)
 
   
 
-import {menuVolver,muestraFactura,errorNoEncuentraFactura} from "../arbolCliente/respuestasLiryc.mjs"
+import {menuVolver,muestraFactura,errorNoEncuentraFactura, principalMenu} from "../arbolCliente/respuestasLiryc.mjs"
 
-export const buscarUltimaFacturaIspCube = (telefono, mensaje, opcion, menuFinal, otros, datos,siguiente) => {
+export const buscarUltimaFacturaIspCube = (telefono, mensaje, opcion, menuFinal, otros, datos,menu) => {
   
   setTimeout(() => {
     const url = 'http://localhost:5001/getFactura';
@@ -23,11 +23,11 @@ export const buscarUltimaFacturaIspCube = (telefono, mensaje, opcion, menuFinal,
     guardarNodoActual(telefono, "facturaConfirmaIsError", "", datos, opcion, "", menuFinal, otros);
     client.sendMessage(telefono,errorNoEncuentraFactura);
   }else{
-    guardarNodoActual(telefono, siguiente, mensaje, datos, opcion, "", menuFinal, otros);
+    guardarNodoActual(telefono,"segundaAdministracion" , mensaje, datos, opcion, "", menuFinal, otros);
     client.sendMessage(telefono,muestraFactura(response.data));
   }
   setTimeout(() => {
-      client.sendMessage(telefono,menuVolver);
+      client.sendMessage(telefono,principalMenu);
   },8000)
   // console.log('Respuesta de la API:', response.data);
 
