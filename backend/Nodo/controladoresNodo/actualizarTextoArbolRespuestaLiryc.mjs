@@ -12,3 +12,4 @@ Para continuar, necesitamos verificar sus datos. Por favor, ingrese su número d
 _🔒 Su información será tratada con confidencialidad._
 `;
 }
+

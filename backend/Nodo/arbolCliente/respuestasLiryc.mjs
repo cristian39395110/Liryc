@@ -631,8 +631,6 @@ administracion.addOpcion(opcionReenvioFactura);
 administracion.addOpcion(opcionPromesaDePago);
 administracion.addOpcion(opcionConsultasAdministracion);
 
-
-
 // ventasLogeado.addOpcion(ventaSensa);
 // ventasLogeado.addOpcion(ventaInternet);
 

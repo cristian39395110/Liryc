@@ -7,3 +7,4 @@ export const tecnicos = [
   export function verificarSiEsTecnico(documento) {
     return tecnicos.find(tecnico => tecnico.documento === documento);
   }
+  
