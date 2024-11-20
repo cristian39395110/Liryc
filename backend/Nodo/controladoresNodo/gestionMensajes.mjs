@@ -172,7 +172,7 @@ Datos Nuevos Del Cliente:
       
       msj =``
       
-    }else if (resp.menu === confirmarDatosClienteIspCube) {
+    }else if (resp.menu === 'confirmarDatosClienteIspCube') {
       mensaje.body = `Error en el DNI ingresado:
       Se detectó que el usuario ingresó texto ("${msj}") en lugar de un número de DNI válido.`;
     }

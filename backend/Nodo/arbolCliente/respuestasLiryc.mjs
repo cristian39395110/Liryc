@@ -57,7 +57,8 @@ export const opcionEsClienteLogeado = new Nodo(
 por favor elige una opción ingresando el número correspondiente:
 1️⃣ SOPORTE TECNICO
 2️⃣ VENTAS
-3️⃣ ADMINISTRACION/FACTURACION`,
+3️⃣ ADMINISTRACION/FACTURACION
+4️⃣ ASISTENCIA VIRTUAL AUTOGESTIÓN`,
 'logeado',
 false,
 '',
@@ -274,10 +275,11 @@ export const principalMenu = `👩‍🦰 ¿Te puedo ayudar en algo más?
 
 export const menuPrincipal = `👩‍🦰 ¿En que puedo ayudarte?
 
-por favor elige una opción ingresando el número correspondiente:
+Por favor elige una opción ingresando el número correspondiente:
 1️⃣ SOPORTE TECNICO
 2️⃣ VENTAS
-3️⃣ ADMINISTRACION/FACTURACION`   
+3️⃣ ADMINISTRACION/FACTURACION
+4️⃣ ASISTENCIA VIRTUAL AUTOGESTIÓN`   
 
 
 const     administracion = new Nodo(
