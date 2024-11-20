@@ -1,3 +1,4 @@
+import { opcionComprobanteDePago } from "../controladoresNodo/opcionComprobanteDePago.mjs";
 import { Nodo } from "../nodo.mjs";
 ///////////////////////////////////////IMPLEMENTACION DE RESPUESTAS Y ARMADO DE ARBOL//////////////
 // Construcción del árbol de respuestas
@@ -115,8 +116,7 @@ export const tecnicoLogeadoPlan = new Nodo(
 
 export const tecnicoLogeadoOpcion2 = new Nodo(
   "tecnicoLogeadoOpcion2",
-  `Habilitar
-Por favor, proporcione los siguientes datos para completar el proceso:
+  `Por favor, proporcione los siguientes datos para completar el proceso:
 
 1️⃣- 📶 *Nombre de la Red WiFi*
 `,
@@ -155,7 +155,7 @@ export const tecnicoLogeadoPassWifi = new Nodo(
 );
 export const tecnicoLogeadoDatosCargados = new Nodo(
   "tecnicoLogeadoDatosCargados",
-  `✅ *Datos Cargados a la Área Técnica*
+  `✅ Los datos de conexión se han almacenado correctamente en el sistema.
 `,
   "5",
   true,
@@ -189,7 +189,8 @@ export const opcionEsClienteLogeado = new Nodo(
 por favor elige una opción ingresando el número correspondiente:
 1️⃣ SOPORTE TECNICO
 2️⃣ VENTAS
-3️⃣ ADMINISTRACION/FACTURACION`,
+3️⃣ ADMINISTRACION/FACTURACION
+4️⃣ ASISTENCIA VIRTUAL AUTOGESTIÓN`,
   "logeado",
   false,
   "",
@@ -198,7 +199,33 @@ por favor elige una opción ingresando el número correspondiente:
   false,
   ""
 );
+//////////////////////////////////////////////eduardo/////////////////////////////////////////////////////
+const asistenteVirtual = new Nodo(
+  "administracion",
+  `
+👩‍💼 *¡Bienvenido/a! Soy tu Asistente Virtual.* 🤖
+¿En qué te puedo ayudar?
 
+*_Por favor, elige una opción ingresando el número correspondiente:_*
+1️⃣ Reenvio de factura.
+2️⃣ Conocer medios de pago.
+3️⃣ Informar pago.
+4️⃣ Informar promesa de pago.
+5️⃣ Instalar TV Digital Sensa
+
+0️⃣ Volver al menú principal
+`,
+  "4",
+  false,
+  "",
+  false,
+  false,
+  true,
+  ""
+);
+
+
+//////////////////////////////////////////////eduardo/////////////////////////////////////////////////////
 const noTengoInternet = new Nodo(
   "noTengoInternet",
   `
@@ -608,6 +635,13 @@ tecnicoLogeado.addOpcion(tecnicoLogeadoOpcion2)
 tecnicoLogeadoOpcion2.addOpcion(tecnicoLogeadoRedWifi)
 tecnicoLogeadoRedWifi.addOpcion(tecnicoLogeadoPassWifi)
 tecnicoLogeadoPassWifi.addOpcion(tecnicoLogeadoDatosCargados)
+
+opcionEsClienteLogeado.addOpcion(asistenteVirtual)
+asistenteVirtual.addOpcion(opcionReenvioFactura)
+asistenteVirtual.addOpcion(opcionMediosDePago)
+asistenteVirtual.addOpcion(opcionComprobante)
+asistenteVirtual.addOpcion(opcionPromesaDePago)
+
 //tecnicoLogeadoPlan.addOpcion(tecnicoLogeadoDeriva)
 //consultaSinServicio.addOpcion(DerivaconsultaSinServicio);
 

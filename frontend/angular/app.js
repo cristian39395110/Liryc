@@ -198,24 +198,24 @@ $scope.$on("$destroy", function () {
       
     };
     $scope.irADifusion = function () {
-      $window.location.href = hostWeb + "/sidelink/frontend/difundir.html";
+      $window.location.href = hostWeb + "/Liryc/frontend/difundir.html";
     };
     $scope.irAEstadisticas = function () {
-      $window.location.href = hostWeb + "/sidelink/frontend/estadisticas.html";
+      $window.location.href = hostWeb + "/Liryc/frontend/estadisticas.html";
     };
     $scope.irATickets = function () {
-      $window.location.href = hostWeb + "/sidelink/frontend/tickets.html";
+      $window.location.href = hostWeb + "/Liryc/frontend/tickets.html";
     };
     $scope.irATicketsContacto = function () {
-      $window.open(hostWeb + "/sidelink/frontend/tickets.html", "_blank");
+      $window.open(hostWeb + "/Liryc/frontend/tickets.html", "_blank");
     };
 
     $scope.irAContactos = function () {
-      $window.location.href = hostWeb + "/sidelink/frontend/contactos.html";
+      $window.location.href = hostWeb + "/Liryc/frontend/contactos.html";
     };
 
     $scope.irAEmail = function () {
-      $window.location.href = hostWeb + "/sidelink/frontend/email.html";
+      $window.location.href = hostWeb + "/Liryc/frontend/email.html";
     };
     $scope.contadorMensajesCliente = 0;
     $scope.contadorMensajes = 0;
@@ -250,7 +250,7 @@ $scope.$on("$destroy", function () {
     }
     function checkLogin() {
       if (rangoUsuario == undefined) {
-        $window.location.href = hostWeb + "/sidelink/frontend/login.html";
+        $window.location.href = hostWeb + "/Liryc/frontend/login.html";
       }
       if ($cookies.get("rango") === "admin") {
         $scope.capaDelasSombrasOperador = true;
@@ -265,7 +265,7 @@ $scope.$on("$destroy", function () {
       });
       $cookies.remove("rango");
       $cookies.remove("nombre");
-      $window.location.href = hostWeb + "/sidelink/frontend/login.html";
+      $window.location.href = hostWeb + "/Liryc/frontend/login.html";
     };
 
     //region CAMBIAR MODO DIOS
@@ -733,10 +733,10 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
                 mensaje.imgurl.includes(".jpeg") ||
                 mensaje.imgurl.includes(".jfif")
               ) {
-                // down = "../../../sidelink/backend/" + mensaje.imgurl;
+                // down = "../../../Liryc/backend/" + mensaje.imgurl;
                 $scope.img = {
                   "background-image":
-                    "url(../../../sidelink/backend/" + mensaje.imgurl + ")",
+                    "url(../../../Liryc/backend/" + mensaje.imgurl + ")",
                   "background-repeat": "no-repeat",
                   "background-size": "contain",
                   "background-position": "center",
@@ -748,7 +748,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
                 if (screen.width <= 425) {
                   $scope.img = {
                     "background-image":
-                      "url(../../../sidelink/backend/" + mensaje.imgurl + ")",
+                      "url(../../../Liryc/backend/" + mensaje.imgurl + ")",
                     "background-repeat": "no-repeat",
                     "background-size": "contain",
                     "background-position": "center",
@@ -776,7 +776,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
                 $scope.mostrarDocumentoPdf = false;
                 $scope.mostrarDocumentoCsv = false;
                 $scope.mostrarPng = false;
-                $scope.media = "../../sidelink/backend/" + mensaje.imgurl;
+                $scope.media = "../../Liryc/backend/" + mensaje.imgurl;
               } else if (
                 mensaje.imgurl.includes(".wav") ||
                 mensaje.imgurl.includes(".mp3")
@@ -789,7 +789,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
                 $scope.mostrarDocumentoPdf = false;
                 $scope.mostrarDocumentoCsv = false;
                 $scope.mostrarPng = false;
-                $scope.media = "../../sidelink/backend/" + mensaje.imgurl;
+                $scope.media = "../../Liryc/backend/" + mensaje.imgurl;
               } else if (mensaje.imgurl.includes(".doc")) {
                 $scope.mostrarDocumentoDoc = true;
                 $scope.mostrarDocumentoXls = false;
@@ -799,7 +799,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
                 $scope.mostrarMediaVideo = false;
                 $scope.mostrarMediaAudio = false;
                 $scope.mostrarPng = false;
-                // down = "../../../sidelink/backend/" + mensaje.imgurl;
+                // down = "../../../Liryc/backend/" + mensaje.imgurl;
                 nombreMedia =
                   cliente.telefono.replace("@c.us", "") +
                   mensaje.fecha +
@@ -814,7 +814,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
                 $scope.mostrarMediaVideo = false;
                 $scope.mostrarMediaAudio = false;
                 $scope.mostrarPng = false;
-                // down = "../../../sidelink/backend/" + mensaje.imgurl;
+                // down = "../../../Liryc/backend/" + mensaje.imgurl;
                 nombreMedia =
                   cliente.telefono.replace("@c.us", "") +
                   mensaje.fecha +
@@ -829,7 +829,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
                 $scope.mostrarMediaVideo = false;
                 $scope.mostrarMediaAudio = false;
                 $scope.mostrarPng = false;
-                // down = "../../../sidelink/backend/" + mensaje.imgurl;
+                // down = "../../../Liryc/backend/" + mensaje.imgurl;
                 nombreMedia =
                   cliente.telefono.replace("@c.us", "") +
                   mensaje.fecha +
@@ -844,7 +844,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
                 $scope.mostrarMediaVideo = false;
                 $scope.mostrarMediaAudio = false;
                 $scope.mostrarPng = false;
-                // down = "../../../sidelink/backend/" + mensaje.imgurl;
+                // down = "../../../Liryc/backend/" + mensaje.imgurl;
                 nombreMedia =
                   cliente.telefono.replace("@c.us", "") +
                   mensaje.fecha +
@@ -853,7 +853,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
               } else if (mensaje.imgurl.includes(".png")) {
                 $scope.img = {
                   "background-image":
-                    "url(../../../sidelink/backend/" + mensaje.imgurl + ")",
+                    "url(../../../Liryc/backend/" + mensaje.imgurl + ")",
                   "background-repeat": "no-repeat",
                   "background-size": "contain",
                   "background-position": "center",
@@ -870,7 +870,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
                 $scope.mostrarPng = true;
                 $scope.mostrarMediaVideo = false;
                 $scope.mostrarMediaAudio = false;
-                // down = "../../../sidelink/backend/" + mensaje.imgurl;
+                // down = "../../../Liryc/backend/" + mensaje.imgurl;
                 nombreMedia =
                   cliente.telefono.replace("@c.us", "") +
                   mensaje.fecha +
@@ -897,10 +897,10 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
           mensaje.imgurl.includes(".jpeg") ||
           mensaje.imgurl.includes(".jfif")
         ) {
-          // down = "../../../sidelink/backend/" + mensaje.imgurl;
+          // down = "../../../Liryc/backend/" + mensaje.imgurl;
           $scope.img = {
             "background-image":
-              "url(../../../sidelink/backend/" + mensaje.imgurl + ")",
+              "url(../../../Liryc/backend/" + mensaje.imgurl + ")",
             "background-repeat": "no-repeat",
             "background-size": "contain",
             "background-position": "center",
@@ -912,7 +912,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
           if (screen.width <= 425) {
             $scope.img = {
               "background-image":
-                "url(../../../sidelink/backend/" + mensaje.imgurl + ")",
+                "url(../../../Liryc/backend/" + mensaje.imgurl + ")",
               "background-repeat": "no-repeat",
               "background-size": "contain",
               "background-position": "center",
@@ -940,7 +940,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
           $scope.mostrarDocumentoPdf = false;
           $scope.mostrarDocumentoCsv = false;
           $scope.mostrarPng = false;
-          $scope.media = "../../sidelink/backend/" + mensaje.imgurl;
+          $scope.media = "../../Liryc/backend/" + mensaje.imgurl;
         } else if (
           mensaje.imgurl.includes(".wav") ||
           mensaje.imgurl.includes(".mp3")
@@ -953,7 +953,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
           $scope.mostrarDocumentoPdf = false;
           $scope.mostrarDocumentoCsv = false;
           $scope.mostrarPng = false;
-          $scope.media = "../../sidelink/backend/" + mensaje.imgurl;
+          $scope.media = "../../Liryc/backend/" + mensaje.imgurl;
         } else if (mensaje.imgurl.includes(".doc")) {
           $scope.mostrarDocumentoDoc = true;
           $scope.mostrarDocumentoXls = false;
@@ -963,7 +963,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
           $scope.mostrarMediaVideo = false;
           $scope.mostrarMediaAudio = false;
           $scope.mostrarPng = false;
-          // down = "../../../sidelink/backend/" + mensaje.imgurl;
+          // down = "../../../Liryc/backend/" + mensaje.imgurl;
           nombreMedia =
             cliente.telefono.replace("@c.us", "") +
             mensaje.fecha +
@@ -978,7 +978,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
           $scope.mostrarMediaVideo = false;
           $scope.mostrarMediaAudio = false;
           $scope.mostrarPng = false;
-          // down = "../../../sidelink/backend/" + mensaje.imgurl;
+          // down = "../../../Liryc/backend/" + mensaje.imgurl;
           nombreMedia =
             mensaje.infoCliente.telefono.replace("@c.us", "") +
             mensaje.fecha +
@@ -993,7 +993,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
           $scope.mostrarMediaVideo = false;
           $scope.mostrarMediaAudio = false;
           $scope.mostrarPng = false;
-          // down = "../../../sidelink/backend/" + mensaje.imgurl;
+          // down = "../../../Liryc/backend/" + mensaje.imgurl;
           nombreMedia =
             cliente.telefono.replace("@c.us", "") +
             mensaje.fecha +
@@ -1008,7 +1008,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
           $scope.mostrarMediaVideo = false;
           $scope.mostrarMediaAudio = false;
           $scope.mostrarPng = false;
-          // down = "../../../sidelink/backend/" + mensaje.imgurl;
+          // down = "../../../Liryc/backend/" + mensaje.imgurl;
           nombreMedia =
             value.telefono.replace("@c.us", "") +
             mensaje.fecha +
@@ -1017,7 +1017,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
         } else if (mensaje.imgurl.includes(".png")) {
           $scope.img = {
             "background-image":
-              "url(../../../sidelink/backend/" + mensaje.imgurl + ")",
+              "url(../../../Liryc/backend/" + mensaje.imgurl + ")",
             "background-repeat": "no-repeat",
             "background-size": "contain",
             "background-position": "center",
@@ -1034,7 +1034,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
           $scope.mostrarMediaVideo = false;
           $scope.mostrarMediaAudio = false;
           $scope.mostrarPng = true;
-          // down = "../../../sidelink/backend/" + mensaje.imgurl;
+          // down = "../../../Liryc/backend/" + mensaje.imgurl;
           nombreMedia =
             value.telefono.replace("@c.us", "") +
             mensaje.fecha +
@@ -1360,7 +1360,7 @@ let pintarMensajes = (mensaje,cliente, telefono, mens)=>{
           $scope.spinner = false;
           $scope.estiloArchivo = {
             "background-image":
-              "url(../../../sidelink/backend/subir/" + $scope.mensaje + ")",
+              "url(../../../Liryc/backend/subir/" + $scope.mensaje + ")",
             "background-position": "center",
             "background-repeat": "no-repeat",
             "background-size": "contain",

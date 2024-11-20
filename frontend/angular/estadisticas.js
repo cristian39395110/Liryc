@@ -1252,7 +1252,7 @@ $scope.showAreas = true;
   if(ruta == 'sidebot'){
     $scope.showTiempoReal = false;
     $scope.showAreas = true;
-    $window.location.href = redireccionar+'sidelink/frontend/';
+    $window.location.href = redireccionar+'Liryc/frontend/';
     $scope.sidebotClass = 'menuNavActive';
     $scope.areasClass = 'menuNavActive';
     $scope.tiempoRealClass = '';

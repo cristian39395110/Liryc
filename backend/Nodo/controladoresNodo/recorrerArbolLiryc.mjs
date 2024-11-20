@@ -40,6 +40,7 @@ let planCliente = {};
 export let habilitarFoto = {};
 export let habilitarNombre = {};
 export let habilitarPass = {};
+const intentosPorCliente = {};
 const tecnico = {};
 export const recorrerArbol = async (telefono, nodoActual, mensaje, datos, menuActual, numeroActual, opcion, instancia, contact, menuFinal, otros, mensajeCompleto) => {
   // console.log(mensajeCompleto, " mensaje en recorrer arbol")
@@ -70,40 +71,93 @@ En minutos se pondrán en contacto con vos!
     return {notificaOperador: true, datos: {}, menu: menuActual}
     }
       
-  }else if (menuActual === 'confirmarDatosClienteIspCube' ) {
-     tecnico[telefono]=await verificarSiEsTecnico(mensaje || datos);
+  }else if (menuActual === 'confirmarDatosClienteIspCube') { 
+    const maxIntentos = 3; // Máximo de intentos permitidos
+    const regex = /^\d+$/; // Expresión regular para validar solo números
+    const mensajesIntentos = [
+        "Parece que hubo un error. Recuerde ingresar solo su DNI o CUIT en números.",
+        "Por favor, verifique e intente ingresar solo su DNI o CUIT en números.",
+        "Último intento: asegúrese de ingresar solo los números de su DNI o CUIT, sin letras ni símbolos."
+    ];
+    const mensajesNoEncontrado = [
+        "No encontramos su DNI o CUIT en nuestros registros. Verifique y vuelva a intentarlo.",
+        "Aún no encontramos su DNI o CUIT. Asegúrese de que sea correcto.",
+        "Último intento: no se encontró su DNI o CUIT. Por favor, verifique nuevamente."
+    ];
+
+    // Función para validar solo números
+    const esNumeroValido = (input) => regex.test(input);
+
+    // Inicializar contador de intentos para el cliente si no existe
+    if (!intentosPorCliente[telefono]) {
+        intentosPorCliente[telefono] = 0;
+    }
+
+    // Verificar si el mensaje contiene solo números
+    if (!esNumeroValido(mensaje)) {
+        intentosPorCliente[telefono] += 1;
+
+        // Verificar si se alcanzó el límite de intentos
+        if (intentosPorCliente[telefono] > maxIntentos) {
+            intentosPorCliente[telefono] = 0; // Restablecer el contador
+            guardarNodoActual(telefono, "clienteConfirmaIspError", numeroActual, "", opcion, instancia, menuFinal, otros);
+            client.sendMessage(telefono, "Lo siento. Por favor, intente más tarde.");
+            comprobarTelefono(telefono, "admin");
+            limpiarTelefonoMenuCliente(telefono);
+            return { notificaOperador: true, datos: "ERROR_DNI", menu: menuActual };
+        }
+
+        // Notificar al cliente sobre el error y mostrar mensaje correspondiente
+        client.sendMessage(telefono, mensajesIntentos[intentosPorCliente[telefono] - 1]);
+        return { notificaOperador: false, datos: {}, menu: menuActual };
+    }
+
+    // Verificar si el cliente es técnico
+    tecnico[telefono] = await verificarSiEsTecnico(mensaje || datos);
 
     if (tecnico[telefono]) {
-      // Si es técnico, manejar como técnico
-
-      guardarNodoActual(telefono, "tecnicoLogeado", 'opciontecnico', '', 'logeado', "tecnicoConfirmado",menuFinal,otros);
-      
-      enviarRespuesta(telefono, tecnicoLogeado.respuesta=`👨‍🔧 *Bienvenido al Área Técnica, ${tecnico[telefono].name}* 👋
+        // Manejar caso técnico
+        guardarNodoActual(telefono, "tecnicoLogeado", 'opciontecnico', '', 'logeado', "tecnicoConfirmado", menuFinal, otros);
+        enviarRespuesta(telefono, tecnicoLogeado.respuesta = `👨‍🔧 *Bienvenido al Área Técnica, ${tecnico[telefono].name}* 👋
 
 ¿Cómo puedo ayudarte hoy?
 
 1️⃣ *Cargar cliente*  
-2️⃣ *Habilitar conexión*`); 
-
-      return { notificaOperador: false,datos: {}, menu: 'tecnicoLogeado'};
+2️⃣ *Habilitar conexión*`);
+        return { notificaOperador: false, datos: {}, menu: 'tecnicoLogeado' };
     } else {
+        // Intentar loguear al cliente
+        const clienteLogeado = await logearClienteIspCube(telefono, mensaje, datos);
+        if (clienteLogeado.success) {
+            const datos = clienteLogeado.clientData;
 
-    const clienteLogeado = await logearClienteIspCube(telefono, mensaje, datos);
-    if (clienteLogeado.success) {
-      const datos = clienteLogeado.clientData;
+            guardarNodoActual(telefono, "clienteConfirmaIspOk", numeroActual, mensaje, datos.status, "clienteConfirmaIspOk", 'logeado', datos.id);
+            client.sendMessage(telefono, encuentraDNIMensaje(datos));
+            setTimeout(() => { client.sendMessage(telefono, opcionEsClienteLogeado.respuesta); }, 1500);
 
-      guardarNodoActual(telefono, "clienteConfirmaIspOk",numeroActual, mensaje, datos.status,"clienteConfirmaIspOk", 'logeado', datos.id);
-      client.sendMessage(telefono,encuentraDNIMensaje(datos));
-      setTimeout(() => {client.sendMessage(telefono, opcionEsClienteLogeado.respuesta);}, 1500);
-    } else {
-      guardarNodoActual(telefono, "clienteConfirmaIspError",numeroActual, "", opcion,instancia, menuFinal, otros);
-      client.sendMessage(telefono, noEncuentraDNI);
-      comprobarTelefono(telefono, "ventas");
-      limpiarTelefonoMenuCliente(telefono);
-      return {notificaOperador: true, menu: menuActual, datos: 'DNI NO ENCONTRADO'};
+            // Restablecer contador de intentos al loguear exitosamente
+            intentosPorCliente[telefono] = 0;
+        } else {
+            // Incrementar intentos al no encontrar cliente
+            intentosPorCliente[telefono] += 1;
+
+            // Verificar si se alcanzó el límite de intentos
+            if (intentosPorCliente[telefono] > maxIntentos) {
+                intentosPorCliente[telefono] = 0; // Restablecer contador
+                guardarNodoActual(telefono, "clienteConfirmaIspError", numeroActual, "", opcion, instancia, menuFinal, otros);
+                client.sendMessage(telefono, "Lo sentimos, no encontramos su DNI o CUIT en nuestros registros.");
+                comprobarTelefono(telefono, "ventas");
+                limpiarTelefonoMenuCliente(telefono);
+                return { notificaOperador: true, datos: "DNI NO ENCONTRADO", menu: menuActual };
+            }
+
+            // Notificar al cliente que no se encontró el DNI o CUIT
+            client.sendMessage(telefono, mensajesNoEncontrado[intentosPorCliente[telefono] - 1]);
+            return { notificaOperador: false, datos: {}, menu: menuActual };
+        }
     }
-  }
 }
+
    else {
       if(mensaje === '0' && datos.length >= 7){
 enviarRespuesta(telefono, 
@@ -187,7 +241,7 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
         mensaje = "1";
       }
         
-//-----------------------------------------------------------------------------------------------------------
+//--------------------------------------------------Nuevi Eduardo---------------------------------------------------------
 
 if(menuActual === 'tecnicoLogeadoOpcion1'){  // vuelve al menu despues mostrar factura
   nodoActual = arbolRespuestas;
@@ -230,6 +284,7 @@ if(menuActual === 'tecnicoLogeadoPlan'){  // vuelve al menu despues mostrar fact
   numeroActual = '6';
  
   planCliente[telefono]=mensajeCompleto.body;
+  enviarRespuesta(telefono,`✅ Los datos del cliente se han almacenado correctamente en el sistema.`);
   comprobarTelefono(telefono, "tecnico");
   limpiarTelefonoMenuCliente(telefono);
   return {notificaOperador: true,datos: {nombreCliente, direccionCliente, telefonoCliente,telefono2Cliente,emailCliente,planCliente, tecnico}, menu: menuActual };;
@@ -263,23 +318,9 @@ if(menuActual === 'tecnicoLogeadoPassWifi'){  // vuelve al menu despues mostrar 
 //limpiarTelefonoMenuCliente(telefono);
 //return {notificaOperador: true,datos: {habilitarFoto, habilitarNombre, habilitarPass}, menu: 'tecnicoLogeadoRedWifi' };
 
-}if(menuActual === 'tecnicoLogeadoDatosCargados'){  // vuelve al menu despues mostrar factura
-  nodoActual = arbolRespuestas;
- // menuActual = 'tecnicoLogeadoEmail';
-  numeroActual = '4';
-  //mensaje = "5";
-//habilitarPass[telefono]=mensajeCompleto._data.body;
-
-
 }
 //------------------------------NUEVO lYRIC--------------------------------------------
-// if(menuActual === 'raiz'){  // vuelve al menu despues mostrar factura
-//   nodoActual = arbolRespuestas;
-//   menuActual='raiz'
-//   numeroActual = '1';
-//   mensaje = "1";
-// }
-//------------------------------------------------------------------------------------------------
+
       if(menuActual === 'opcionComprobante'){
         if (mensajeCompleto.type !== 'chat'){
             //si posee imagen o archivo, informar que se registro comprobante

@@ -1,3 +1,2 @@
-2024/11/15-10:56:37.225 2004 Reusing MANIFEST C:\xampp\htdocs\Liryc\.wwebjs_auth\session\Default\Site Characteristics Database/MANIFEST-000001
-2024/11/15-10:56:37.226 2004 Recovering log #3
-2024/11/15-10:56:37.226 2004 Reusing old log C:\xampp\htdocs\Liryc\.wwebjs_auth\session\Default\Site Characteristics Database/000003.log 
+2024/11/20-14:21:51.675 2f44 Creating DB C:\xampp\htdocs\Liryc\.wwebjs_auth\session\Default\Site Characteristics Database since it was missing.
+2024/11/20-14:21:51.700 2f44 Reusing MANIFEST C:\xampp\htdocs\Liryc\.wwebjs_auth\session\Default\Site Characteristics Database/MANIFEST-000001

@@ -1,3 +1,2 @@
-2024/11/15-10:56:37.361 3124 Reusing MANIFEST C:\xampp\htdocs\Liryc\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
-2024/11/15-10:56:37.374 3124 Recovering log #3
-2024/11/15-10:56:37.377 3124 Reusing old log C:\xampp\htdocs\Liryc\.wwebjs_auth\session\Default\Local Storage\leveldb/000003.log 
+2024/11/20-14:21:51.748 26a4 Creating DB C:\xampp\htdocs\Liryc\.wwebjs_auth\session\Default\Local Storage\leveldb since it was missing.
+2024/11/20-14:21:51.808 26a4 Reusing MANIFEST C:\xampp\htdocs\Liryc\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001

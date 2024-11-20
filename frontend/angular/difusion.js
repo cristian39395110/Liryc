@@ -284,7 +284,7 @@ bot.controller(
         $scope.showTemplateDifusion = false;
         $scope.showTemplateEncuesta = false;
         $scope.showContactos = false;
-        $window.location.href = hostWeb + "/sidelink/frontend/";
+        $window.location.href = hostWeb + "/Liryc/frontend/";
         $scope.sidebotClass = "menuNavActive";
         $scope.notifyCrearClass = "";
         $scope.estadisticasClass = "";

@@ -165,6 +165,10 @@ Datos Nuevos Del Cliente:
     }  else if (resp.menu === "tecnicoLogeadoDatosCargados") {
       
       msj =``
+      
+    }else if (resp.menu === `confirmarDatosClienteIspCube`) {
+      mensaje.body = `Error en el DNI ingresado:
+      Se detectó que el usuario ingresó texto ("${msj}") en lugar de un número de DNI válido.`;
     } else {
     msj !== '0' ? respuestaNoEncontrada(telefono, contact) : false
     }

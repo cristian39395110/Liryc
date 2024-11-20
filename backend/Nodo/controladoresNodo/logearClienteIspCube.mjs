@@ -117,7 +117,7 @@ console.log("intentos "+intentos)
     if (response.data.message === 'Cliente no encontrado' || response.data.phone === '') {
       // Si no encuentra el cliente y aún no hemos alcanzado el máximo de intentos
       if (intentos < 3) {
-        console.log(`Intento ${intentos} fallido. Reintentando...`);
+      //  console.log(`Intento ${intentos} fallido. Reintentando...`);
         // Llamada recursiva incrementando el contador de intentos
         return logearClienteIspCube(telefono, mensaje, datos, intentos + 1);
       } else {
