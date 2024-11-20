@@ -3,7 +3,7 @@ bot.controller("loginController", function($window, $scope, $http, $cookies,$fil
 const hostWeb = hostValue; 
     $scope.checkLogin = function(){
         if($cookies.get('rango') !== undefined){
-            $window.location.href = hostWeb+"/sidelink/frontend/index.html";
+            $window.location.href = hostWeb+"/Liryc/frontend/index.html";
         }
     }
 
@@ -24,7 +24,7 @@ const hostWeb = hostValue;
                 $cookies.put('rango', $scope.usuarioCorrecto[0].rango);           
                 $cookies.put('usuario', $scope.usuarioCorrecto[0].nombre);
                 $timeout(function(){
-                    $window.location.href = hostWeb+"/sidelink/frontend/index.html";
+                    $window.location.href = hostWeb+"/Liryc/frontend/index.html";
                 },1000);
                 
             }

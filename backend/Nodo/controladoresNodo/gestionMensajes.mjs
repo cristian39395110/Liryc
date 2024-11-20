@@ -139,9 +139,33 @@ async function gestionarChatBot(telefono, msj, contact, mensaje) {
           : `*Opción:\n- Cliente no tiene internet-\n${resp.datos.tipodeinternet}
          `
       }`; 
-    }
-    
-    else {
+    }else if (resp.menu === 'tecnicoLogeadoPlan') {
+      mensaje.body = `Técnico que tomó los datos:
+
+- ID: ${resp.datos.tecnico[telefono].id}
+- Nombre: ${resp.datos.tecnico[telefono].name}
+- Rol: ${resp.datos.tecnico[telefono].rol}
+- Email: ${resp.datos.tecnico[telefono].email}
+
+---------------------------------------
+Datos Nuevos Del Cliente:
+
+- Nombre: 
+      * ${resp.datos.nombreCliente[telefono]} *
+- Dirección: 
+      * ${resp.datos.direccionCliente[telefono]} *
+- Teléfono: 
+      * ${resp.datos.telefonoCliente[telefono]} *
+- Teléfono Alternativo: 
+      * ${resp.datos.telefono2Cliente[telefono]} *
+- Email: 
+      * ${resp.datos.emailCliente[telefono]} *
+- Plan: 
+      * ${resp.datos.planCliente[telefono]} *`; 
+    }  else if (resp.menu === "tecnicoLogeadoDatosCargados") {
+      
+      msj =``
+    } else {
     msj !== '0' ? respuestaNoEncontrada(telefono, contact) : false
     }
   }

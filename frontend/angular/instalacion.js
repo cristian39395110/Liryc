@@ -48,7 +48,7 @@ bot.controller(
 
     function checkLogin() {
       if (rangoUsuario == undefined) {
-        $window.location.href = hostWeb + "/sidelink/frontend/login.html";
+        $window.location.href = hostWeb + "/Liryc/frontend/login.html";
       }
     }
       $scope.refrecarContactos = function(){
@@ -70,7 +70,7 @@ bot.controller(
      */
     $scope.navMenu = function (menu) {
       if (menu === "chat") {
-        $window.location.href = hostWeb + "/sidelink/frontend/";
+        $window.location.href = hostWeb + "/Liryc/frontend/";
       } else if (menu === "crear" && $scope.mostrarCrearTicket == false) {
         $scope.tituloTickets = " ";
         $scope.mostrarMisTickets = false;

@@ -3,73 +3,205 @@ import { Nodo } from "../nodo.mjs";
 // Construcción del árbol de respuestas
 
 export const arbolRespuestas = new Nodo( // raiz
-"raiz",
-`¡Hola! 
+  "raiz",
+  `¡Hola! 
 Soy la asistente virtual de Nuevanet, Para agilizar tu consulta:
 
 *_por favor elige una opción ingresando el número correspondiente:_*
 1️⃣ SOY CLIENTE
 2️⃣ QUIERO SER CLIENTE`,
-"hola",
-false,
-"",
-false,
-true,
-false,
-"",
+  "hola",
+  false,
+  "",
+  false,
+  true,
+  false,
+  ""
 );
 
 export const opcionEsCliente = new Nodo(
-"opcionEsCliente",
-`*_Por favor ingrese su número de DNI O CUIT_*`,
-"1",
-false,
-"",
-false,
-true,
-false,
-"",
+  "opcionEsCliente",
+  `*_Por favor ingrese su número de DNI O CUIT_*`,
+  "1",
+  false,
+  "",
+  false,
+  true,
+  false,
+  ""
+);
+///////////////Nodos EDUARDO//////////////////////////////////////////////////////
+export const tecnicoLogeado = new Nodo(
+  "tecnicoLogeado",
+  `Bienvenido`,
+  "opciontecnico",
+  false,
+  "",
+  false,
+  false,
+  true,
+  ""
+);
+export const tecnicoLogeadoOpcion1 = new Nodo(
+  "tecnicoLogeadoOpcion1",
+  `Por favor, ingrese los datos del cliente en el siguiente orden:
+
+1️⃣ *Nombre Completo*`,
+  "1",
+  false,
+  "",
+  false,
+  true,
+  false,
+  ""
+);
+export const tecnicoLogeadoDireccion = new Nodo(
+  "tecnicoLogeadoDireccion",
+  `2️⃣ *Dirección*`,
+  "2",
+  false,
+  "",
+  false,
+  true,
+  false,
+  ""
+);
+export const tecnicoLogeadoTelefono = new Nodo(
+  "tecnicoLogeadoTelefono",
+  `3️⃣ *Teléfono Principal*`,
+  "3",
+  false,
+  "",
+  false,
+  true,
+  false,
+  ""
+);
+export const tecnicoLogeadoTelefono2 = new Nodo(
+  "tecnicoLogeadoTelefono2",
+  `4️⃣ *Teléfono Secundario (opcional)*`,
+  "4",
+  false,
+  "",
+  false,
+  true,
+  false,
+  ""
+);
+export const tecnicoLogeadoEmail = new Nodo(
+  "tecnicoLogeadoEmail",
+  `5️⃣ *Correo Electrónico*`,
+  "5",
+  false,
+  "",
+  false,
+  true,
+  false,
+  ""
+);
+export const tecnicoLogeadoPlan = new Nodo(
+  "tecnicoLogeadoPlan",
+  `6️⃣ *Plan Seleccionado*`,
+  "6",
+  false,
+  "",
+  true,
+  true,
+  false,
+  ""
 );
 
 
+
+export const tecnicoLogeadoOpcion2 = new Nodo(
+  "tecnicoLogeadoOpcion2",
+  `Habilitar
+Por favor, proporcione los siguientes datos para completar el proceso:
+
+1️⃣- 📶 *Nombre de la Red WiFi*
+`,
+  "2",
+  false,
+  "",
+  false,
+  true,
+  false,
+  ""
+);
+export const tecnicoLogeadoRedWifi = new Nodo(
+  "tecnicoLogeadoRedWifi",
+  `2️⃣- 🔑 *Contraseña de la Red WiFi*  
+
+`,
+  "3",
+  false,
+  "",
+  false,
+  true,
+  false,
+  ""
+);
+export const tecnicoLogeadoPassWifi = new Nodo(
+  "tecnicoLogeadoPassWifi",
+  `3️⃣- 📸 *Foto de MAC*
+`,
+  "4",
+  false,
+  "tecnico",
+  false,
+  true,
+  false,
+  ""
+);
+export const tecnicoLogeadoDatosCargados = new Nodo(
+  "tecnicoLogeadoDatosCargados",
+  `✅ *Datos Cargados a la Área Técnica*
+`,
+  "5",
+  true,
+  "tecnico",
+  true,
+  true,
+  false,
+  ""
+);
+///////////////Nodos EDUARDO//////////////////////////////////////////////////////
 const opcionQuieroSerCliente = new Nodo(
-"Quiero ser cliente!",
-`
+  "Quiero ser cliente!",
+  `
 📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
 🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Nuevanet 👩‍🦰  `,
-"2",
-true,
-"ventas",
-true,
-false,
-false,
-"",
+  "2",
+  true,
+  "ventas",
+  true,
+  false,
+  false,
+  ""
 );
 
 export const opcionEsClienteLogeado = new Nodo(
-"opcionEsClienteLogeado",
-`
+  "opcionEsClienteLogeado",
+  `
 ¿En que puedo ayudarte?
 
 por favor elige una opción ingresando el número correspondiente:
 1️⃣ SOPORTE TECNICO
 2️⃣ VENTAS
 3️⃣ ADMINISTRACION/FACTURACION`,
-'logeado',
-false,
-'',
-false,
-false,
-false,
-''
-)
-
-
+  "logeado",
+  false,
+  "",
+  false,
+  false,
+  false,
+  ""
+);
 
 const noTengoInternet = new Nodo(
-"noTengoInternet",
-`
+  "noTengoInternet",
+  `
 👩‍💼 Bienvenido/a al departamento de *Soporte Técnico*
 
 🔴 Recuerde veriﬁcar las conexiones de sus equipos 💻.
@@ -81,39 +213,39 @@ const noTengoInternet = new Nodo(
 2️⃣ Inconvenientes en el servicio
 3️⃣ Sin servicio
 0️⃣ Volver al menú principal`,
-"1",
-false,
-"",
-false,
-false,
-true,
-"",
+  "1",
+  false,
+  "",
+  false,
+  false,
+  true,
+  ""
 );
 
 const consultaTecnica = new Nodo(
-"Consulta tecnica",
-`📌 Ingrese su consulta
+  "Consulta tecnica",
+  `📌 Ingrese su consulta
 Ingrese solo TEXTO para su consulta o reclamo. (No acepta audios ni imágenes)`,
-"1",
-false,
-"",
-false,
-true,
-false,
-"",
+  "1",
+  false,
+  "",
+  false,
+  true,
+  false,
+  ""
 );
 
 const InconvenientesConElServicio = new Nodo(
-"InconvenientesConElServicio",
-`📌 Comente brevemente su inconveniente
+  "InconvenientesConElServicio",
+  `📌 Comente brevemente su inconveniente
 Ingrese solo TEXTO para su consulta o reclamo .(No acepta audios ni imágenes)`,
-"2",
-false,
-"",
-false,
-true,
-false,
-"",
+  "2",
+  false,
+  "",
+  false,
+  true,
+  false,
+  ""
 );
 const DerivaInconvenientesConElServicio = new Nodo(
   "DerivaInconvenientesConElServicio",
@@ -126,49 +258,48 @@ En minutos se pondrán en contacto con vos!
   true,
   false,
   false,
-  "",
-  );
-  
+  ""
+);
 
 const sinServicio = new Nodo(
-"sinServicio",
-`Por favor indícanos con que servicio contas en tu domicilio.
+  "sinServicio",
+  `Por favor indícanos con que servicio contas en tu domicilio.
 1️⃣ Fibra Óptica
 2️⃣ Antena`,
-"3",
-false,
-"",
-false,
-false,
-true,
-"",
+  "3",
+  false,
+  "",
+  false,
+  false,
+  true,
+  ""
 );
 
 const ArraydeServicio = new Nodo(
   "usuario fibra o antena",
   `📌 Ingrese su consulta
 Ingrese solo TEXTO para su consulta o reclamo. (No acepta audios ni imágenes)`,
-  ["1","2"],
+  ["1", "2"],
   false,
   "",
   false,
   true,
   false,
-  "",
-  );
-  const DerivaArraydeServicio = new Nodo(
-    "DerivaArraydeServicio",
-    `📡 Derivé tu consulta a uno de nuestros representantes
+  ""
+);
+const DerivaArraydeServicio = new Nodo(
+  "DerivaArraydeServicio",
+  `📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
 🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Nuevanet 👩‍🦰`,
-    "1",
-    true,
-    "tecnico",
-    true,
-    false,
-    true,
-    "",
-    );
+  "1",
+  true,
+  "tecnico",
+  true,
+  false,
+  true,
+  ""
+);
 const consultaSinServicio = new Nodo(
   "consultaSinServicio",
   `📌 Ingrese su consulta
@@ -179,21 +310,21 @@ Ingrese solo TEXTO para su consulta o reclamo. (No acepta audios ni imágenes)`,
   false,
   true,
   false,
-  "",
-  );
-  const DerivaconsultaSinServicio = new Nodo(
-    "DerivaconsultaSinServicio",
-    `📡 Derivé tu consulta a uno de nuestros representantes
+  ""
+);
+const DerivaconsultaSinServicio = new Nodo(
+  "DerivaconsultaSinServicio",
+  `📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
 🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Nuevanet 👩‍🦰`,
-    "1",
-    true,
-    "tecnico",
-    true,
-    true,
-    false,
-    "",
-    );
+  "1",
+  true,
+  "tecnico",
+  true,
+  true,
+  false,
+  ""
+);
 
 const ServicioDeriva = new Nodo(
   "ServicioDeriva",
@@ -206,12 +337,12 @@ En minutos se pondrán en contacto con vos!
   true,
   false,
   false,
-  "",
-  );
+  ""
+);
 
 const IntalarTVDigitalSensa = new Nodo(
-"Intalar TV Digital Sensa",
-`
+  "Intalar TV Digital Sensa",
+  `
 📺 Le paso un instructivo para instalar la app de TV digital SENSA 
 ➡️ https://www.youtube.com/watch?v=PNhLckaJzP8&t=52s&pp=ygUHc2lkZWNvbQ%3D%3D
 
@@ -219,34 +350,34 @@ Para generar rapidamente el usuario y contraseña te voy a pedir la marca y mode
 
 En minutos se pondrán en contacto con vos!
 🙆‍♀️ ¡Gracias por elegirnos! *Te saluda tu asistente, SIDE 👩‍🦰*`,
-"4",
-true,
-"tecnico",
-true,
-false,
-false,
-"",
+  "4",
+  true,
+  "tecnico",
+  true,
+  false,
+  false,
+  ""
 );
 
 const instalacionPendiente = new Nodo(
-"instalacionPendiente",
-`📡 *Derivé tu consulta a uno de nuestros representantes*
+  "instalacionPendiente",
+  `📡 *Derivé tu consulta a uno de nuestros representantes*
 En minutos se pondrán en contacto con vos!
 🙆‍♀️ ¡Gracias por elegirnos! *Te saluda tu asistente, SIDE 👩‍🦰*`,
-"5",
-true,
-"tecnico",
-true,
-false,
-false,
-"",
+  "5",
+  true,
+  "tecnico",
+  true,
+  false,
+  false,
+  ""
 );
-export const muestraFactura = obj => {
+export const muestraFactura = (obj) => {
   return `🧾 Le enviamos a continuación el detalle de su ultima factura.
-${obj}`
-}
+${obj}`;
+};
 
-export const errorNoEncuentraFactura = `🧾 *Lamentablementente no pude encontrar tu ultima factura. *`
+export const errorNoEncuentraFactura = `🧾 *Lamentablementente no pude encontrar tu ultima factura. *`;
 
 export const menuVolver = `👩‍🦰 ¿Te puedo ayudar en algo más?
 
@@ -257,19 +388,18 @@ Por favor, elige una opción ingresando el número correspondiente:
 4️⃣ Informar promesa de pago.
 5️⃣ Otras consultas
 
-0️⃣ Volver al menú principall` 
+0️⃣ Volver al menú principall`;
 
 export const menuPrincipal = `👩‍🦰 ¿En que puedo ayudarte?
 
 por favor elige una opción ingresando el número correspondiente:
 1️⃣ SOPORTE TECNICO
 2️⃣ VENTAS
-3️⃣ ADMINISTRACION/FACTURACION`   
+3️⃣ ADMINISTRACION/FACTURACION`;
 
-
-const   administracion = new Nodo(
-'administracion',
-`
+const administracion = new Nodo(
+  "administracion",
+  `
 👩‍💼 Bienvenido/a al departamento administrativo.
 ¿En qué te puedo ayudar?
 
@@ -282,33 +412,32 @@ const   administracion = new Nodo(
 
 0️⃣ Volver al menú principal
 `,
-'3',
-false,
-'',
-false,
-false,
-false,
-''
+  "3",
+  false,
+  "",
+  false,
+  false,
+  false,
+  ""
 );
 
-
 const opcionReenvioFactura = new Nodo(
-'facturacion',
-`📡 *Derivé tu consulta a uno de nuestros representantes*
+  "facturacion",
+  `📡 *Derivé tu consulta a uno de nuestros representantes*
 En minutos se pondrán en contacto con vos!
 🙆‍♀️ ¡Gracias por elegirnos! *Te saluda tu asistente, SIDE 👩‍🦰*`,
-"1",
-false,
-'',
-false,
-false,
-false,
-''
+  "1",
+  false,
+  "",
+  false,
+  false,
+  false,
+  ""
 );
 
 const opcionMediosDePago = new Nodo(
-'opcionMediosDePago',
-`🏦 Su alias para hacer depósitos/transferencias en Siro es:
+  "opcionMediosDePago",
+  `🏦 Su alias para hacer depósitos/transferencias en Siro es:
 {ALIAS DE SIRO}
 🚫 Recuerde que este alias es personal e intransferible.
 
@@ -324,72 +453,70 @@ Por favor, elige una opción ingresando el número correspondiente:
 5️⃣ Otras consultas
 
 0️⃣ Volver al menú principal`,
-'2',
-false,
-'',
-false,
-false,
-false,
-''
+  "2",
+  false,
+  "",
+  false,
+  false,
+  false,
+  ""
 );
 
 const opcionComprobante = new Nodo(
-'opcionComprobante',
-`*Por favor, envie una foto de los comprobantes de pago*`,
-'3',
-false,
-'',
-false,
-true,
-false,
-'true'
+  "opcionComprobante",
+  `*Por favor, envie una foto de los comprobantes de pago*`,
+  "3",
+  false,
+  "",
+  false,
+  true,
+  false,
+  "true"
 );
 
-
 const opcionPromesaDePago = new Nodo(
-'opcionPromesaDePago',
-`📡 Derivé tu consulta a uno de nuestros representantes
+  "opcionPromesaDePago",
+  `📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
 🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente, de Nuevanet 👩‍🦰`,
-"4",
-true,
-"tecnico",
-true,
-false,
-false,
-"",
+  "4",
+  true,
+  "tecnico",
+  true,
+  false,
+  false,
+  ""
 );
 
 const opcionConsultasAdministracion = new Nodo(
-'opcionConsultasAdministracion',
-`📡 Derivé tu consulta a uno de nuestros representantes
+  "opcionConsultasAdministracion",
+  `📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
 🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente, de Nuevanet 👩‍🦰`,
-"5",
-true,
-"tecnico",
-true,
-false,
-false,
-"",
+  "5",
+  true,
+  "tecnico",
+  true,
+  false,
+  false,
+  ""
 );
 
 const ventasLogeado = new Nodo(
-'ventasLogeado',
-`
+  "ventasLogeado",
+  `
 📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
 🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Nuevanet 👩‍🦰*
 `,
-'2',
-true,
-'ventas',
-false,
-false,
-false,
-''
+  "2",
+  true,
+  "ventas",
+  false,
+  false,
+  false,
+  ""
 );
-
 
 // const ventaSensa = new Nodo(
 // "ventaSensa",
@@ -422,22 +549,28 @@ export const noEncuentraDNI = `*Estoy teniendo algunos problemas para encontrar 
   *Para asegurarte la mejor atención, te voy a derivar a un operador para que pueda asistirte.*
   
   *En minutos se pondrán en contacto con vos!*
-  *Te saluda tu asistente virtual de Nuena Net 👩‍🦰*`
+  *Te saluda tu asistente virtual de Nuena Net 👩‍🦰*`;
 
-export const encuentraDNIMensaje = cliente => { 
-return `*Hola ${cliente.name}!*
-El estado de su cuenta es: *${cliente.debt !== '0.00' ? '$'+cliente.debt : '$'+cliente.duedebt}*
-El estado de tu servicio es: *${cliente.status === 'enabled' ? 'Conectado ✅' : cliente.status === 'blocked' ? 'Suspendido por falta de pago ⛔' : 'Sin conexion ❌'}*`
-}
+export const encuentraDNIMensaje = (cliente) => {
+  return `*Hola ${cliente.name}!*
+El estado de su cuenta es: *${
+    cliente.debt !== "0.00" ? "$" + cliente.debt : "$" + cliente.duedebt
+  }*
+El estado de tu servicio es: *${
+    cliente.status === "enabled"
+      ? "Conectado ✅"
+      : cliente.status === "blocked"
+      ? "Suspendido por falta de pago ⛔"
+      : "Sin conexion ❌"
+  }*`;
+};
 
-arbolRespuestas.addOpcion(opcionEsCliente);
-arbolRespuestas.addOpcion(opcionQuieroSerCliente);
+arbolRespuestas.addOpcion(tecnicoLogeado);
+//arbolRespuestas.addOpcion(opcionQuieroSerCliente);
 
 arbolRespuestas.addOpcion(opcionEsClienteLogeado);
 // opcionEsClienteLogeado.addOpcion(opcionCobranza);
 // opcionEsClienteLogeado.addOpcion(opcionSoporteTecnico);
-
-
 
 opcionEsClienteLogeado.addOpcion(noTengoInternet);
 opcionEsClienteLogeado.addOpcion(ventasLogeado);
@@ -449,8 +582,6 @@ administracion.addOpcion(opcionReenvioFactura);
 administracion.addOpcion(opcionPromesaDePago);
 administracion.addOpcion(opcionConsultasAdministracion);
 
-
-
 // ventasLogeado.addOpcion(ventaSensa);
 // ventasLogeado.addOpcion(ventaInternet);
 
@@ -458,22 +589,26 @@ noTengoInternet.addOpcion(consultaTecnica);
 noTengoInternet.addOpcion(InconvenientesConElServicio);
 noTengoInternet.addOpcion(sinServicio);
 
+InconvenientesConElServicio.addOpcion(DerivaInconvenientesConElServicio); // caso 2
 
-InconvenientesConElServicio.addOpcion(DerivaInconvenientesConElServicio);// caso 2
-
-
-consultaTecnica.addOpcion(consultaSinServicio);// caso 1
-consultaSinServicio.addOpcion(DerivaconsultaSinServicio);//caso 1
-
+consultaTecnica.addOpcion(consultaSinServicio); // caso 1
+consultaSinServicio.addOpcion(DerivaconsultaSinServicio); //caso 1
 
 sinServicio.addOpcion(ArraydeServicio);
 ArraydeServicio.addOpcion(DerivaArraydeServicio);
 
+tecnicoLogeado.addOpcion(tecnicoLogeadoOpcion1);
+tecnicoLogeadoOpcion1.addOpcion(tecnicoLogeadoDireccion);
+tecnicoLogeadoDireccion.addOpcion(tecnicoLogeadoTelefono);
+tecnicoLogeadoTelefono.addOpcion(tecnicoLogeadoTelefono2);
+tecnicoLogeadoTelefono2.addOpcion(tecnicoLogeadoEmail)
+tecnicoLogeadoEmail.addOpcion(tecnicoLogeadoPlan)
 
+tecnicoLogeado.addOpcion(tecnicoLogeadoOpcion2)
+tecnicoLogeadoOpcion2.addOpcion(tecnicoLogeadoRedWifi)
+tecnicoLogeadoRedWifi.addOpcion(tecnicoLogeadoPassWifi)
+tecnicoLogeadoPassWifi.addOpcion(tecnicoLogeadoDatosCargados)
+//tecnicoLogeadoPlan.addOpcion(tecnicoLogeadoDeriva)
 //consultaSinServicio.addOpcion(DerivaconsultaSinServicio);
 
 //sinServicio.addOpcion(ServicioDeriva);
-
-
-
-

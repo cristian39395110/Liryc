@@ -52,7 +52,7 @@ $scope.iniciarApp = () =>{
 
 function checkLogin(){
     if(rangoUsuario == undefined){
-        $window.location.href = hostWeb+"/sidelink/frontend/login.html";
+        $window.location.href = hostWeb+"/Liryc/frontend/login.html";
     }
 }
 
@@ -64,7 +64,7 @@ function checkLogin(){
  */
 $scope.navMenu = function(menu){
     if(menu === 'chat'){
-        $window.location.href = hostWeb+'/sidelink/frontend/';
+        $window.location.href = hostWeb+'/Liryc/frontend/';
     }else if(menu === 'crear' && $scope.mostrarCrearTicket == false){
         $scope.tituloTickets = " - Crear Ticket";
         $scope.mostrarMisTickets = false;
