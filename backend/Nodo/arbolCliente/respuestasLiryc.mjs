@@ -50,7 +50,8 @@ false,
 export const opcionEsClienteLogeado = new Nodo(
 "opcionEsClienteLogeado",
 `
-¿En que puedo ayudarte?
+👩‍💼 Bienvenido/a al departamento administrativo.
+¿En qué te puedo ayudar?
 
 por favor elige una opción ingresando el número correspondiente:
 1️⃣ SOPORTE TECNICO
@@ -254,8 +255,29 @@ Por favor, elige una opción ingresando el número correspondiente:
 1️⃣ Reenvio de factura.
 2️⃣ Conocer medios de pago.
 3️⃣ Informar pago.
-4️⃣ Informar promesa de pago.
-5️⃣ Otras consultas
+4️⃣ Adherir a debito automático.
+5️⃣ Informar promesa de pago.
+6️⃣ Otras consultas
+
+0️⃣ Volver al menú principall` 
+
+export const opcionMedioMenu = `
+
+🏦 Su alias para hacer depósitos/transferencias en Siro es:
+{ALIAS DE SIRO}
+🚫 Recuerde que este alias es personal e intransferible.
+
+También puede realizar pagos en Rapipago y Pago Fácil presentando su factura.
+
+👩‍🦰 ¿En qué más te puedo ayudar?
+
+Por favor, elige una opción ingresando el número correspondiente:
+1️⃣ Reenvio de factura.
+2️⃣ Conocer medios de pago.
+3️⃣ Informar pago.
+4️⃣ Adherir a debito automático.
+5️⃣ Informar promesa de pago.
+6️⃣ Otras consultas
 
 0️⃣ Volver al menú principall` 
 
@@ -268,21 +290,54 @@ por favor elige una opción ingresando el número correspondiente:
 
 
 const   administracion = new Nodo(
-'administracion',
+  'administracion',
+  `
+  👩‍💼 Bienvenido/a al departamento administrativo.
+  ¿En qué te puedo ayudar?
+  
+  *_Por favor, elige una opción ingresando el número correspondiente:_*
+  
+  
+  1️⃣ Reenvio de factura.
+  2️⃣ Conocer medios de pago.
+  3️⃣ Informar pago.
+  4️⃣ Adherir a debito automático.
+  5️⃣ Informar promesa de pago.
+
+  
+  0️⃣ Volver al menú principal
+  
+  `,
+  '3',
+  false,
+  '',
+  false,
+  false,
+  false,
+  ''
+  );
+  
+
+const   segundaAdministracion = new Nodo(
+'segundaAdministracion',
 `
 👩‍💼 Bienvenido/a al departamento administrativo.
 ¿En qué te puedo ayudar?
 
 *_Por favor, elige una opción ingresando el número correspondiente:_*
+
+
 1️⃣ Reenvio de factura.
 2️⃣ Conocer medios de pago.
 3️⃣ Informar pago.
-4️⃣ Informar promesa de pago.
-5️⃣  Otras consultas
+4️⃣ Adherir a debito automático.
+5️⃣ Informar promesa de pago.
+6️⃣ Otras consultas
 
 0️⃣ Volver al menú principal
+
 `,
-'3',
+"777",
 false,
 '',
 false,
@@ -290,7 +345,19 @@ false,
 false,
 ''
 );
-
+const   otrasConsulta = new Nodo(
+  'otrasConsulta',
+  `📡 Derivé tu consulta a uno de nuestros representantes
+  En minutos se pondrán en contacto con vos!
+  🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente, de Nuevanet 👩‍🦰`,
+  "6",
+  true,
+  "tecnico",
+  true,
+  false,
+  false,
+  "",
+  );
 
 const opcionReenvioFactura = new Nodo(
 'facturacion',
@@ -305,6 +372,8 @@ false,
 false,
 ''
 );
+
+
 
 const opcionMediosDePago = new Nodo(
 'opcionMediosDePago',
@@ -345,13 +414,25 @@ false,
 'true'
 );
 
-
+const adherirDebitoAdministracion = new Nodo(
+  'adherirDebitoAdministracion',
+  `📡 Derivé tu consulta a uno de nuestros representantes
+  En minutos se pondrán en contacto con vos!
+  🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente, de Nuevanet 👩‍🦰`,
+  "4",
+  true,
+  "tecnico",
+  true,
+  false,
+  false,
+  "",
+  );
 const opcionPromesaDePago = new Nodo(
 'opcionPromesaDePago',
 `📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
 🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente, de Nuevanet 👩‍🦰`,
-"4",
+"5",
 true,
 "tecnico",
 true,
@@ -365,7 +446,7 @@ const opcionConsultasAdministracion = new Nodo(
 `📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
 🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente, de Nuevanet 👩‍🦰`,
-"5",
+"6",
 true,
 "tecnico",
 true,
@@ -373,6 +454,7 @@ false,
 false,
 "",
 );
+
 
 const ventasLogeado = new Nodo(
 'ventasLogeado',
@@ -448,6 +530,19 @@ administracion.addOpcion(opcionComprobante);
 administracion.addOpcion(opcionReenvioFactura);
 administracion.addOpcion(opcionPromesaDePago);
 administracion.addOpcion(opcionConsultasAdministracion);
+administracion.addOpcion(adherirDebitoAdministracion);
+administracion.addOpcion(segundaAdministracion);
+
+
+segundaAdministracion.addOpcion(opcionMediosDePago);
+segundaAdministracion.addOpcion(opcionComprobante);
+segundaAdministracion.addOpcion(opcionReenvioFactura);
+segundaAdministracion.addOpcion(opcionPromesaDePago);
+segundaAdministracion.addOpcion(opcionConsultasAdministracion);
+segundaAdministracion.addOpcion(adherirDebitoAdministracion);
+segundaAdministracion.addOpcion(otrasConsulta);
+
+
 
 
 

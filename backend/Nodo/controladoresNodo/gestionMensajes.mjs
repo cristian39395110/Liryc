@@ -114,6 +114,14 @@ async function gestionarChatBot(telefono, msj, contact, mensaje) {
           : `*Opción:\n- Problemas con el internet\n\n*Consulta:\n- ${msj}`
       }`;
     }
+    else if (resp.menu === 'adherirDebitoAdministracion') {
+      mensaje.body = `SOLICITANDO ASISTENCIA:
+      ${
+        menuActual.opcion === "" 
+          ? `*CONSULTA: Se quiere adherir al debito automatico`
+          : `*Opción:\n- Cliente se quiere adherir al debito automatico\n`
+      }`;
+    }
     else if (resp.menu === 'DerivaInconvenientesConElServicio') {
       mensaje.body = `SOLICITANDO ASISTENCIA:
       ${

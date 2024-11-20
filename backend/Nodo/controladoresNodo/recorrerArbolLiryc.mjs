@@ -9,7 +9,7 @@ import {guardarNodoActual} from "./guardarNodoActual.mjs"
 import {limpiarTelefonoMenuCliente} from "./limpiarTelefonoMenuCliente.mjs"
 import {respuestaNoEncontrada} from "../arbolCliente/respuestaNoEncontradaLiryc.mjs"
 import { devolverOpcionSeleccionada } from './devolverOpcionSeleccionadaSidecom.mjs'
-import { arbolRespuestas, noEncuentraDNI,encuentraDNIMensaje,menuVolver,opcionEsClienteLogeado, menuPrincipal } from '../arbolCliente/respuestasLiryc.mjs'
+import { arbolRespuestas, noEncuentraDNI,encuentraDNIMensaje,menuVolver,opcionEsClienteLogeado, menuPrincipal,opcionMedioMenu } from '../arbolCliente/respuestasLiryc.mjs'
 
 import { buscarNodoActual } from './buscarNodoActual.mjs'
 import { logearClienteIspCube } from './logearClienteIspCube.mjs'
@@ -110,12 +110,27 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
         numeroActual = 'logeado';
         mensaje = mensaje;
       }
-      if(menuActual === 'facturaConfirmaIspOk' ||  menuActual==="opcionMediosDePago"){  // vuelve al menu despues mostrar factura
+      if((menuActual === 'facturaConfirmaIspOk' ||  menuActual==="opcionMediosDePago") && mensaje!=="6"){  // vuelve al menu despues mostrar factura
+          nodoActual = arbolRespuestas;
+        menuActual = 'administracion';
+        numeroActual = '3';
+        mensaje ="777" ///Ymensaje;
+      }
+      
+      if((menuActual === "administracion") && (mensaje==="1") ){  // vuelve al menu despues mostrar factura
         nodoActual = arbolRespuestas;
         menuActual = 'administracion';
         numeroActual = '3';
-        mensaje = mensaje;
+        mensaje = "777";
       }
+      
+      if((menuActual === "segundaAdministracion") && mensaje==="1"){  // vuelve al menu despues mostrar factura
+        nodoActual = arbolRespuestas;
+        menuActual = 'administracion';
+        numeroActual = '3';
+        mensaje = "777";
+      }
+        
       if(menuActual === 'facturaConfirmaIsError'){  // vuelve al menu despues mostrar factura
         nodoActual = arbolRespuestas;
         menuActual = 'administracion';
@@ -176,17 +191,17 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
             //guardar mensaje en base de datos
             //guardar nodo actual para luego enviar a menu principal o finalizar chat.
             enviarRespuesta(telefono,"Registramos tu comprobante de pago!");
-            client.sendMessage(telefono,menuVolver);
+            client.sendMessage(telefono,opcionMedioMenu);
         
             //comprobarTelefono(telefono, "cobranza");
 
         }else {
             enviarRespuesta(telefono,"No pudimos registrar tu comprobante ❌Intenta nuevamente enviando una imagen, foto o archivo valido");
-            client.sendMessage(telefono,menuVolver);
+            client.sendMessage(telefono,opcionMedioMenu);
             guardarNodoActual(telefono,'informarPago','',datos,opcion,instancia,menuFinal,otros);
       
     }
-    guardarNodoActual(telefono,'administracion','3',datos,opcion,'',menuFinal,otros);
+    guardarNodoActual(telefono,'segundaAdministracion','777',datos,opcion,'',menuFinal,otros);
     return {notificaOperador: false, datos: {}, menu: "administracion"};
   }
 
@@ -197,7 +212,7 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
       let siguienteNodo = await nodoActual.buscarOpcion(menuActual, numeroActual, mensaje);
       // console.log(nodoActual)
     // console.log(siguienteNodo);
-      if (siguienteNodo !== null && siguienteNodo !== undefined) {
+        if (siguienteNodo !== null && siguienteNodo !== undefined) {
 
           if (siguienteNodo.pideOpcion) { //CAPTURA LAS OPCIONES
             //  console.log("menuActual:",menuActual, "siguiente nodo:", siguienteNodo.getMenu());
@@ -235,14 +250,29 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
              if(menuActual === 'administracion' && mensaje === '4'){ //medios de pago
               mediosDePagoIspCube(telefono, mensaje, opcion, menuFinal, otros, datos)
             }
-            else if(menuActual === 'administracion' && mensaje === '1'){ //reenvio factura
-              buscarUltimaFacturaIspCube(telefono, mensaje, opcion, menuFinal, otros, datos)
+            else if(menuActual === 'administracion' && mensaje === '777'){ //reenvio factura
+              buscarUltimaFacturaIspCube(telefono, mensaje, opcion, menuFinal, otros, datos,siguienteNodo.getMenu())
+              //guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, instancia, menuFinal, otros,siguienteNodo.getMenu());
             }
+            else if(menuActual === 'segundaAdministracion' && mensaje === '1'){ //reenvio factura
+              buscarUltimaFacturaIspCube(telefono, mensaje, opcion, menuFinal, otros, datos,siguienteNodo.getMenu())
+              //guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, instancia, menuFinal, otros,siguienteNodo.getMenu());
+            }
+
+            else if(menuActual === 'segundaAdministracion' && mensaje === '2'){ //reenvio factura
+              enviarRespuesta(telefono,opcionMedioMenu);
+
+              guardarNodoActual(telefono,'segundaAdministracion', "777", datos, opcion, instancia, menuFinal, otros,siguienteNodo.getMenu());
+              return {notificaOperador: false, datos:{}, menu: siguienteNodo.menu};
+            }
+           
         
             else{
               // FLUJO NORMAL
+              if (siguienteNodo.getMenu() !== "adherirDebitoAdministracion") {
+
               guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, instancia, menuFinal, otros);
-            
+              }
               
               if (siguienteNodo.getImagen() !== '') { // SI EL MENSAJE TIENE UNA IMAGEN ENVÍO LA IMAGEN
                   subirImagen(telefono, siguienteNodo.getImagen());
@@ -251,7 +281,9 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
                   //   //HAY QUE DARLE TIEMPO PARA QUE EL MENSAJE SE CONTESTE LUEGO DE LA IMAGEN
                   // },1800) 
               } else { // SI NO, SOLO ENVÍO EL MENSAJE
+                if (siguienteNodo.getMenu() !== "adherirDebitoAdministracion") {
                   enviarRespuesta(telefono, siguienteNodo.getRespuesta());
+                }
               }
             }
           }
@@ -270,6 +302,11 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
              if( siguienteNodo.getMenu()==="DerivaArraydeServicio"){
               return {notificaOperador: true, datos:{ tipodeinternet}, menu: siguienteNodo.menu};
              }
+             if( siguienteNodo.getMenu()==="adherirDebitoAdministracion"){
+              enviarRespuesta(telefono, siguienteNodo.getRespuesta());
+              return {notificaOperador: true, datos:{}, menu: siguienteNodo.menu};
+             }
+           
             
           }
           return {notificaOperador: false, datos:{}, menu: siguienteNodo.menu};

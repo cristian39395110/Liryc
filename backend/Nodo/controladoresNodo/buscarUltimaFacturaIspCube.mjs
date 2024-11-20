@@ -5,14 +5,14 @@ import con from "../../database/conexion.mjs";
 import axios from 'axios'
 const client = obtenerClienteDeWhatsapp(colors, false)
 
-import {errorNoEncuentraFactura} from "../arbolCliente/respuestasNuevaNet.mjs"  
-import {muestraFactura} from "../arbolCliente/respuestasNuevaNet.mjs"
-import {menuVolver} from "../arbolCliente/respuestasNuevaNet.mjs"
+  
 
-export const buscarUltimaFacturaIspCube = (telefono, mensaje, opcion, menuFinal, otros, datos) => {
+import {menuVolver,muestraFactura,errorNoEncuentraFactura} from "../arbolCliente/respuestasLiryc.mjs"
+
+export const buscarUltimaFacturaIspCube = (telefono, mensaje, opcion, menuFinal, otros, datos,siguiente) => {
   
   setTimeout(() => {
-    const url = 'http://localhost:5034/getFactura';
+    const url = 'http://localhost:5001/getFactura';
     
     const data = {
         documento: Number(datos),
@@ -23,7 +23,7 @@ export const buscarUltimaFacturaIspCube = (telefono, mensaje, opcion, menuFinal,
     guardarNodoActual(telefono, "facturaConfirmaIsError", "", datos, opcion, "", menuFinal, otros);
     client.sendMessage(telefono,errorNoEncuentraFactura);
   }else{
-    guardarNodoActual(telefono, "facturaConfirmaIspOk", "", datos, opcion, "", menuFinal, otros);
+    guardarNodoActual(telefono, siguiente, mensaje, datos, opcion, "", menuFinal, otros);
     client.sendMessage(telefono,muestraFactura(response.data));
   }
   setTimeout(() => {
