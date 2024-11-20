@@ -75,9 +75,8 @@ async function gestionarChatBot(telefono, msj, contact, mensaje) {
 
   if (msj === "hola") {
     actualizarTextoArbolRespuestas(contact.pushname);
-    return recorrerArbol(telefono, arbolRespuestas, "1", "", "hola", "hola", "", "confirmarDatosClienteIspCube", contact, '');
+    return recorrerArbol(telefono, arbolRespuestas, "hola", "", "raiz", "hola", "", "", contact, '');
   }
-
   if (menuActual !== null) {
     const resp = await recorrerArbol(
       telefono, arbolRespuestas, msj, menuActual.datos, menuActual.menu, 
