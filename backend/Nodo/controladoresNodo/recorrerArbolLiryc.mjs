@@ -473,6 +473,11 @@ if(menuActual === 'tecnicoLogeadoPassWifi'){  // vuelve al menu despues mostrar 
               return {notificaOperador: true, datos:{}, menu:'otrasConsultas'};
            
            }
+           if(siguienteNodo.getMenu() === 'adherirDebito'){ //flujo de sidecom para logear cliente con ispcube
+            return {notificaOperador: true, datos:{}, menu:'adherirDebito'};
+         
+         }
+
           }
           return {notificaOperador: false, datos:{}, menu: siguienteNodo.menu};
       } else {

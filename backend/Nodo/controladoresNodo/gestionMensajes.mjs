@@ -115,7 +115,14 @@ async function gestionarChatBot(telefono, msj, contact, mensaje) {
           : `*Opción:\n- cliente entra al menu de administracion , otras consultas \n- ${msj}`
       }`;
     }
-    
+    else if(resp.menu === 'adherirDebito') {
+      mensaje.body = `adherirDebito:
+      ${
+        menuActual.opcion === "" 
+          ? `*CONSULTA: Adherir al debito automatico`
+          : `*Opción:\n- cliente pide adherirse al debito automático\n`
+      }`;
+    }
     else if (resp.menu === 'ServicioDeriva') {
       mensaje.body = `SOLICITANDO ASISTENCIA:
       ${

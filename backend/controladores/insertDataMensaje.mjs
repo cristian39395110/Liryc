@@ -118,10 +118,10 @@ export default async (mensaje, estado, rangoDefault, nnombreUsuario, rangoClient
       //   nombreUsuario = "medusa";
       //   msj = "El cliente solicita que le reenvien su factura";
       // }
-      else if(mensaje.body.includes('opcionDebitoAutomatico')){
+      else if(mensaje.body.includes('adherirDebito')){
         estado = 3;
         nombreUsuario = "medusa";
-        msj = "El cliente solicita adherirse a debito automatico";
+       
       }
       else if(mensaje.body.includes('opcionPromesaDePago')){
         estado = 3;
