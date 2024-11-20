@@ -3,7 +3,7 @@ import { guardarContacto } from "../../controladores/guardarContacto.mjs";
 import { manejarError } from "./manejarError.mjs";
 import con from "../../database/conexion.mjs";
 import { buscarNodoActual } from "./buscarNodoActual.mjs";
-import { actualizarTextoArbolRespuestas } from "./actualizarTextoArbolRespuestaLiryc.mjs";
+import { actualizarTextoArbolRespuestas } from "./actualizarTextoArbolRespuestasSidecom.mjs";
 import { recorrerArbol } from "./recorrerArbolLiryc.mjs";
 import { respuestaNoEncontrada } from "../arbolCliente/respuestaNoEncontradaLiryc.mjs";
 import { arbolRespuestas } from "../arbolCliente/respuestasLiryc.mjs";
@@ -17,7 +17,7 @@ export async function gestionMensajes(mensaje, texto, telefon, client) {
   let rangoCLienteActivo = "";
   const telefono = telefon.trim(); // Evitar espacios accidentales.
   const msj = texto.toLowerCase().trim();
-  
+ 
   try {
      // Verifica y cachea el contacto si no está en el Map.
      let contact = contactoCache.get(telefono);
@@ -68,13 +68,14 @@ export async function gestionMensajes(mensaje, texto, telefon, client) {
     manejarError(error);
   }
 }
+
 // Función separada para manejar la lógica del chatbot.
 async function gestionarChatBot(telefono, msj, contact, mensaje) {
   const menuActual =  await buscarNodoActual(telefono);
 
   if (msj === "hola") {
     actualizarTextoArbolRespuestas(contact.pushname);
-    return recorrerArbol(telefono, arbolRespuestas, "hola", "", "raiz", "hola", "", "", contact, '');
+    return recorrerArbol(telefono, arbolRespuestas, "1", "", "hola", "hola", "", "confirmarDatosClienteIspCube", contact, '');
   }
 
   if (menuActual !== null) {
@@ -114,14 +115,6 @@ async function gestionarChatBot(telefono, msj, contact, mensaje) {
           : `*Opción:\n- Problemas con el internet\n\n*Consulta:\n- ${msj}`
       }`;
     }
-    else if (resp.menu === 'adherirDebitoAdministracion') {
-      mensaje.body = `SOLICITANDO ASISTENCIA:
-      ${
-        menuActual.opcion === "" 
-          ? `*CONSULTA: Se quiere adherir al debito automatico`
-          : `*Opción:\n- Cliente se quiere adherir al debito automatico\n`
-      }`;
-    }
     else if (resp.menu === 'DerivaInconvenientesConElServicio') {
       mensaje.body = `SOLICITANDO ASISTENCIA:
       ${
@@ -147,6 +140,37 @@ async function gestionarChatBot(telefono, msj, contact, mensaje) {
           : `*Opción:\n- Cliente no tiene internet-\n${resp.datos.tipodeinternet}
          `
       }`; 
+    }
+    else if (resp.menu === 'tecnicoLogeadoPlan') {
+      mensaje.body = `Técnico que tomó los datos:
+
+- ID: ${resp.datos.tecnico[telefono].id}
+- Nombre: ${resp.datos.tecnico[telefono].name}
+- Rol: ${resp.datos.tecnico[telefono].rol}
+- Email: ${resp.datos.tecnico[telefono].email}
+
+---------------------------------------
+Datos Nuevos Del Cliente:
+
+- Nombre: 
+      * ${resp.datos.nombreCliente[telefono]} *
+- Dirección: 
+      * ${resp.datos.direccionCliente[telefono]} *
+- Teléfono: 
+      * ${resp.datos.telefonoCliente[telefono]} *
+- Teléfono Alternativo: 
+      * ${resp.datos.telefono2Cliente[telefono]} *
+- Email: 
+      * ${resp.datos.emailCliente[telefono]} *
+- Plan: 
+      * ${resp.datos.planCliente[telefono]} *`; 
+    }  else if (resp.menu === "tecnicoLogeadoDatosCargados") {
+      
+      msj =``
+      
+    }else if (resp.menu === confirmarDatosClienteIspCube) {
+      mensaje.body = `Error en el DNI ingresado:
+      Se detectó que el usuario ingresó texto ("${msj}") en lugar de un número de DNI válido.`;
     }
     
     else {

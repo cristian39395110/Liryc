@@ -8,6 +8,8 @@ import subirImagenOperador from './subirImagenOperador.mjs'
 import io from '../sockets/sockets.mjs'
 import { hacerFiltroRango } from '../sockets/hacerFiltroRango.mjs'
 import fs from 'node:fs';
+import { habilitarFoto, habilitarNombre, habilitarPass } from '../Nodo/controladoresNodo/recorrerArbolLiryc.mjs'
+
 //FUNCION PARA INSERTAR LOS MENSAJES EN LA BASE DE DATOS
 export default async (mensaje, estado, rangoDefault, nnombreUsuario, rangoClienteActivo, esClienteActivo, ultimoId) =>{ 
     // console.log(estado, mensaje.body, "estado");
@@ -135,6 +137,22 @@ export default async (mensaje, estado, rangoDefault, nnombreUsuario, rangoClient
         estado = 3;
         nombreUsuario = "medusa";
         msj = "El cliente solicita asistencia administrativa por consultas sobre su cuenta o su servicio.";
+      }
+      else if(mensaje.body.includes("Técnico que tomó los datos")){
+        estado = 3;
+        nombreUsuario = "medusa";
+      }  else if(mensaje.body.includes("tecnicoLogeadoPassWifi")){
+        estado = 3;
+        nombreUsuario = "medusa";
+
+        msj = `Habilitar Conexión:
+      Nombre: ${habilitarNombre[telefono]}
+      Password: ${habilitarPass[telefono]}`; 
+
+       
+      }if(mensaje.body.includes("Error en el DNI ingresado")){
+        estado = 3;
+        nombreUsuario = "medusa";
       }
       else if(mensaje.body.includes("DNI NO ENCONTRADO")){
         estado = 3;

@@ -9,14 +9,14 @@ import {guardarNodoActual} from "./guardarNodoActual.mjs"
 import {limpiarTelefonoMenuCliente} from "./limpiarTelefonoMenuCliente.mjs"
 import {respuestaNoEncontrada} from "../arbolCliente/respuestaNoEncontradaLiryc.mjs"
 import { devolverOpcionSeleccionada } from './devolverOpcionSeleccionadaSidecom.mjs'
-import { arbolRespuestas, noEncuentraDNI,encuentraDNIMensaje,menuVolver,opcionEsClienteLogeado, menuPrincipal,opcionMedioMenu } from '../arbolCliente/respuestasLiryc.mjs'
 
+import { arbolRespuestas,tecnicoLogeado,tecnicoLogeadoOpcion2, noEncuentraDNI,encuentraDNIMensaje,menuVolver,opcionEsClienteLogeado, menuPrincipal } from '../arbolCliente/respuestasLiryc.mjs'
 import { buscarNodoActual } from './buscarNodoActual.mjs'
 import { logearClienteIspCube } from './logearClienteIspCube.mjs'
 import {buscarUltimaFacturaIspCube} from './buscarUltimaFacturaIspCube.mjs'
 import { mediosDePagoIspCube } from './mediosDePagoIspCube.mjs'
+import { tecnicos,verificarSiEsTecnico } from '../controladoresNodo/tecnicosLiryc.mjs'
 import { opcionComprobanteDePago } from './opcionComprobanteDePago.mjs'
-
 
 
 
@@ -31,7 +31,18 @@ import { opcionComprobanteDePago } from './opcionComprobanteDePago.mjs'
  * @param {string} opcion - La opción seleccionada (si aplica).
  * @param {string} instancia - Indica la instancia de la función (por ejemplo, 'confirmar' para confirmación de datos).
  */
-export const recorrerArbol = async (telefono, nodoActual, mensaje, datos, menuActual, numeroActual, opcion, instancia, contact, menuFinal, otros, mensajeCompleto) => {
+let nombreCliente = {};
+let direccionCliente = {};
+let telefonoCliente = {};
+let telefono2Cliente = {};
+let emailCliente = {};
+let planCliente = {};
+export let habilitarFoto = {};
+export let habilitarNombre = {};
+export let habilitarPass = {};
+const intentosPorCliente = {};
+const tecnico = {};
+export const  recorrerArbol = async (telefono, nodoActual, mensaje, datos, menuActual, numeroActual, opcion, instancia, contact, menuFinal, otros, mensajeCompleto) => {
   // console.log(mensajeCompleto, " mensaje en recorrer arbol")
  var tipodeinternet=0;
 
@@ -60,23 +71,92 @@ En minutos se pondrán en contacto con vos!
     return {notificaOperador: true, datos: {}, menu: menuActual}
     }
       
-  }else if (instancia === 'confirmarDatosClienteIspCube' ) {
-   
-    const clienteLogeado = await logearClienteIspCube(telefono, mensaje, datos);
-    if (clienteLogeado.success) {
-      const datos = clienteLogeado.clientData;
+  }else if (menuActual === 'confirmarDatosClienteIspCube') { 
+    const maxIntentos = 3; // Máximo de intentos permitidos
+    const regex = /^\d+$/; // Expresión regular para validar solo números
+    const mensajesIntentos = [
+        "Parece que hubo un error. Recuerde ingresar solo su DNI o CUIT en números.",
+        "Por favor, verifique e intente ingresar solo su DNI o CUIT en números.",
+        "Último intento: asegúrese de ingresar solo los números de su DNI o CUIT, sin letras ni símbolos."
+    ];
+    const mensajesNoEncontrado = [
+        "No encontramos su DNI o CUIT en nuestros registros. Verifique y vuelva a intentarlo.",
+        "Aún no encontramos su DNI o CUIT. Asegúrese de que sea correcto.",
+        "Último intento: no se encontró su DNI o CUIT. Por favor, verifique nuevamente."
+    ];
 
-      guardarNodoActual(telefono, "clienteConfirmaIspOk",numeroActual, mensaje, datos.status,"clienteConfirmaIspOk", 'logeado', datos.id);
-      client.sendMessage(telefono,encuentraDNIMensaje(datos));
-      setTimeout(() => {client.sendMessage(telefono, opcionEsClienteLogeado.respuesta);}, 1500);
-    } else {
-      guardarNodoActual(telefono, "clienteConfirmaIspError",numeroActual, "", opcion,instancia, menuFinal, otros);
-      client.sendMessage(telefono, noEncuentraDNI);
-      comprobarTelefono(telefono, "ventas");
-      limpiarTelefonoMenuCliente(telefono);
-      return {notificaOperador: true, menu: menuActual, datos: 'DNI NO ENCONTRADO'};
+    // Función para validar solo números
+    const esNumeroValido = (input) => regex.test(input);
+
+    // Inicializar contador de intentos para el cliente si no existe
+    if (!intentosPorCliente[telefono]) {
+        intentosPorCliente[telefono] = 0;
     }
-  }
+
+    // Verificar si el mensaje contiene solo números
+    if (!esNumeroValido(mensaje)) {
+        intentosPorCliente[telefono] += 1;
+
+        // Verificar si se alcanzó el límite de intentos
+        if (intentosPorCliente[telefono] > maxIntentos) {
+            intentosPorCliente[telefono] = 0; // Restablecer el contador
+            guardarNodoActual(telefono, "clienteConfirmaIspError", numeroActual, "", opcion, instancia, menuFinal, otros);
+            client.sendMessage(telefono, "Lo siento. Por favor, intente más tarde.");
+            comprobarTelefono(telefono, "admin");
+            limpiarTelefonoMenuCliente(telefono);
+            return { notificaOperador: true, datos: "ERROR_DNI", menu: menuActual };
+        }
+
+        // Notificar al cliente sobre el error y mostrar mensaje correspondiente
+        client.sendMessage(telefono, mensajesIntentos[intentosPorCliente[telefono] - 1]);
+        return { notificaOperador: false, datos: {}, menu: menuActual };
+    }
+
+    // Verificar si el cliente es técnico
+    tecnico[telefono] = await verificarSiEsTecnico(mensaje || datos);
+
+    if (tecnico[telefono]) {
+        // Manejar caso técnico
+        guardarNodoActual(telefono, "tecnicoLogeado", 'opciontecnico', '', 'logeado', "tecnicoConfirmado", menuFinal, otros);
+        enviarRespuesta(telefono, tecnicoLogeado.respuesta = `👨‍🔧 Bienvenido al Área Técnica, ${tecnico[telefono].name} 👋
+
+¿Cómo puedo ayudarte hoy?
+
+1️⃣ Cargar cliente  
+2️⃣ Habilitar conexión`);
+        return { notificaOperador: false, datos: {}, menu: 'tecnicoLogeado' };
+    } else {
+        // Intentar loguear al cliente
+        const clienteLogeado = await logearClienteIspCube(telefono, mensaje, datos);
+        if (clienteLogeado.success) {
+            const datos = clienteLogeado.clientData;
+
+            guardarNodoActual(telefono, "clienteConfirmaIspOk", numeroActual, mensaje, datos.status, "clienteConfirmaIspOk", 'logeado', datos.id);
+            client.sendMessage(telefono, encuentraDNIMensaje(datos));
+            setTimeout(() => { client.sendMessage(telefono, opcionEsClienteLogeado.respuesta); }, 1500);
+
+            // Restablecer contador de intentos al loguear exitosamente
+            intentosPorCliente[telefono] = 0;
+        } else {
+            // Incrementar intentos al no encontrar cliente
+            intentosPorCliente[telefono] += 1;
+
+            // Verificar si se alcanzó el límite de intentos
+            if (intentosPorCliente[telefono] > maxIntentos) {
+                intentosPorCliente[telefono] = 0; // Restablecer contador
+                guardarNodoActual(telefono, "clienteConfirmaIspError", numeroActual, "", opcion, instancia, menuFinal, otros);
+                client.sendMessage(telefono, "Lo sentimos, no encontramos su DNI o CUIT en nuestros registros.");
+                comprobarTelefono(telefono, "ventas");
+                limpiarTelefonoMenuCliente(telefono);
+                return { notificaOperador: true, datos: "DNI NO ENCONTRADO", menu: menuActual };
+            }
+
+            // Notificar al cliente que no se encontró el DNI o CUIT
+            client.sendMessage(telefono, mensajesNoEncontrado[intentosPorCliente[telefono] - 1]);
+            return { notificaOperador: false, datos: {}, menu: menuActual };
+        }
+    }
+}
    else {
       if(mensaje === '0' && datos.length >= 7){
 enviarRespuesta(telefono, 
@@ -110,27 +190,12 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
         numeroActual = 'logeado';
         mensaje = mensaje;
       }
-      if((menuActual === 'facturaConfirmaIspOk' ||  menuActual==="opcionMediosDePago") && mensaje!=="6"){  // vuelve al menu despues mostrar factura
-          nodoActual = arbolRespuestas;
-        menuActual = 'administracion';
-        numeroActual = '3';
-        mensaje ="777" ///Ymensaje;
-      }
-      
-      if((menuActual === "administracion") && (mensaje==="1") ){  // vuelve al menu despues mostrar factura
+      if(menuActual === 'facturaConfirmaIspOk' ||  menuActual==="opcionMediosDePago"){  // vuelve al menu despues mostrar factura
         nodoActual = arbolRespuestas;
         menuActual = 'administracion';
         numeroActual = '3';
-        mensaje = "777";
+        mensaje = mensaje;
       }
-      
-      if((menuActual === "segundaAdministracion") && mensaje==="1"){  // vuelve al menu despues mostrar factura
-        nodoActual = arbolRespuestas;
-        menuActual = 'administracion';
-        numeroActual = '3';
-        mensaje = "777";
-      }
-        
       if(menuActual === 'facturaConfirmaIsError'){  // vuelve al menu despues mostrar factura
         nodoActual = arbolRespuestas;
         menuActual = 'administracion';
@@ -174,36 +239,107 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
         numeroActual = '1';
         mensaje = "1";
       }
+      //--------------------------------------------------Nuevi Eduardo---------------------------------------------------------
+
+if(menuActual === 'tecnicoLogeadoOpcion1'){  // vuelve al menu despues mostrar factura
+  nodoActual = arbolRespuestas;
+  menuActual = 'tecnicoLogeadoOpcion1';
+  numeroActual = '1';
+  mensaje = "2";
+  nombreCliente[telefono]=mensajeCompleto.body;
+}
+if(menuActual === 'tecnicoLogeadoDireccion'){  // vuelve al menu despues mostrar factura
+  nodoActual = arbolRespuestas;
+  menuActual = 'tecnicoLogeadoDireccion';
+  numeroActual = '2';
+  mensaje = "3";
+  direccionCliente[telefono]=mensajeCompleto.body;
+}
+if(menuActual === 'tecnicoLogeadoTelefono'){  // vuelve al menu despues mostrar factura
+  nodoActual = arbolRespuestas;
+  menuActual = 'tecnicoLogeadoTelefono';
+  numeroActual = '3';
+  mensaje = "4";
+  telefonoCliente[telefono]=mensajeCompleto.body;
+}
+if(menuActual === 'tecnicoLogeadoTelefono2'){  // vuelve al menu despues mostrar factura
+  nodoActual = arbolRespuestas;
+  menuActual = 'tecnicoLogeadoTelefono2';
+  numeroActual = '4';
+  mensaje = "5";
+  telefono2Cliente[telefono]=mensajeCompleto.body;
+}
+if(menuActual === 'tecnicoLogeadoEmail'){  // vuelve al menu despues mostrar factura
+  nodoActual = arbolRespuestas;
+  menuActual = 'tecnicoLogeadoEmail';
+  numeroActual = '5';
+  mensaje = "6";
+  emailCliente[telefono]=mensajeCompleto.body;
+}
+if(menuActual === 'tecnicoLogeadoPlan'){  // vuelve al menu despues mostrar factura
+  nodoActual = arbolRespuestas;
+  menuActual = 'tecnicoLogeadoPlan';
+  numeroActual = '6';
+ 
+  planCliente[telefono]=mensajeCompleto.body;
+  enviarRespuesta(telefono,"✅ Los datos del cliente se han almacenado correctamente en el sistema.");
+  comprobarTelefono(telefono, "tecnico");
+  limpiarTelefonoMenuCliente(telefono);
+  return {notificaOperador: true,datos: {nombreCliente, direccionCliente, telefonoCliente,telefono2Cliente,emailCliente,planCliente, tecnico}, menu: menuActual };;
+}
+
+if(menuActual === 'tecnicoLogeadoOpcion2'){  // vuelve al menu despues mostrar factura
+   
+  nodoActual = arbolRespuestas;
+ // menuActual = 'tecnicoLogeadoEmail';
+  numeroActual = '2';
+  mensaje = "3";
+habilitarNombre[telefono]=mensajeCompleto._data.body;
+  //return {notificaOperador: false,datos: {}, menu: 'tecnicoLogeadoOpcion2' };
+}
+if(menuActual === 'tecnicoLogeadoRedWifi'){  // vuelve al menu despues mostrar factura
+  nodoActual = arbolRespuestas;
+  //menuActual = 'tecnicoLogeadoEmail';
+  numeroActual = '3';
+  mensaje = "4";
+  //habilitarNombre[telefono]=mensajeCompleto._data.body;
+  habilitarPass[telefono]=mensajeCompleto._data.body;
+  
+}
+if(menuActual === 'tecnicoLogeadoPassWifi'){  // vuelve al menu despues mostrar factura
+  nodoActual = arbolRespuestas;
+ // menuActual = 'tecnicoLogeadoEmail';
+  numeroActual = '4';
+ mensaje = "5";
+//habilitarPass[telefono]=mensajeCompleto._data.body;
+//comprobarTelefono(telefono, "tecnico");
+//limpiarTelefonoMenuCliente(telefono);
+//return {notificaOperador: true,datos: {habilitarFoto, habilitarNombre, habilitarPass}, menu: 'tecnicoLogeadoRedWifi' };
+
+}
+//------------------------------NUEVO lYRIC--------------------------------------------
         
 //-----------------------------------------------------------------------------------------------------------
-
-//------------------------------NUEVO lYRIC--------------------------------------------
-// if(menuActual === 'raiz'){  // vuelve al menu despues mostrar factura
-//   nodoActual = arbolRespuestas;
-//   menuActual='raiz'
-//   numeroActual = '1';
-//   mensaje = "1";
-// }
-//------------------------------------------------------------------------------------------------
       if(menuActual === 'opcionComprobante'){
         if (mensajeCompleto.type !== 'chat'){
             //si posee imagen o archivo, informar que se registro comprobante
             //guardar mensaje en base de datos
             //guardar nodo actual para luego enviar a menu principal o finalizar chat.
             enviarRespuesta(telefono,"Registramos tu comprobante de pago!");
-            client.sendMessage(telefono,opcionMedioMenu);
+            client.sendMessage(telefono,menuVolver);
         
             //comprobarTelefono(telefono, "cobranza");
 
         }else {
             enviarRespuesta(telefono,"No pudimos registrar tu comprobante ❌Intenta nuevamente enviando una imagen, foto o archivo valido");
-            client.sendMessage(telefono,opcionMedioMenu);
+            client.sendMessage(telefono,menuVolver);
             guardarNodoActual(telefono,'informarPago','',datos,opcion,instancia,menuFinal,otros);
       
     }
-    guardarNodoActual(telefono,'segundaAdministracion','777',datos,opcion,'',menuFinal,otros);
+    guardarNodoActual(telefono,'administracion','3',datos,opcion,'',menuFinal,otros);
     return {notificaOperador: false, datos: {}, menu: "administracion"};
   }
+
 
     
 //-----------------------------------------------------------------------------------------------------------
@@ -212,15 +348,20 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
       let siguienteNodo = await nodoActual.buscarOpcion(menuActual, numeroActual, mensaje);
       // console.log(nodoActual)
     // console.log(siguienteNodo);
-        if (siguienteNodo !== null && siguienteNodo !== undefined) {
+      if (siguienteNodo !== null && siguienteNodo !== undefined) {
 
           if (siguienteNodo.pideOpcion) { //CAPTURA LAS OPCIONES
             //  console.log("menuActual:",menuActual, "siguiente nodo:", siguienteNodo.getMenu());
                 guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, devolverOpcionSeleccionada(mensaje, menuActual), '', '', '');
               enviarRespuesta(telefono, siguienteNodo.getRespuesta());
           } else if (siguienteNodo.pideDatos) { // CAPTURA LOS DATOS DEL CLIENTE
+       
+                  
+
+
                 if(siguienteNodo.getMenu() === 'raiz'){ //flujo de sidecom para logear cliente con ispcube
-                  guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, 'confirmarDatosClienteIspCube', devolverOpcionSeleccionada(mensaje, menuActual), otros);
+                  guardarNodoActual(telefono, 'confirmarDatosClienteIspCube', siguienteNodo.getNumero(), datos, opcion, '', menuFinal, otros);
+               
                 }
                 else if(siguienteNodo.getMenu() === 'consultaSinServicio'){ //flujo de sidecom para logear cliente con ispcube
                   guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, 'deriva', "", otros);
@@ -239,6 +380,28 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
                 else if(siguienteNodo.getMenu() === 'opcionComprobante'){ //flujo de sidecom para logear cliente con ispcube
                   guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, '', "", otros);
                 }
+                else if(siguienteNodo.getMenu() === 'tecnicoLogeadoOpcion1'){ //flujo de sidecom para logear cliente con ispcube
+                  guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, '', "", otros);
+                }else if(siguienteNodo.getMenu() === 'tecnicoLogeadoDireccion'){ //flujo de sidecom para logear cliente con ispcube
+                  guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, '', "", otros);
+                }else if(siguienteNodo.getMenu() === 'tecnicoLogeadoTelefono'){ //flujo de sidecom para logear cliente con ispcube
+                  guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, '', "", otros);
+                }else if(siguienteNodo.getMenu() === 'tecnicoLogeadoTelefono2'){ //flujo de sidecom para logear cliente con ispcube
+                  guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, '', "", otros);
+                }else if(siguienteNodo.getMenu() === 'tecnicoLogeadoEmail'){ //flujo de sidecom para logear cliente con ispcube
+                  guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, '', "", otros);
+                }else if(siguienteNodo.getMenu() === 'tecnicoLogeadoPlan'){ //flujo de sidecom para logear cliente con ispcube
+                  guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, '', "", otros);
+                }else if(siguienteNodo.getMenu() === 'tecnicoLogeadoOpcion2'){ //flujo de sidecom para logear cliente con ispcube
+                  guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, '', "", otros);
+               
+                }else if(siguienteNodo.getMenu() === 'tecnicoLogeadoRedWifi'){ //flujo de sidecom para logear cliente con ispcube
+                  guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, '', "", otros);
+               
+                }else if(siguienteNodo.getMenu() === 'tecnicoLogeadoPassWifi'){ //flujo de sidecom para logear cliente con ispcube
+                  guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, '', "", otros);
+
+                }
                 
                 
                 else{ //flujo normal 
@@ -250,29 +413,14 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
              if(menuActual === 'administracion' && mensaje === '4'){ //medios de pago
               mediosDePagoIspCube(telefono, mensaje, opcion, menuFinal, otros, datos)
             }
-            else if(menuActual === 'administracion' && mensaje === '777'){ //reenvio factura
-              buscarUltimaFacturaIspCube(telefono, mensaje, opcion, menuFinal, otros, datos,siguienteNodo.getMenu())
-              //guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, instancia, menuFinal, otros,siguienteNodo.getMenu());
+            else if(menuActual === 'administracion' && mensaje === '1'){ //reenvio factura
+              buscarUltimaFacturaIspCube(telefono, mensaje, opcion, menuFinal, otros, datos)
             }
-            else if(menuActual === 'segundaAdministracion' && mensaje === '1'){ //reenvio factura
-              buscarUltimaFacturaIspCube(telefono, mensaje, opcion, menuFinal, otros, datos,siguienteNodo.getMenu())
-              //guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, instancia, menuFinal, otros,siguienteNodo.getMenu());
-            }
-
-            else if(menuActual === 'segundaAdministracion' && mensaje === '2'){ //reenvio factura
-              enviarRespuesta(telefono,opcionMedioMenu);
-
-              guardarNodoActual(telefono,'segundaAdministracion', "777", datos, opcion, instancia, menuFinal, otros,siguienteNodo.getMenu());
-              return {notificaOperador: false, datos:{}, menu: siguienteNodo.menu};
-            }
-           
         
             else{
               // FLUJO NORMAL
-              if (siguienteNodo.getMenu() !== "adherirDebitoAdministracion") {
-
               guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, instancia, menuFinal, otros);
-              }
+            
               
               if (siguienteNodo.getImagen() !== '') { // SI EL MENSAJE TIENE UNA IMAGEN ENVÍO LA IMAGEN
                   subirImagen(telefono, siguienteNodo.getImagen());
@@ -281,9 +429,7 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
                   //   //HAY QUE DARLE TIEMPO PARA QUE EL MENSAJE SE CONTESTE LUEGO DE LA IMAGEN
                   // },1800) 
               } else { // SI NO, SOLO ENVÍO EL MENSAJE
-                if (siguienteNodo.getMenu() !== "adherirDebitoAdministracion") {
                   enviarRespuesta(telefono, siguienteNodo.getRespuesta());
-                }
               }
             }
           }
@@ -302,11 +448,10 @@ guardarNodoActual(telefono, menuActual, numeroActual, datos, opcion, '', devolve
              if( siguienteNodo.getMenu()==="DerivaArraydeServicio"){
               return {notificaOperador: true, datos:{ tipodeinternet}, menu: siguienteNodo.menu};
              }
-             if( siguienteNodo.getMenu()==="adherirDebitoAdministracion"){
-              enviarRespuesta(telefono, siguienteNodo.getRespuesta());
-              return {notificaOperador: true, datos:{}, menu: siguienteNodo.menu};
-             }
+             if(siguienteNodo.getMenu() === 'tecnicoLogeadoDatosCargados'){ //flujo de sidecom para logear cliente con ispcube
+              return {notificaOperador: true, datos:{}, menu:'tecnicoLogeadoDatosCargados'};
            
+           }
             
           }
           return {notificaOperador: false, datos:{}, menu: siguienteNodo.menu};

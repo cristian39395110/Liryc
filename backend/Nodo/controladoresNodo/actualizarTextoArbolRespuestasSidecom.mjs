@@ -1,10 +1,14 @@
-import { arbolRespuestas } from "../arbolCliente/respuestasSidecom.mjs";
+import { arbolRespuestas } from "../arbolCliente/respuestasLiryc.mjs";
 export function actualizarTextoArbolRespuestas(CONTACTOACTUALGLOBAL) {
   arbolRespuestas.respuesta = 
-`¡Hola _*${CONTACTOACTUALGLOBAL}*_! 
-Soy la asistente virtual de Nuevanet, Para agilizar tuconsulta:
+  `🌞 Buenos días,${CONTACTOACTUALGLOBAL}, gracias por comunicarse con Lliryc SRL. 
 
-*_por favor elige una opción ingresando el número correspondiente:_*
-1️⃣ SOY CLIENTE
-2️⃣ QUIERO SER CLIENTE`
+Para continuar, necesitamos verificar sus datos. Por favor, ingrese su número de:
+
+🆔 DNI del titular  
+   o  
+📄 CUIT asociado a la cuenta.
+
+🔒 Su información será tratada con confidencialidad.
+`;
 }
