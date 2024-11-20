@@ -108,7 +108,12 @@ async function gestionarChatBot(telefono, msj, contact, mensaje) {
     }
 
     else if(resp.menu === 'otrasConsultas') {
-      mensaje.body = `El cliente entro al menu de facturacion y al area de Otras Consultas `;
+      mensaje.body = `otrasConsultas:
+      ${
+        menuActual.opcion === "" 
+          ? `*CONSULTA: Consultas Aministracion`
+          : `*Opción:\n- cliente entra al menu de administracion , otras consultas \n- ${msj}`
+      }`;
     }
     
     else if (resp.menu === 'ServicioDeriva') {
@@ -172,7 +177,7 @@ Datos Nuevos Del Cliente:
       
       msj =``
       
-    }else if (resp.menu === 'confirmarDatosClienteIspCube') {
+    }else if (resp.menu === confirmarDatosClienteIspCube) {
       mensaje.body = `Error en el DNI ingresado:
       Se detectó que el usuario ingresó texto ("${msj}") en lugar de un número de DNI válido.`;
     }
