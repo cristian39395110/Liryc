@@ -9,6 +9,7 @@ import { respuestaNoEncontrada } from "../arbolCliente/respuestaNoEncontradaLiry
 import { arbolRespuestas } from "../arbolCliente/respuestasLiryc.mjs";
 import { promisify } from 'util';
 
+
 let RANGOMENSAJE = "medusa";
 // Usa un Set para el cacheo
 const contactoCache = new Map(); // Utiliza un Map para almacenar la información del contacto

@@ -277,7 +277,7 @@ const   administracion = new Nodo(
 
 Por favor, elige una opción ingresando el número correspondiente:
 1️⃣ Reenvio de factura.
-  2️⃣ Conocer medios de pago.
+2️⃣ Conocer medios de pago.
 3️⃣ Informar pago.
 4️⃣ Hacer promesa de pago(preguntar cuantos dias)
 5️⃣Otras Preguntas
@@ -640,9 +640,7 @@ noTengoInternet.addOpcion(consultaTecnica);
 noTengoInternet.addOpcion(InconvenientesConElServicio);
 noTengoInternet.addOpcion(sinServicio);
 
-
 InconvenientesConElServicio.addOpcion(DerivaInconvenientesConElServicio);// caso 2
-
 
 consultaTecnica.addOpcion(consultaSinServicio);// caso 1
 consultaSinServicio.addOpcion(DerivaconsultaSinServicio);//caso 1

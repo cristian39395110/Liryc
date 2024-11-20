@@ -10,6 +10,7 @@ import { hacerFiltroRango } from '../sockets/hacerFiltroRango.mjs'
 import fs from 'node:fs';
 import { habilitarFoto, habilitarNombre, habilitarPass } from '../Nodo/controladoresNodo/recorrerArbolLiryc.mjs'
 
+
 //FUNCION PARA INSERTAR LOS MENSAJES EN LA BASE DE DATOS
 export default async (mensaje, estado, rangoDefault, nnombreUsuario, rangoClienteActivo, esClienteActivo, ultimoId) =>{ 
     // console.log(estado, mensaje.body, "estado");
