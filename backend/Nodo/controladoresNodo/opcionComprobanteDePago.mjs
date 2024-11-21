@@ -124,7 +124,8 @@ telefono,
   guardarNodoActual(telefono, "segundaAdministracion", "777", datos, opcion, "", menuFinal, otros);
 client.sendMessage(
 telefono,
-`*¡Registramos tu comprobante de pago correctamente!* ✅`
+`*Registramos tu comprobante de pago* ✅
+*Realizamos un compromiso de pago hasta el dia ${getCurrentDatePlus7Days().clienteDate}* ✅`
 );
   setTimeout(() => {
 client.sendMessage(
