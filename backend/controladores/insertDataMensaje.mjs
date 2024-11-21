@@ -138,7 +138,10 @@ export default async (mensaje, estado, rangoDefault, nnombreUsuario, rangoClient
         estado = 3;
         nombreUsuario = "medusa";
         msj = "El cliente solicita asistencia administrativa por consultas sobre su cuenta o su servicio.";
-      }
+      } else if(mensaje.body.includes("El cliente solicita información")){
+        estado = 3;
+        nombreUsuario = "medusa";
+      } 
       else if(mensaje.body.includes("Técnico que tomó los datos")){
         estado = 3;
         nombreUsuario = "medusa";

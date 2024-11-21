@@ -83,6 +83,8 @@ const noTengoInternet = new Nodo(
 1️⃣ Consultas técnicas
 2️⃣ Inconvenientes en el servicio
 3️⃣ Sin servicio
+4️⃣ Consultas por instalaciones o servicios pendientes
+5️⃣ Instalar TV Digital Sensa
 0️⃣ Volver al menú principal`,
 "1",
 false,
@@ -236,7 +238,7 @@ const instalacionPendiente = new Nodo(
 `📡 *Derivé tu consulta a uno de nuestros representantes*
 En minutos se pondrán en contacto con vos!
 🙆‍♀️ ¡Gracias por elegirnos! *Te saluda tu asistente, SIDE 👩‍🦰*`,
-"5",
+"4",
 true,
 "tecnico",
 true,
@@ -712,7 +714,8 @@ segundaAdministracion.addOpcion(otrasConsultas);
 noTengoInternet.addOpcion(consultaTecnica);
 noTengoInternet.addOpcion(InconvenientesConElServicio);
 noTengoInternet.addOpcion(sinServicio);
-
+noTengoInternet.addOpcion(IntalarTVDigitalSensa);
+noTengoInternet.addOpcion(instalacionPendiente);
 InconvenientesConElServicio.addOpcion(DerivaInconvenientesConElServicio);// caso 2
 
 consultaTecnica.addOpcion(consultaSinServicio);// caso 1
@@ -726,7 +729,3 @@ ArraydeServicio.addOpcion(DerivaArraydeServicio);
 //consultaSinServicio.addOpcion(DerivaconsultaSinServicio);
 
 //sinServicio.addOpcion(ServicioDeriva);
-
-
-
-
