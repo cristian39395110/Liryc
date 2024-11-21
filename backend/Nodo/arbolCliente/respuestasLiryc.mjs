@@ -274,7 +274,16 @@ export const principalMenu = `👩‍🦰 ¿Te puedo ayudar en algo más?
 6️⃣ Otras consultas
 
 0️⃣ Volver al menú principal` 
+export const principalMenuAsistenteVirtual = `🤖 ¿Te puedo ayudar en algo más?
 
+Por favor, elige una opción ingresando el número correspondiente:
+1️⃣ Reenvio de factura.
+2️⃣ Conocer medios de pago.
+3️⃣ Informar pago.
+4️⃣ Informar promesa de pago.
+5️⃣ Instalar TV Digital Sensa
+
+0️⃣ Volver al menú principal` 
 export const menuPrincipal = `👩‍🦰 ¿En que puedo ayudarte?
 
 Por favor elige una opción ingresando el número correspondiente:
@@ -284,7 +293,7 @@ Por favor elige una opción ingresando el número correspondiente:
 4️⃣ ASISTENCIA VIRTUAL AUTOGESTIÓN`   
 
 
-const     administracion = new Nodo(
+const administracion = new Nodo(
 'administracion',
 `
 👩‍💼 Bienvenido/a al departamento administrativo.
@@ -294,8 +303,8 @@ Por favor, elige una opción ingresando el número correspondiente:
 1️⃣ Reenvio de factura.
 2️⃣ Conocer medios de pago.
 3️⃣ Informar pago.
-4️⃣ Hacer promesa de pago(preguntar cuantos dias)
-5️⃣Otras Preguntas
+4️⃣ Hacer promesa de pago
+5️⃣ Otras Preguntas
 
 0️⃣ Volver al menú principal
 `,
@@ -398,18 +407,43 @@ false,
 ''
 );
 
+const opcionMediosDePagoAsistenteVirtual = new Nodo(
+  'opcionMediosDePago',
+  `🏦 Su alias para hacer depósitos/transferencias en Siro es:
+  {ALIAS DE SIRO}
+  🚫 Recuerde que este alias es personal e intransferible.
+  
+  También puede realizar pagos en Rapipago y Pago Fácil presentando su factura.
+  
+  👩‍🦰 ¿En qué más te puedo ayudar?
+  
+Por favor, elige una opción ingresando el número correspondiente:
+1️⃣ Reenvio de factura.
+2️⃣ Conocer medios de pago.
+3️⃣ Informar pago.
+4️⃣ Informar promesa de pago.
+5️⃣ Instalar TV Digital Sensa
 
+0️⃣ Volver al menú principal`,
+  '2',
+  false,
+  '',
+  false,
+  false,
+  false,
+  ''
+  );
 
 const opcionComprobante = new Nodo(
 'opcionComprobante',
 `*Por favor, envie una foto de los comprobantes de pago*`,
 '3',
-false,
+true,
 '',
-false,
 true,
 false,
-'true'
+false,
+''
 );
 
 
@@ -632,7 +666,7 @@ export const tecnicoLogeadoDatosCargados = new Nodo(
   false,
   ""
 );
-const asistenteVirtual = new Nodo(
+export const asistenteVirtual = new Nodo(
   "administracion",
   `
 👩‍💼 ¡Bienvenido/a! Soy tu Asistente Virtual. 🤖
@@ -670,7 +704,7 @@ tecnicoLogeadoPassWifi.addOpcion(tecnicoLogeadoDatosCargados)
 
 opcionEsClienteLogeado.addOpcion(asistenteVirtual)
 asistenteVirtual.addOpcion(opcionReenvioFactura)
-asistenteVirtual.addOpcion(opcionMediosDePago)
+asistenteVirtual.addOpcion(opcionMediosDePagoAsistenteVirtual)
 asistenteVirtual.addOpcion(opcionComprobante)
 asistenteVirtual.addOpcion(opcionPromesaDePago)
 asistenteVirtual.addOpcion(IntalarTVDigitalSensa)

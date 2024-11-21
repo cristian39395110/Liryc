@@ -7,7 +7,7 @@ const client = obtenerClienteDeWhatsapp(colors, false)
 
   
 
-import {menuVolver,muestraFactura,errorNoEncuentraFactura, principalMenu} from "../arbolCliente/respuestasLiryc.mjs"
+import {menuVolver,principalMenuAsistenteVirtual,muestraFactura,errorNoEncuentraFactura, principalMenu} from "../arbolCliente/respuestasLiryc.mjs"
 
 export const buscarUltimaFacturaIspCube = (telefono, mensaje, opcion, menuFinal, otros, datos,menu) => {
   
@@ -26,11 +26,17 @@ export const buscarUltimaFacturaIspCube = (telefono, mensaje, opcion, menuFinal,
     guardarNodoActual(telefono,"segundaAdministracion" , mensaje, datos, opcion, "", menuFinal, otros);
     client.sendMessage(telefono,muestraFactura(response.data));
   }
-  setTimeout(() => {
-      client.sendMessage(telefono,principalMenu);
+  if(otros === 'asistenteVirtual'){
+    setTimeout(() => {
+      client.sendMessage(telefono,principalMenuAsistenteVirtual);
   },8000)
   // console.log('Respuesta de la API:', response.data);
+}else{
+ setTimeout(() => {
+      client.sendMessage(telefono,principalMenu);
+  },8000)
 
+}
   })
   .catch(error => {
       return console.error('Error al hacer la petición:', error);

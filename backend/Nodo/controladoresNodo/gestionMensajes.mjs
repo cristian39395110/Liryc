@@ -191,7 +191,10 @@ Datos Nuevos Del Cliente:
     
     else if (resp.menu === 'instalacionPendiente') {
       mensaje.body = `El cliente solicita información sobre instalaciones o servicios pendientes.`;
-    }else {
+    } else if (resp.menu === 'opcionComprobante') {
+      mensaje.body = `El cliente adjunta Foto de comprobante para informar pago.`;
+    }
+    else {
     msj !== '0' ? respuestaNoEncontrada(telefono, contact) : false
     }
   }

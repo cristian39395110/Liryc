@@ -4,7 +4,7 @@ import colors from 'colors/safe.js'
 import con from "../../database/conexion.mjs";
 import axios from 'axios'
 const client = obtenerClienteDeWhatsapp(colors, false)
-
+import { principalMenuAsistenteVirtual } from "../arbolCliente/respuestasLiryc.mjs";
 function getCurrentDatePlus7Days() {
   const today = new Date();
   const futureDate = new Date(today);
@@ -34,6 +34,14 @@ export const opcionComprobanteDePago = (telefono, mensaje, opcion, menuFinal, ot
         // console.log(response.data, "respuesta desde comprobante de pago")
   if (response.data.result !== 'ok') {
       guardarNodoActual(telefono, "segundaAdministracion", "777", datos, opcion, "", menuFinal, otros);
+      if(otros === 'asistenteVirtual'){
+        setTimeout(() => {
+          client.sendMessage(
+          telefono,`*Registramos tu comprobante de pago* ✅
+      *No fue posible realizar un compromiso de pago* ❌ 
+      
+      `+principalMenuAsistenteVirtual);},1500)
+      }else{
 client.sendMessage(
 telefono,
 `*Registramos tu comprobante de pago* ✅
@@ -53,6 +61,7 @@ telefono,
 0️⃣ Volver al menú principal
 `
 );
+      }
   }else{
   
     guardarNodoActual(telefono, "segundaAdministracion", "777", datos, 'enabled', "", menuFinal, otros);
@@ -62,6 +71,11 @@ telefono,
 `*Registramos tu comprobante de pago* ✅
 *Realizamos un compromiso de pago hasta el dia ${getCurrentDatePlus7Days().clienteDate}* ✅`
 );
+if(otros === 'asistenteVirtual'){
+  setTimeout(() => {
+    client.sendMessage(
+    telefono,+principalMenuAsistenteVirtual);},1500)
+}else{
   setTimeout(() => {
 client.sendMessage(
 telefono,
@@ -80,7 +94,7 @@ telefono,
 );
   },1500)
   
-  
+}
   }
   // console.log('Respuesta de la API:', response.data);
           
@@ -100,6 +114,14 @@ telefono,
     }, 1000);
   }else{
     guardarNodoActual(telefono, "segundaAdministracion", "777", datos, opcion, "", menuFinal, otros);
+    if(otros === 'asistenteVirtual'){
+      setTimeout(() => {
+        client.sendMessage(
+        telefono,`*No pudimos registrar tu comprobante* ❌
+    *Intenta nuevamente enviando una imagen, foto o archivo valido* 
+    
+    `+principalMenuAsistenteVirtual);},1500)
+    }else{
 client.sendMessage(
 telefono,
 `*No pudimos registrar tu comprobante* ❌
@@ -118,6 +140,7 @@ telefono,
 0️⃣ Volver al menú principal
 `
 );
+    }
   }
 }else{ //esta habilitado y envia comprobante
   if(tipoMensaje !== 'chat'){
@@ -127,27 +150,44 @@ telefono,
 `*Registramos tu comprobante de pago* ✅
 *Realizamos un compromiso de pago hasta el dia ${getCurrentDatePlus7Days().clienteDate}* ✅`
 );
+if(otros === 'asistenteVirtual'){
   setTimeout(() => {
-client.sendMessage(
-telefono,
-`👩‍🦰 ¿En qué más te puedo ayudar?
+    client.sendMessage(
+    telefono,principalMenuAsistenteVirtual);},1500)
+}else{
 
-*_Por favor, elige una opción ingresando el número correspondiente:_*
-1️⃣ Reenvio de factura.
-2️⃣ Conocer medios de pago.
-3️⃣ Informar pago.
-4️⃣ Informar promesa de pago.
-5️⃣ Adherir a debito automático.
-6️⃣ Otras consultas
+  setTimeout(() => {
+    client.sendMessage(
+    telefono,
+    `👩‍🦰 ¿En qué más te puedo ayudar?
+    
+    *_Por favor, elige una opción ingresando el número correspondiente:_*
+    1️⃣ Reenvio de factura.
+    2️⃣ Conocer medios de pago.
+    3️⃣ Informar pago.
+    4️⃣ Informar promesa de pago.
+    5️⃣ Adherir a debito automático.
+    6️⃣ Otras consultas
+    
+    0️⃣ Volver al menú principal
+    `
+    );
+      },1500)
 
-0️⃣ Volver al menú principal
-`
-);
-  },1500)
+}
+
 
 
   }else{
   guardarNodoActual(telefono, "segundaAdministracion", "777", datos, opcion, "", menuFinal, otros);
+  if(otros === 'asistenteVirtual'){
+    setTimeout(() => {
+      client.sendMessage(
+      telefono,`*No pudimos registrar tu comprobante* ❌
+  *Intenta nuevamente enviando una imagen, foto o archivo valido* 
+  
+  `+principalMenuAsistenteVirtual);},1500)
+  }else{
 client.sendMessage(
 telefono,
 `*No pudimos registrar tu comprobante* ❌
@@ -167,5 +207,6 @@ telefono,
 `
 );
   }
+}
 }
 };

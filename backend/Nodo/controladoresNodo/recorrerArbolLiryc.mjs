@@ -9,7 +9,7 @@ import {guardarNodoActual} from "./guardarNodoActual.mjs"
 import {limpiarTelefonoMenuCliente} from "./limpiarTelefonoMenuCliente.mjs"
 import {respuestaNoEncontrada} from "../arbolCliente/respuestaNoEncontradaLiryc.mjs"
 import { devolverOpcionSeleccionada } from './devolverOpcionSeleccionadaSidecom.mjs'
-import { arbolRespuestas,tecnicoLogeado,tecnicoLogeadoOpcion2, noEncuentraDNI,encuentraDNIMensaje,menuVolver,opcionEsClienteLogeado, menuPrincipal,principalMenu } from '../arbolCliente/respuestasLiryc.mjs'
+import { arbolRespuestas,asistenteVirtual,tecnicoLogeado,tecnicoLogeadoOpcion2, noEncuentraDNI,encuentraDNIMensaje,menuVolver,opcionEsClienteLogeado, menuPrincipal,principalMenu, principalMenuAsistenteVirtual } from '../arbolCliente/respuestasLiryc.mjs'
 import { tecnicos,verificarSiEsTecnico } from '../controladoresNodo/tecnicosLiryc.mjs'
 import { buscarNodoActual } from './buscarNodoActual.mjs'
 import { logearClienteIspCube } from './logearClienteIspCube.mjs'
@@ -45,11 +45,15 @@ export const recorrerArbol = async (telefono, nodoActual, mensaje, datos, menuAc
 var verificarMenu=true;
   if (mensaje==="0" && menuActual!=="raiz" && menuActual!=="opcionEsCliente"){
 
-   
+   if(otros === 'asistenteVirtual'){
     client.sendMessage(telefono,menuPrincipal);
+    guardarNodoActual(telefono,'opcionEsClienteLogeado','logeado',datos,opcion,'',menuFinal,"");
+    return {notificaOperador: false, datos: {}, menu: "opcionEsClienteLogeado"};
+}else{
+  client.sendMessage(telefono,menuPrincipal);
     guardarNodoActual(telefono,'opcionEsClienteLogeado','logeado',datos,opcion,'',menuFinal,otros);
     return {notificaOperador: false, datos: {}, menu: "opcionEsClienteLogeado"};
-
+}
 
   }
   if (instancia === 'confirmar') {
@@ -329,6 +333,27 @@ if(menuActual === 'tecnicoLogeadoPassWifi'){  // vuelve al menu despues mostrar 
 //return {notificaOperador: true,datos: {habilitarFoto, habilitarNombre, habilitarPass}, menu: 'tecnicoLogeadoRedWifi' };
 
 }
+
+if(menuActual === 'opcionEsClienteLogeado' && mensaje === '4'){  // vuelve al menu despues mostrar factura
+  nodoActual = arbolRespuestas;
+ // menuActual = 'tecnicoLogeadoEmail';
+  numeroActual = '4';
+otros='asistenteVirtual'
+  guardarNodoActual(telefono, "administracion", numeroActual, datos, opcion, instancia, menuFinal, otros);
+  enviarRespuesta(telefono,asistenteVirtual.respuesta)
+  return {notificaOperador: false, datos:{}, menu: 'opcionEsClienteLogeado'};
+}
+if(menuActual === 'segundaAdministracion' && otros === 'asistenteVirtual' && mensaje=== '5'){  // vuelve al menu despues mostrar factura
+  nodoActual = arbolRespuestas;
+menuActual = 'administracion';
+  numeroActual = '4';
+ mensaje = "5";
+//habilitarPass[telefono]=mensajeCompleto._data.body;
+//comprobarTelefono(telefono, "tecnico");
+//limpiarTelefonoMenuCliente(telefono);
+//return {notificaOperador: true,datos: {habilitarFoto, habilitarNombre, habilitarPass}, menu: 'tecnicoLogeadoRedWifi' };
+
+}
 //------------------------------NUEVO lYRIC--------------------------------------------
 
       if(menuActual === 'opcionComprobante'){
@@ -336,9 +361,13 @@ if(menuActual === 'tecnicoLogeadoPassWifi'){  // vuelve al menu despues mostrar 
             //si posee imagen o archivo, informar que se registro comprobante
             //guardar mensaje en base de datos
             //guardar nodo actual para luego enviar a menu principal o finalizar chat.
+            if(otros === 'asistenteVirtual'){
+              enviarRespuesta(telefono,"Registramos tu comprobante de pago!");
+              client.sendMessage(telefono,principalMenuAsistenteVirtual);
+            }else{
             enviarRespuesta(telefono,"Registramos tu comprobante de pago!");
             client.sendMessage(telefono,principalMenu);
-        
+        }
             //comprobarTelefono(telefono, "cobranza");
 
         }else {
@@ -386,9 +415,7 @@ if(menuActual === 'tecnicoLogeadoPassWifi'){  // vuelve al menu despues mostrar 
                  
 
                 }
-                else if(siguienteNodo.getMenu() === 'opcionComprobante'){ //flujo de sidecom para logear cliente con ispcube
-                  guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, '', "", otros);
-                }  else if(siguienteNodo.getMenu() === 'tecnicoLogeadoOpcion1'){ //flujo de sidecom para logear cliente con ispcube
+                  else if(siguienteNodo.getMenu() === 'tecnicoLogeadoOpcion1'){ //flujo de sidecom para logear cliente con ispcube
                   guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, '', "", otros);
                 }else if(siguienteNodo.getMenu() === 'tecnicoLogeadoDireccion'){ //flujo de sidecom para logear cliente con ispcube
                   guardarNodoActual(telefono, siguienteNodo.getMenu(), siguienteNodo.getNumero(), datos, opcion, '', "", otros);
@@ -418,9 +445,12 @@ if(menuActual === 'tecnicoLogeadoPassWifi'){  // vuelve al menu despues mostrar 
           } else if (!siguienteNodo.pideDatos && !siguienteNodo.pideOpcion) { // FLUJO NORMAL
             // console.log(menuActual, "menu actual", mensaje, "mensaje")
              if(siguienteNodo.getMenu() === 'opcionMediosDePago' && mensaje === '2'){ //medios de pago
-              enviarRespuesta(telefono, siguienteNodo.getRespuesta());
+          
+ enviarRespuesta(telefono, siguienteNodo.getRespuesta());
               guardarNodoActual(telefono,"segundaAdministracion", "777", datos, opcion, '', "", otros);
               return {notificaOperador: false, datos:{}, menu: siguienteNodo.menu};
+            
+             
 
             }
 
@@ -485,7 +515,9 @@ if(menuActual === 'tecnicoLogeadoPassWifi'){  // vuelve al menu despues mostrar 
          }if(siguienteNodo.getMenu() === 'instalacionPendiente'){ //flujo de sidecom para logear cliente con ispcube
           return {notificaOperador: true, datos:{}, menu:'instalacionPendiente'};
        
-       }
+       }else if(siguienteNodo.getMenu() === 'opcionComprobante'){ //flujo de sidecom para logear cliente con ispcube
+        return {notificaOperador: true, datos:{}, menu:'opcionComprobante'}
+      }
 
           }
           return {notificaOperador: false, datos:{}, menu: siguienteNodo.menu};

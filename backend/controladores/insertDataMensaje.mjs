@@ -141,8 +141,10 @@ export default async (mensaje, estado, rangoDefault, nnombreUsuario, rangoClient
       } else if(mensaje.body.includes("El cliente solicita información")){
         estado = 3;
         nombreUsuario = "medusa";
-      } 
-      else if(mensaje.body.includes("Técnico que tomó los datos")){
+      } else if(mensaje.body.includes("El cliente adjunta Foto")){
+        estado = 3;
+        nombreUsuario = "medusa";
+      } else if(mensaje.body.includes("Técnico que tomó los datos")){
         estado = 3;
         nombreUsuario = "medusa";
       }  else if(mensaje.body.includes("tecnicoLogeadoPassWifi")){
