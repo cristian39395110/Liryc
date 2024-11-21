@@ -426,6 +426,7 @@ if(menuActual === 'tecnicoLogeadoPassWifi'){  // vuelve al menu despues mostrar 
 
             if(siguienteNodo.getMenu() === 'opcionPromesaDePago' && mensaje === '4'){ //medios de pago
               opcionComprobanteDePago(telefono, mensaje, opcion, menuFinal, otros, datos, mensajeCompleto);
+              return {notificaOperador: false, datos:{}, menu: siguienteNodo.menu};
             }
             if(menuActual === 'administracion' && mensaje === '4'){ //medios de pago
               mediosDePagoIspCube(telefono, mensaje, opcion, menuFinal, otros, datos)
