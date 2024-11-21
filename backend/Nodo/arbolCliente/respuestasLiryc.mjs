@@ -417,9 +417,9 @@ const opcionPromesaDePago = new Nodo(
 En minutos se pondrán en contacto con vos!
 🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente, de Nuevanet 👩‍🦰`,
 "4",
-true,
-"tecnico",
-true,
+false,
+"",
+false,
 false,
 false,
 "",

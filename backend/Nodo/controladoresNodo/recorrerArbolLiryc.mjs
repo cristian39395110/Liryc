@@ -424,9 +424,14 @@ if(menuActual === 'tecnicoLogeadoPassWifi'){  // vuelve al menu despues mostrar 
 
             }
 
+            if(siguienteNodo.getMenu() === 'opcionPromesaDePago' && mensaje === '4'){ //medios de pago
+              opcionComprobanteDePago(telefono, mensaje, opcion, menuFinal, otros, datos, mensajeCompleto);
+            }
             if(menuActual === 'administracion' && mensaje === '4'){ //medios de pago
               mediosDePagoIspCube(telefono, mensaje, opcion, menuFinal, otros, datos)
             }
+
+
             else if(menuActual === 'administracion' && mensaje === '777' && verificarMenu){ //reenvio factura
               buscarUltimaFacturaIspCube(telefono, mensaje, opcion, menuFinal, otros, datos,siguienteNodo.getMenu())
             }

@@ -23,7 +23,7 @@ export const opcionComprobanteDePago = (telefono, mensaje, opcion, menuFinal, ot
 
   if(tipoMensaje !== 'chat'){
     setTimeout(() => {
-      const url = 'http://localhost:5034/comprobanteDePago';
+      const url = 'http://localhost:5001/comprobanteDePago';
       const data = {
         customer_id: otros, 
         date : getCurrentDatePlus7Days().ispDate
@@ -33,7 +33,7 @@ export const opcionComprobanteDePago = (telefono, mensaje, opcion, menuFinal, ot
       .then(response => {
         // console.log(response.data, "respuesta desde comprobante de pago")
   if (response.data.result !== 'ok') {
-      guardarNodoActual(telefono, "clienteConfirmaCbuError", "", datos, opcion, "", menuFinal, otros);
+      guardarNodoActual(telefono, "segundaAdministracion", "777", datos, opcion, "", menuFinal, otros);
 client.sendMessage(
 telefono,
 `*Registramos tu comprobante de pago* ✅
@@ -55,7 +55,7 @@ telefono,
 );
   }else{
   
-    guardarNodoActual(telefono, "facturaConfirmaIspOk", "", datos, 'enabled', "", menuFinal, otros);
+    guardarNodoActual(telefono, "segundaAdministracion", "777", datos, 'enabled', "", menuFinal, otros);
   
 client.sendMessage(
 telefono,
@@ -71,8 +71,8 @@ telefono,
 1️⃣ Reenvio de factura.
 2️⃣ Conocer medios de pago.
 3️⃣ Informar pago.
-4️⃣ Adherir a debito automático.
-5️⃣ Informar promesa de pago.
+4️⃣ Informar promesa de pago.
+5️⃣ Adherir a debito automático.
 6️⃣ Otras consultas
 
 0️⃣ Volver al menú principal
@@ -99,7 +99,7 @@ telefono,
   
     }, 1000);
   }else{
-    guardarNodoActual(telefono, "clienteConfirmaCbuError", "", datos, opcion, "", menuFinal, otros);
+    guardarNodoActual(telefono, "segundaAdministracion", "777", datos, opcion, "", menuFinal, otros);
 client.sendMessage(
 telefono,
 `*No pudimos registrar tu comprobante* ❌
@@ -111,8 +111,8 @@ telefono,
 1️⃣ Reenvio de factura.
 2️⃣ Conocer medios de pago.
 3️⃣ Informar pago.
-4️⃣ Adherir a debito automático.
-5️⃣ Informar promesa de pago.
+4️⃣ Informar promesa de pago.
+5️⃣ Adherir a debito automático.
 6️⃣ Otras consultas
 
 0️⃣ Volver al menú principal
@@ -121,7 +121,7 @@ telefono,
   }
 }else{ //esta habilitado y envia comprobante
   if(tipoMensaje !== 'chat'){
-  guardarNodoActual(telefono, "facturaConfirmaIspOk", "", datos, opcion, "", menuFinal, otros);
+  guardarNodoActual(telefono, "segundaAdministracion", "777", datos, opcion, "", menuFinal, otros);
 client.sendMessage(
 telefono,
 `*¡Registramos tu comprobante de pago correctamente!* ✅`
@@ -135,8 +135,8 @@ telefono,
 1️⃣ Reenvio de factura.
 2️⃣ Conocer medios de pago.
 3️⃣ Informar pago.
-4️⃣ Adherir a debito automático.
-5️⃣ Informar promesa de pago.
+4️⃣ Informar promesa de pago.
+5️⃣ Adherir a debito automático.
 6️⃣ Otras consultas
 
 0️⃣ Volver al menú principal
@@ -146,7 +146,7 @@ telefono,
 
 
   }else{
-  guardarNodoActual(telefono, "clienteConfirmaCbuError", "", datos, opcion, "", menuFinal, otros);
+  guardarNodoActual(telefono, "segundaAdministracion", "777", datos, opcion, "", menuFinal, otros);
 client.sendMessage(
 telefono,
 `*No pudimos registrar tu comprobante* ❌
@@ -158,8 +158,8 @@ telefono,
 1️⃣ Reenvio de factura.
 2️⃣ Conocer medios de pago.
 3️⃣ Informar pago.
-4️⃣ Adherir a debito automático.
-5️⃣ Informar promesa de pago.
+4️⃣ Informar promesa de pago.
+5️⃣ Adherir a debito automático.
 6️⃣ Otras consultas
 
 0️⃣ Volver al menú principal
