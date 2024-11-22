@@ -1,4 +1,4 @@
-import { arbolRespuestas } from "../arbolCliente/respuestasLliryc.mjs";
+import { arbolRespuestas } from "../arbolCliente/respuestasLiryc.mjs";
 export function actualizarTextoArbolRespuestas(CONTACTOACTUALGLOBAL) {
   arbolRespuestas.respuesta = 
   `🌞 *Buenos días*,${CONTACTOACTUALGLOBAL}, gracias por comunicarse con *LLliryc SRL*. 
