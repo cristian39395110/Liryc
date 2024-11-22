@@ -5,7 +5,7 @@ import { Nodo } from "../nodo.mjs";
 export const arbolRespuestas = new Nodo( // raiz
   "raiz",
   `¡Hola! 
-Soy la asistente virtual de Nuevanet, Para agilizar tu consulta:
+Soy la asistente virtual de Lliryc, Para agilizar tu consulta:
 
 por favor elige una opción ingresando el número correspondiente:
 1️⃣ SOY CLIENTE
@@ -21,7 +21,7 @@ por favor elige una opción ingresando el número correspondiente:
 const opcionEsCliente = new Nodo(
 "opcionEsCliente",
 `
-buenos dias dias gracias por comunicarse con lliryc SRL
+buenos dias dias gracias por comunicarse con lLliryc SRL
 
 *_para continuar ingrese el Dni del titular_*`,
 "1",
@@ -39,7 +39,7 @@ const opcionQuieroSerCliente = new Nodo(
 `
 📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
-🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Nuevanet 👩‍🦰  `,
+🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Lliryc 👩‍🦰  `,
 "2",
 true,
 "ventas",
@@ -124,7 +124,7 @@ const DerivaInconvenientesConElServicio = new Nodo(
   "DerivaInconvenientesConElServicio",
   `📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
-🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Nuevanet 👩‍🦰`,
+🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Lliryc 👩‍🦰`,
   "1",
   true,
   "tecnico",
@@ -165,7 +165,7 @@ Ingrese solo TEXTO para su consulta o reclamo. (No acepta audios ni imágenes)`,
     "DerivaArraydeServicio",
     `📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
-🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Nuevanet 👩‍🦰`,
+🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Lliryc 👩‍🦰`,
     "1",
     true,
     "tecnico",
@@ -190,7 +190,7 @@ Ingrese solo TEXTO para su consulta o reclamo. (No acepta audios ni imágenes)`,
     "DerivaconsultaSinServicio",
     `📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
-🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Nuevanet 👩‍🦰`,
+🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Lliryc 👩‍🦰`,
     "1",
     true,
     "tecnico",
@@ -204,7 +204,7 @@ const ServicioDeriva = new Nodo(
   "ServicioDeriva",
   `📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
-🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Nuevanet 👩‍🦰`,
+🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Lliryc 👩‍🦰`,
   "1",
   true,
   "tecnico",
@@ -345,7 +345,7 @@ Por favor, elige una opción ingresando el número correspondiente:
     'otrasConsultas',
     `📡 Derivé tu consulta a uno de nuestros representantes
     En minutos se pondrán en contacto con vos!
-    🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente, de Nuevanet 👩‍🦰`,
+    🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente, de Lliryc 👩‍🦰`,
     "6",
     true,
     "tecnico",
@@ -451,7 +451,7 @@ const opcionPromesaDePago = new Nodo(
 'opcionPromesaDePago',
 `📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
-🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente, de Nuevanet 👩‍🦰`,
+🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente, de Lliryc 👩‍🦰`,
 "4",
 false,
 "",
@@ -465,7 +465,7 @@ const opcionConsultasAdministracion = new Nodo(
 'opcionConsultasAdministracion',
 `📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
-🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente, de Nuevanet 👩‍🦰`,
+🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente, de Lliryc 👩‍🦰`,
 "5",
 true,
 "tecnico",
@@ -480,7 +480,7 @@ const ventasLogeado = new Nodo(
 `
 📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
-🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Nuevanet 👩‍🦰*
+🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Lliryc 👩‍🦰*
 `,
 '2',
 true,
@@ -523,7 +523,7 @@ export const noEncuentraDNI = `*Estoy teniendo algunos problemas para encontrar 
   *Para asegurarte la mejor atención, te voy a derivar a un operador para que pueda asistirte.*
   
   *En minutos se pondrán en contacto con vos!*
-  *Te saluda tu asistente virtual de Nuena Net 👩‍🦰*`
+  *Te saluda tu asistente virtual de Lliryc 👩‍🦰*`
 
 export const encuentraDNIMensaje = cliente => { 
 return `*Hola ${cliente.name}!*

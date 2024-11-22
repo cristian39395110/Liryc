@@ -7,9 +7,9 @@ import {confirmarDatos} from "./confirmarDatos.mjs"
 import {enviarRespuesta} from "./enviarRespuesta.mjs"
 import {guardarNodoActual} from "./guardarNodoActual.mjs"
 import {limpiarTelefonoMenuCliente} from "./limpiarTelefonoMenuCliente.mjs"
-import {respuestaNoEncontrada} from "../arbolCliente/respuestaNoEncontradaNuevaNet.mjs"
+import {respuestaNoEncontrada} from "../arbolCliente/respuestaNoEncontradaLliryc.mjs"
 import { devolverOpcionSeleccionada } from './devolverOpcionSeleccionadaSidecom.mjs'
-import { arbolRespuestas, noEncuentraDNI,encuentraDNIMensaje,menuVolver,opcionEsClienteLogeado, menuPrincipal } from '../arbolCliente/respuestasNuevaNet.mjs'
+import { arbolRespuestas, noEncuentraDNI,encuentraDNIMensaje,menuVolver,opcionEsClienteLogeado, menuPrincipal } from '../arbolCliente/respuestasLliryc.mjs'
 
 import { buscarNodoActual } from './buscarNodoActual.mjs'
 import { logearClienteIspCube } from './logearClienteIspCube.mjs'
@@ -54,7 +54,7 @@ export const recorrerArbol = async (telefono, nodoActual, mensaje, datos, menuAc
       enviarRespuesta(telefono,
 `📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
-🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Nuevanet 👩‍🦰`);
+🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Lliryc 👩‍🦰`);
       limpiarTelefonoMenuCliente(telefono);
     return {notificaOperador: true, datos: {}, menu: menuActual}
     }

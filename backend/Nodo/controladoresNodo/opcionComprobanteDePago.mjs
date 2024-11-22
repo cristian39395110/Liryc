@@ -4,7 +4,7 @@ import colors from 'colors/safe.js'
 import con from "../../database/conexion.mjs";
 import axios from 'axios'
 const client = obtenerClienteDeWhatsapp(colors, false)
-import { principalMenuAsistenteVirtual } from "../arbolCliente/respuestasLiryc.mjs";
+import { principalMenuAsistenteVirtual } from "../arbolCliente/respuestasLliryc.mjs";
 function getCurrentDatePlus7Days() {
   const today = new Date();
   const futureDate = new Date(today);

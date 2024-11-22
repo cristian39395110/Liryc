@@ -8,7 +8,7 @@ import subirImagenOperador from './subirImagenOperador.mjs'
 import io from '../sockets/sockets.mjs'
 import { hacerFiltroRango } from '../sockets/hacerFiltroRango.mjs'
 import fs from 'node:fs';
-import { habilitarFoto, habilitarNombre, habilitarPass } from '../Nodo/controladoresNodo/recorrerArbolLiryc.mjs'
+import { habilitarFoto, habilitarNombre, habilitarPass } from '../Nodo/controladoresNodo/recorrerArbolLliryc.mjs'
 
 
 //FUNCION PARA INSERTAR LOS MENSAJES EN LA BASE DE DATOS

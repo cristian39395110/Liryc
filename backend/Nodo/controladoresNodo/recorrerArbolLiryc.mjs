@@ -67,7 +67,7 @@ var verificarMenu=true;
       enviarRespuesta(telefono,
 `📡 Derivé tu consulta a uno de nuestros representantes
 En minutos se pondrán en contacto con vos!
-🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Nuevanet 👩‍🦰`);
+🙆‍♀️ ¡Gracias por elegirnos! Te saluda tu asistente de Liryc 👩‍🦰`);
       limpiarTelefonoMenuCliente(telefono);
     return {notificaOperador: true, datos: {}, menu: menuActual}
     }
