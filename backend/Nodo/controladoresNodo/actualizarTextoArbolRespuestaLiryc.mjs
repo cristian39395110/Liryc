@@ -1,7 +1,7 @@
 import { arbolRespuestas } from "../arbolCliente/respuestasLiryc.mjs";
 export function actualizarTextoArbolRespuestas(CONTACTOACTUALGLOBAL) {
   arbolRespuestas.respuesta = 
-  `🌞 *Buenos días*,${CONTACTOACTUALGLOBAL}, gracias por comunicarse con *LLliryc SRL*. 
+  `🌞 *Buenos días* ${CONTACTOACTUALGLOBAL}, gracias por comunicarse con *Lliryc SRL*. 
 
 Para continuar, necesitamos verificar sus datos. Por favor, ingrese su número de:
 

@@ -8,7 +8,7 @@ import subirImagenOperador from './subirImagenOperador.mjs'
 import io from '../sockets/sockets.mjs'
 import { hacerFiltroRango } from '../sockets/hacerFiltroRango.mjs'
 import fs from 'node:fs';
-import { habilitarFoto, habilitarNombre, habilitarPass } from '../Nodo/controladoresNodo/recorrerArbolLiryc.mjs'
+import { habilitarFoto,tecnico, habilitarNombre, habilitarPass } from '../Nodo/controladoresNodo/recorrerArbolLiryc.mjs'
 
 
 //FUNCION PARA INSERTAR LOS MENSAJES EN LA BASE DE DATOS
@@ -151,9 +151,21 @@ export default async (mensaje, estado, rangoDefault, nnombreUsuario, rangoClient
         estado = 3;
         nombreUsuario = "medusa";
 
-        msj = `Habilitar Conexión:
-      Nombre: ${habilitarNombre[telefono]}
-      Password: ${habilitarPass[telefono]}`; 
+        msj = `Técnico que tomó los datos:
+
+- ID: ${tecnico[telefono].id}
+- Nombre: ${tecnico[telefono].name}
+- Rol: ${tecnico[telefono].rol}
+- Email: ${tecnico[telefono].email}
+
+  ---------------------------------------
+
+        Habilitar Conexión:
+
+      Nombre Red Wifi: 
+      * ${habilitarNombre[telefono]} *
+      Contraseña Red Wifi: 
+      * ${habilitarPass[telefono]} *`; 
 
        
       }else if(mensaje.body.includes("Error en el DNI ingresado")){

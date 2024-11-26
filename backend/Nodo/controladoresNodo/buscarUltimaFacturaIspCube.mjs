@@ -7,7 +7,7 @@ const client = obtenerClienteDeWhatsapp(colors, false)
 
   
 
-import {menuVolver,principalMenuAsistenteVirtual,muestraFactura,errorNoEncuentraFactura, principalMenu} from "../arbolCliente/respuestasLliryc.mjs"
+import {menuVolver,principalMenuAsistenteVirtual,muestraFactura,errorNoEncuentraFactura, principalMenu} from "../arbolCliente/respuestasLiryc.mjs"
 
 export const buscarUltimaFacturaIspCube = (telefono, mensaje, opcion, menuFinal, otros, datos,menu) => {
   

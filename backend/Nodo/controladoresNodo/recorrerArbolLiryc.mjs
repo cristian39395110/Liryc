@@ -38,7 +38,7 @@ export let habilitarFoto = {};
 export let habilitarNombre = {};
 export let habilitarPass = {};
 const intentosPorCliente = {};
-const tecnico = {};
+export const tecnico = {};
 export const recorrerArbol = async (telefono, nodoActual, mensaje, datos, menuActual, numeroActual, opcion, instancia, contact, menuFinal, otros, mensajeCompleto) => {
   // console.log(mensajeCompleto, " mensaje en recorrer arbol")
  var tipodeinternet=0;

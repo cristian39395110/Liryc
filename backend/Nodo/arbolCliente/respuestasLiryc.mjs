@@ -548,7 +548,7 @@ export const tecnicoLogeadoOpcion1 = new Nodo(
   "tecnicoLogeadoOpcion1",
   `Por favor, ingrese los datos del cliente en el siguiente orden:
 
-1️⃣ Nombre Completo`,
+1️⃣ *Nombre Completo*`,
   "1",
   false,
   "",
@@ -569,8 +569,8 @@ export const tecnicoLogeadoDireccion = new Nodo(
   ""
 );
 export const tecnicoLogeadoTelefono = new Nodo(
-  "tecnicoLogeadoTelefono",`
-  3️⃣ *Teléfono Principal*`,
+  "tecnicoLogeadoTelefono",
+  `3️⃣ *Teléfono Principal*`,
   "3",
   false,
   "",
@@ -581,7 +581,7 @@ export const tecnicoLogeadoTelefono = new Nodo(
 );
 export const tecnicoLogeadoTelefono2 = new Nodo(
   "tecnicoLogeadoTelefono2",
- ` 4️⃣ *Teléfono Secundario (opcional)*`,
+ `4️⃣ *Teléfono Secundario (opcional)*`,
   "4",
   false,
   "",
@@ -592,7 +592,7 @@ export const tecnicoLogeadoTelefono2 = new Nodo(
 );
 export const tecnicoLogeadoEmail = new Nodo(
   "tecnicoLogeadoEmail",
- ` 5️⃣ *Correo Electrónico*`,
+ `5️⃣ *Correo Electrónico*`,
   "5",
   false,
   "",
@@ -603,7 +603,7 @@ export const tecnicoLogeadoEmail = new Nodo(
 );
 export const tecnicoLogeadoPlan = new Nodo(
   "tecnicoLogeadoPlan",
- ` 6️⃣ *Plan Seleccionado*`,
+ `6️⃣ *Plan Seleccionado*`,
   "6",
   false,
   "",
@@ -619,8 +619,7 @@ export const tecnicoLogeadoOpcion2 = new Nodo(
   "tecnicoLogeadoOpcion2",
   `Por favor, proporcione los siguientes datos para completar el proceso:
 
-1️⃣- 📶 Nombre de la Red WiFi
-`,
+1️⃣- 📶 Nombre de la Red WiFi`,
   "2",
   false,
   "",
@@ -631,9 +630,7 @@ export const tecnicoLogeadoOpcion2 = new Nodo(
 );
 export const tecnicoLogeadoRedWifi = new Nodo(
   "tecnicoLogeadoRedWifi",
-  `2️⃣- 🔑 Contraseña de la Red WiFi  
-
-`,
+  `2️⃣- 🔑 Contraseña de la Red WiFi`,
   "3",
   false,
   "",
@@ -644,8 +641,7 @@ export const tecnicoLogeadoRedWifi = new Nodo(
 );
 export const tecnicoLogeadoPassWifi = new Nodo(
   "tecnicoLogeadoPassWifi",
-  `3️⃣- 📸 Foto de MAC
-`,
+  `3️⃣- 📸 Foto de MAC`,
   "4",
   false,
   "tecnico",
@@ -656,8 +652,7 @@ export const tecnicoLogeadoPassWifi = new Nodo(
 );
 export const tecnicoLogeadoDatosCargados = new Nodo(
   "tecnicoLogeadoDatosCargados",
-  `✅ Los datos de conexión se han almacenado correctamente en el sistema.
-`,
+  `✅ Los datos de conexión se han almacenado correctamente en el sistema.`,
   "5",
   true,
   "tecnico",
@@ -668,8 +663,7 @@ export const tecnicoLogeadoDatosCargados = new Nodo(
 );
 export const asistenteVirtual = new Nodo(
   "administracion",
-  `
-👩‍💼 ¡Bienvenido/a! Soy tu Asistente Virtual. 🤖
+  `🤖 ¡Bienvenido/a! Soy tu Asistente Virtual. 
 ¿En qué te puedo ayudar?
 
 Por favor, elige una opción ingresando el número correspondiente:
